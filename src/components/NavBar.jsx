@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   return (
-    <div className='flex flex-col '>
+    <div className='flex flex-col gap-[30px] '>
       <div className="padding-x w-[100%] flex flex-row items-center justify-between py-[30px] shadow-md ">
         <div className="flex flex-row ">
             <h1>turystyczny <span>ninja</span></h1>
@@ -50,6 +50,15 @@ const NavBar = () => {
             </div>
         </div>
         </div>
+      </div>
+      <div className="padding-x flex flex-row items-center gap-[20px]">
+      <Link to="" className='font-[600] text-[14px]'>BEACHES</Link>
+         <Link to="" className='font-[600] text-[12px]'>WHERE TO GO ON VACATION</Link>
+         <Link to="" className='font-[600] text-[12px]'>FLIGHTS</Link>
+         <Link to="" className='font-[600] text-[12px]'>PRICES</Link>
+         <Link to="" className='font-[600] text-[12px]'>WARM COUNTRIES</Link>
+         <Link to="" className='font-[600] text-[12px]'>OPINIONS</Link>
+         <Link to="" className='font-[600] text-[12px]'>ATTRACTIONS</Link>
       </div>
     </div>
   )
