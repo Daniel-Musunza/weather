@@ -105,9 +105,9 @@ const WeatherRegions = () => {
         </div>
         <div className="flex flex-col gap-[30px]">
             <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about Mauritius</p>
-            <div className="flex flex-row gap-[20px] ">
+            <div className="flex flex-row gap-[20px] overflow-auto">
                 {blogImages.map((blog) => (
-                    <div className="flex flex-col gap-[20px] w-[200px]">
+                    <div className="flex flex-col gap-[20px] w-[200px] shrink-0">
                         <img src={blog.image} alt=""
                         className='w-[200px] h-[120px] rounded-[8px]'
                         />

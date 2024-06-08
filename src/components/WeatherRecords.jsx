@@ -104,7 +104,7 @@ const WeatherRecords = () => {
             <h2 className='text-[22px] font-[600] text-darkBlue-2' >Temperatures and climate in Mauritius</h2>
             <div className="flex flex-col  gap-[5px]">
                 <img src="../../images/photos/upload_6539018e83284.jpg" alt=""
-                className='rounded-[20px] h-[500px]'
+                className='rounded-[20px] h-[300px] md:h-[350px] lg:h-[400px] xl:h-[500px]'
                 />
                 <p className='flex flex-row justify-center items-center'>Mauritius weather / Serenity-H / shutterstock.com</p>
             </div>

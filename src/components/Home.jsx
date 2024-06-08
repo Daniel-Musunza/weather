@@ -8,7 +8,7 @@ import SearchForm from './SearchForm'
 const Home = () => {
   return (
     <>
-    {/* <NavBar/> */}
+    <NavBar/>
     <div className="mt-[40px]">
       <div className="padding-x hidden xl:flex flex-row items-center justify-center bg-darkBlue py-[30px]">
         <SearchBar/>
