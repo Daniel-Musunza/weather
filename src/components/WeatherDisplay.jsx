@@ -99,7 +99,7 @@ const WeatherDisplay = () => {
         <div className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
         </div>
-        <div className="  flex flex-row gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
+        <div className="  flex flex-row flex-wrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
             <div className="flex flex-col gap-[10px] flex-grow">
                 <p className='text-[14px] text-darkBlue'>Now: 07/06/2024 - local time: 21:20</p>
                 <div className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
@@ -211,7 +211,7 @@ const WeatherDisplay = () => {
                      />
                 </button>
             </div>
-            <div className="w-[700px] flex flex-row gap-[10px] overflow-hidden">
+            <div className="w-max flex flex-row gap-[10px] overflow-hidden">
                 <div className={`flex flex-row gap-[10px] transition-transform ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                     {weatherData.slice(currentIndex, currentIndex + 6).map((data, index) => (
                         <div key={index} className="flex flex-col gap-[10px] min-w-[100px]">
@@ -252,8 +252,8 @@ const WeatherDisplay = () => {
             <h1 className='font-[600] text-[20px] text-darkBlue-2'>When to go to Mauritius?</h1>
             <div className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
                 <p className='text-[14px] '>The warmest months in Mauritius</p>
-                <div className="flex flex-row gap-[10px]">
-                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                <div className="flex flex-row flex-wrap gap-[10px]">
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px]  flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)]">
                         <p className='text-darkBlue-2 font-[600]'>February</p>
                         <div className="flex flex-row items-center gap-[10px]">
                             <div className="flex flex-row items-center gap-[10px]">
@@ -270,7 +270,7 @@ const WeatherDisplay = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
                         <p className='text-darkBlue-2 font-[600]'>March</p>
                         <div className="flex flex-row items-center gap-[10px]">
                             <div className="flex flex-row items-center gap-[10px]">
@@ -287,7 +287,7 @@ const WeatherDisplay = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
                         <p className='text-darkBlue-2 font-[600]'>January</p>
                         <div className="flex flex-row items-center gap-[10px]">
                             <div className="flex flex-row items-center gap-[10px]">
@@ -304,7 +304,7 @@ const WeatherDisplay = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
                         <p className='text-darkBlue-2 font-[600]'>April</p>
                         <div className="flex flex-row items-center gap-[10px]">
                             <div className="flex flex-row items-center gap-[10px]">
@@ -342,7 +342,7 @@ const WeatherDisplay = () => {
                      <p key={index} className='px-[10px] py-[3px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
                 ))}
             </div>
-            <div className="flex flex-row gap-[10px] items-center">
+            {/* <div className="flex flex-row gap-[10px] items-center">
                 <div>
                     <button
                         onClick={handlePrev}
@@ -354,7 +354,7 @@ const WeatherDisplay = () => {
                         />
                     </button>
                 </div>
-                <div className="w-[700px] flex flex-row gap-[10px] overflow-hidden">
+                <div className="w-max flex flex-row gap-[10px] overflow-hidden">
                     <div className={`flex flex-row gap-[10px] transition-transform ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                         {weatherData.slice(currentIndex, currentIndex + 6).map((data, index) => (
                             <div key={index} className="flex flex-col gap-[10px] min-w-[100px]">
@@ -390,7 +390,7 @@ const WeatherDisplay = () => {
                         />
                     </button>
                 </div>
-            </div>
+            </div> */}
         </div>
         <WeatherRecords/>
         <WeatherRegions/>
