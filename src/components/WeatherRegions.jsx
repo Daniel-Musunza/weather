@@ -40,6 +40,26 @@ const WeatherRegions = () => {
             image: "../../images/photos/Francja.svg"
         },
     ]
+
+    const blogImages = [
+        {
+            image: "../../images/photos/Jakie-pamiatki-z-Mauritius.-Co-przywiezc-z-wakacji-na-Mauritius-shutterstock.com-Dusan-Petkovic.jpg",
+            text: "What souvenirs from Mauritius? What to bring from your holiday to Mauritius?"
+        },
+        {
+            image: "../../images/photos/Czy-na-Mauritius-sa-rekiny.-Zdjecie-autorstwa-Ben-Phillips-z-Pexels.webp",
+            text: "Mauritius – sharks. Are there sharks in Mauritius?"
+        },
+        {
+            image: "../../images/photos/Ile-trwa-lot-na-Mauritius.-Photo-by-Daren-Inshape-on-Unsplash.webp",
+            text: "How long is the flight to Mauritius? See how much it costs to fly to Mauritius"
+        },
+        {
+            image: "../../images/photos/Sylwester-na-Mauritius-iStock.com-maximkabb.webp",
+            text: "New Year's Eve in Mauritius"
+        },
+    ]
+
   return (
     <div className="flex flex-col gap-[40px]">
         <div className="flex flex-col p-[20px] rounded-[8px] border-[1px] border-lightBlue-2 gap-[20px]">
@@ -84,7 +104,17 @@ const WeatherRegions = () => {
             </div>
         </div>
         <div className="flex flex-col gap-[30px]">
-            
+            <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about Mauritius</p>
+            <div className="flex flex-row gap-[20px] ">
+                {blogImages.map((blog) => (
+                    <div className="flex flex-col gap-[20px] w-[200px]">
+                        <img src={blog.image} alt=""
+                        className='w-[200px] h-[120px] rounded-[8px]'
+                        />
+                        <p className='text-darkBlue-2 font-[600]'>{blog.text}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     </div>
   )
