@@ -1,5 +1,5 @@
 import {faPenToSquare, faEyeSlash} from '@fortawesome/free-regular-svg-icons'
-import { faAngleDown ,faXmark, faBars, faAngleUp,faSearch, faArrowLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown ,faXmark, faBars, faAngleUp,faSearch, faArrowLeft, faTrash, faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
@@ -12,7 +12,8 @@ const icons =  {
   delete: <FontAwesomeIcon icon={faTrash} />,
   edit: <FontAwesomeIcon icon={faPenToSquare} />,
   eyeSlash: <FontAwesomeIcon icon={faEyeSlash} />,
-  search: <FontAwesomeIcon icon={faSearch} />
+  search: <FontAwesomeIcon icon={faSearch} />,
+  location: <FontAwesomeIcon icon={faLocationDot} />
  
 }
 
