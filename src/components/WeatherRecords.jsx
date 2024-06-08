@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import icons from '../utils/icons'
 
 const WeatherRecords = () => {
 
@@ -20,6 +21,13 @@ const WeatherRecords = () => {
             ans: "From November to March, the water temperature is as high as 28 degrees."
         },
     ]
+
+   
+    const[viewQuestionId, setViewQuestionId] = useState(null);
+
+    const handleViewQuestion = (index) => {
+        setViewQuestionId(viewQuestionId === index ? null : index);
+    }
 
   return (
     <div className="flex flex-col gap-[30px]">
@@ -103,7 +111,24 @@ const WeatherRecords = () => {
                 Paradise islands at the end of the world are perfect travel destinations for people looking for exoticism, sun and extraordinary landscapes. One of them is Mauritius - a small island located in the Indian Ocean about a thousand kilometers from Madagascar. Tourists from all over the world will find everything they need for a perfect holiday here. When to go to Mauritius? It is worth checking what the weather on the island is like over the course of twelve months. Mauritius is located far from the most popular tourist destinations, which means that it is still a bit wild, untrodden and simply beautiful. The island was perfectly described by Mark Twain, who stated that God first created Mauritius, and only then paradise. Virtually everything is paradise on the island - the extraordinary sandy beaches of Mauritius, crystalline, azure water and unique, exotic nature. If we don't know when is the best time to go to Mauritius, it is good to gain some knowledge about the climate on the island.
             </p>
         </div>
-        <div className="flex flex-col"></div>
+        <div className="flex flex-col gap-[20px]">
+            {faqs.map((data, index) => (
+                <div key={index} className="flex flex-row justify-between bg-white p-[20px] rounded-[6px] shadow-md border-[1px]" >
+                    <div className="flex flex-col gap-[20px]">
+                        <p className='text-darkBlue-2 font-[600] text-[18px] '>{data.question}</p>
+                        <div className={`transition-max-height duration-500 ease-in-out overflow-hidden ${viewQuestionId === index ? 'max-h-40' : 'max-h-0'}`}>
+                            <p className='text-sm text-darkBlue-2 mt-2'>{data.ans}</p>
+                        </div>
+                    </div>
+                    <div className="">
+                        <button
+                        onClick={() => handleViewQuestion(index)}
+                        className='bg-[#C4DDFF] py-[5px] px-[8px] border-[1px] rounded-[4px]  '
+                        >{viewQuestionId === index ? icons.angleUp : icons.angleDown}</button>
+                    </div>
+                </div>
+            ))}
+        </div>
     </div>
     
   )
