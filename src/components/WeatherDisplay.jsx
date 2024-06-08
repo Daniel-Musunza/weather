@@ -66,20 +66,21 @@ const WeatherDisplay = () => {
     ]
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [animationDirection, setAnimationDirection] = useState('');
 
     const handlePrev = () => {
-        if (currentIndex > 0) {
-            setAnimationDirection('slideRight');
-            setCurrentIndex((prevIndex) => prevIndex - 1);
-        }
+        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
 
     const handleNext = () => {
-        if (currentIndex < weatherData.length - 6) {
-            setAnimationDirection('slideLeft');
-            setCurrentIndex((prevIndex) => prevIndex + 1);
-        }
+        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, weatherData.length - 6));
+    };
+
+    const calculateNodePosition = (index) => {
+        const data = weatherData[currentIndex + index];
+        const temperature = parseInt(data.temp);
+        const x = (index / 5) * 300; 
+        const y = 30 - ((temperature - 20) * 5); 
+        return { x, y };
     };
 
   return (
@@ -207,50 +208,57 @@ const WeatherDisplay = () => {
         <div className="flex flex-col">
             <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
         </div>
-        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-row gap-[10px] items-center">
-            <div>
-                <button
-                    onClick={handlePrev}
-                    disabled={currentIndex === 0}
-                    className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-                >
+        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col gap-[20px]">
+            <div className="flex justify-between items-center">
+                <button onClick={handlePrev} disabled={currentIndex === 0} className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50">
                     Prev
                 </button>
-            </div>
-            <div className="w-[700px] flex flex-row gap-[10px] overflow-hidden">
-                <div className={`flex flex-row gap-[10px] transition-transform ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
-                    {weatherData.slice(currentIndex, currentIndex + 6).map((data, index) => (
-                        <div key={index} className="flex flex-col gap-[10px] min-w-[100px]">
-                            <p className="text-[14px] text-darkBlue">{data.date}</p>
-                            <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
-                                <div className="flex flex-col items-center gap-[10px]">
-                                    <img
-                                        src={data.image}
-                                        alt={data.condition}
-                                        className="h-[60px] w-[60px]"
-                                    />
-                                </div>
-                                <div>
-                                    <p className="text-[40px] font-extrabold text-darkBlue-2">
-                                        {data.temp}
-                                        <span className="align-super text-[18px]">°C</span>
-                                    </p>
-                                </div>
-                                <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div>
-                <button
-                    onClick={handleNext}
-                    disabled={currentIndex >= weatherData.length - 6}
-                    className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-                >
+                <button onClick={handleNext} disabled={currentIndex >= weatherData.length - 6} className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50">
                     Next
                 </button>
             </div>
+            <div className="flex gap-[10px] overflow-auto">
+                {weatherData.slice(currentIndex, currentIndex + 5).map((data, index) => (
+                    <div key={index} className="flex flex-col gap-[10px]">
+                        <p className="text-[14px] text-darkBlue">{data.date}</p>
+                        <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
+                            <div className="flex flex-col items-center gap-[10px]">
+                                <img
+                                    src={data.image}
+                                    alt=""
+                                    className="h-[60px] w-[60px]"
+                                />
+                            </div>
+                            <div>
+                                <p className="text-[40px] font-extrabold text-darkBlue-2">
+                                    {data.temp}
+                                    <span className="align-super text-[18px]">°C</span>
+                                </p>
+                            </div>
+                            <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <svg viewBox="0 0 500 200" className="w-full h-auto">
+                {/* Graph line */}
+                <path
+                    d={Array.from({ length: 6 }, (_, index) => {
+                        const { x, y } = calculateNodePosition(index);
+                        return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
+                    }).join(' ')}
+                    fill="none"
+                    stroke="blue"
+                    strokeWidth="1"
+                />
+                {/* Nodes */}
+                {Array.from({ length: 6 }, (_, index) => {
+                    const { x, y } = calculateNodePosition(index);
+                    return (
+                        <circle key={index} cx={x} cy={y} r="2" fill="blue" />
+                    );
+                })}
+            </svg>
         </div>
     </div>
   )
