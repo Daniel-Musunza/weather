@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
+import WeatherRecords from './WeatherRecords';
 
 const WeatherDisplay = () => {
 
@@ -65,22 +68,28 @@ const WeatherDisplay = () => {
         }
     ]
 
+    const months = [
+        { name: 'January' }, { name: 'February' }, { name: 'March' },
+        { name: 'April' }, { name: 'May' }, { name: 'June' },
+        { name: 'July' }, { name: 'August' }, { name: 'September' },
+        { name: 'October' }, { name: 'November' }, { name: 'December' }
+    ];
+
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [animationDirection, setAnimationDirection] = useState('');
 
     const handlePrev = () => {
-        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+        if (currentIndex > 0) {
+            setAnimationDirection('slideRight');
+            setCurrentIndex((prevIndex) => prevIndex - 1);
+        }
     };
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, weatherData.length - 6));
-    };
-
-    const calculateNodePosition = (index) => {
-        const data = weatherData[currentIndex + index];
-        const temperature = parseInt(data.temp);
-        const x = (index / 5) * 300; 
-        const y = 30 - ((temperature - 20) * 5); 
-        return { x, y };
+        if (currentIndex < weatherData.length - 6) {
+            setAnimationDirection('slideLeft');
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+        }
     };
 
   return (
@@ -208,58 +217,221 @@ const WeatherDisplay = () => {
         <div className="flex flex-col">
             <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
         </div>
-        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col gap-[20px]">
-            <div className="flex justify-between items-center">
-                <button onClick={handlePrev} disabled={currentIndex === 0} className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50">
-                    Prev
-                </button>
-                <button onClick={handleNext} disabled={currentIndex >= weatherData.length - 6} className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50">
-                    Next
+        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-row gap-[10px] items-center w-full">
+            <div>
+                <button
+                    onClick={handlePrev}
+                    disabled={currentIndex === 0}
+                    className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50"
+                >
+                    <img src="../../images/icons/triangle-left.svg" alt=""
+                    className='h-[30px] w-[30px]'
+                     />
                 </button>
             </div>
-            <div className="flex gap-[10px] overflow-auto">
-                {weatherData.slice(currentIndex, currentIndex + 5).map((data, index) => (
-                    <div key={index} className="flex flex-col gap-[10px]">
-                        <p className="text-[14px] text-darkBlue">{data.date}</p>
-                        <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
-                            <div className="flex flex-col items-center gap-[10px]">
-                                <img
-                                    src={data.image}
-                                    alt=""
-                                    className="h-[60px] w-[60px]"
+            <div className="w-[700px] flex flex-row gap-[10px] overflow-hidden">
+                <div className={`flex flex-row gap-[10px] transition-transform ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
+                    {weatherData.slice(currentIndex, currentIndex + 6).map((data, index) => (
+                        <div key={index} className="flex flex-col gap-[10px] min-w-[100px]">
+                            <p className="text-[14px] text-darkBlue">{data.date}</p>
+                            <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
+                                <div className="flex flex-col items-center gap-[10px]">
+                                    <img
+                                        src={data.image}
+                                        alt={data.condition}
+                                        className="h-[60px] w-[60px]"
+                                    />
+                                </div>
+                                <div>
+                                    <p className="text-[40px] font-extrabold text-darkBlue-2">
+                                        {data.temp}
+                                        <span className="align-super text-[18px]">°C</span>
+                                    </p>
+                                </div>
+                                <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div>
+                <button
+                    onClick={handleNext}
+                    disabled={currentIndex >= weatherData.length - 6}
+                    className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50"
+                >
+                    <img src="../../images/icons/triangle-right.svg" alt=""
+                    className='h-[30px] w-[30px]'
+                     />
+                </button>
+            </div>
+        </div>
+        <div className="flex flex-col">
+            <h1 className='font-[600] text-[20px] text-darkBlue-2'>When to go to Mauritius?</h1>
+            <div className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
+                <p className='text-[14px] '>The warmest months in Mauritius</p>
+                <div className="flex flex-row gap-[10px]">
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                        <p className='text-darkBlue-2 font-[600]'>February</p>
+                        <div className="flex flex-row items-center gap-[10px]">
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/temperature-hot.svg" alt=""
+                                className='h-[25px] w-[25px]' 
                                 />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>18°C</span>
                             </div>
-                            <div>
-                                <p className="text-[40px] font-extrabold text-darkBlue-2">
-                                    {data.temp}
-                                    <span className="align-super text-[18px]">°C</span>
-                                </p>
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/rain.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>thirty%</span>
                             </div>
-                            <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
                         </div>
                     </div>
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                        <p className='text-darkBlue-2 font-[600]'>March</p>
+                        <div className="flex flex-row items-center gap-[10px]">
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/temperature-hot.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>28°C</span>
+                            </div>
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/rain.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>23°C</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                        <p className='text-darkBlue-2 font-[600]'>January</p>
+                        <div className="flex flex-row items-center gap-[10px]">
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/temperature-hot.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>28°C</span>
+                            </div>
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/rain.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>31°C</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] ">
+                        <p className='text-darkBlue-2 font-[600]'>April</p>
+                        <div className="flex flex-row items-center gap-[10px]">
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/temperature-hot.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>27°C</span>
+                            </div>
+                            <div className="flex flex-row items-center gap-[10px]">
+                                <img src="../../images/icons/rain.svg" alt=""
+                                className='h-[25px] w-[25px]' 
+                                />
+                                <span className='text-[16px] font-[600] text-darkBlue-2'>10°C</span>
+                            </div>
+                        </div>
+                    </div>                      
+                </div>
+                <p className='text-darkBlue-2 text-[15px]'>To know when is the best time to go to Mauritius, remember that the island is located in the southern hemisphere. This means that the seasons are opposite to those in our climate. When it's winter here, it's summer in Mauritius, and when it's summer in our climatic conditions, it's winter on the island. Of course, the definition of winter in a climate similar to that of Africa is completely different from the one we know from our reality. Before we book a paradise luxury holiday on a unique island, let's check the weather tables for given months. And of course, let's determine our own needs - beachgoers need different weather, and lovers of water sports or other forms of active recreation need a completely different one. Mauritius has a tropical climate, but its location makes the climate difficult to define. Moreover, the weather in the north and south of the island may be different at the same time. There is no classic rainy season on the island, but it is worth being aware that there are months when there is quite a lot of rainfall and it may make it difficult to visit or enjoy attractions. So if we are wondering when to go to Mauritius, let's take into account when the rainy weather occurs.</p>
+            </div>
+        </div>
+        {/* table */}
+        <div className="flex flex-col justify-center items-center gap-[40px]">
+            <h2 className='font-[600] text-darkBlue-2 text-[22px]'>Check weather details for a specific month:</h2>
+            <div className="flex flex-row flex-wrap gap-[20px] justify-center items-center ">
+                {months.map((data, index) => (
+                     <p key={index} className='px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
                 ))}
             </div>
-            <svg viewBox="0 0 500 200" className="w-full h-auto">
-                {/* Graph line */}
-                <path
-                    d={Array.from({ length: 6 }, (_, index) => {
-                        const { x, y } = calculateNodePosition(index);
-                        return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
-                    }).join(' ')}
-                    fill="none"
-                    stroke="blue"
-                    strokeWidth="1"
-                />
-                {/* Nodes */}
-                {Array.from({ length: 6 }, (_, index) => {
-                    const { x, y } = calculateNodePosition(index);
-                    return (
-                        <circle key={index} cx={x} cy={y} r="2" fill="blue" />
-                    );
-                })}
-            </svg>
         </div>
+        <div className="flex flex-row">
+            <div className="absolute z-[1] ">
+                <p className='text-white font-[700] rounded-tl-[30px] rounded-br-[20px] bg-darkBlue-2 py-[13px] px-[20px]'>from PLN 5,717</p>
+            </div>
+            <img src="../../images/photos/upload_6539018e83284.jpg" alt="" 
+            className='h-[250px] border-[1px] border-darkBlue-2 rounded-s-[30px] relative'
+            />
+            <div className="rounded-e-[30px] h-[250px] bg-darkBlue-2 flex flex-col gap-[40px] pl-[40px] py-[40px] p pr-[180px]">
+                <h1 className='text-[25px] text-white font-[700]'>Holidays in Mauritius <span>✈</span></h1>
+                <p className='  text-white'>Check out the best holiday offers!</p>
+                <div className="">
+                    <button
+                    className='flex flex-row justify-center items-center gap-[20px] bg-[#FBA834] px-[45px] py-[9px] text-darkBlue-2 text-[15px] rounded-[20px] outline-none'
+                    >
+                    <span className='font-[900]'>See offers</span>
+                    <img src="../../images/icons/triangle-right.svg" alt="" 
+                    className='h-[20px] w-[20px]'
+                    />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div className="flex flex-col justify-center items-center bg-white rounded-[6px] shadow-md p-[10px] gap-[40px]  ">
+            <h2 className='font-[400] text-darkBlue-2 text-[14px]'>Select a month to check what the weather was like in Mauritius in previous years</h2>
+            <div className="flex flex-row flex-wrap gap-[10px] justify-center items-center ">
+                {months.map((data, index) => (
+                     <p key={index} className='px-[10px] py-[3px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
+                ))}
+            </div>
+            <div className="flex flex-row gap-[10px] items-center">
+                <div>
+                    <button
+                        onClick={handlePrev}
+                        disabled={currentIndex === 0}
+                        className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50"
+                    >
+                        <img src="../../images/icons/triangle-left.svg" alt=""
+                        className='h-[30px] w-[30px]'
+                        />
+                    </button>
+                </div>
+                <div className="w-[700px] flex flex-row gap-[10px] overflow-hidden">
+                    <div className={`flex flex-row gap-[10px] transition-transform ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
+                        {weatherData.slice(currentIndex, currentIndex + 6).map((data, index) => (
+                            <div key={index} className="flex flex-col gap-[10px] min-w-[100px]">
+                                <p className="text-[14px] text-darkBlue">{data.date}</p>
+                                <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
+                                    <div className="flex flex-col items-center gap-[10px]">
+                                        <img
+                                            src={data.image}
+                                            alt={data.condition}
+                                            className="h-[60px] w-[60px]"
+                                        />
+                                    </div>
+                                    <div>
+                                        <p className="text-[40px] font-extrabold text-darkBlue-2">
+                                            {data.temp}
+                                            <span className="align-super text-[18px]">°C</span>
+                                        </p>
+                                    </div>
+                                    <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <button
+                        onClick={handleNext}
+                        disabled={currentIndex >= weatherData.length - 6}
+                        className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50"
+                    >
+                        <img src="../../images/icons/triangle-right.svg" alt=""
+                        className='h-[30px] w-[30px]'
+                        />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <WeatherRecords/>
     </div>
   )
 }
