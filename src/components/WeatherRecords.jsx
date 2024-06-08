@@ -36,9 +36,9 @@ const WeatherRecords = () => {
             <div className="">
                 <h2 className='text-[22px] font-[600] text-darkBlue-2'>Weather records</h2>
             </div>
-            <div className="flex flex-col gap-[20px] border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-max">
+            <div className="flex flex-col gap-[20px] border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
                 <p className='text-[14px] text-darkBlue-2  '>Temperature records in Mauritius</p>
-                <div className="  flex flex-row gap-[10px] items-center ">
+                <div className="  flex flex-row gap-[10px] items-center justify-center ">
                     <div className="flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
                         <div className="flex flex-row justify-center items-center gap-[10px]">
                             <img
@@ -104,7 +104,7 @@ const WeatherRecords = () => {
             <h2 className='text-[22px] font-[600] text-darkBlue-2' >Temperatures and climate in Mauritius</h2>
             <div className="flex flex-col  gap-[5px]">
                 <img src="../../images/photos/upload_6539018e83284.jpg" alt=""
-                className='rounded-[20px] h-[600px]'
+                className='rounded-[20px] h-[500px]'
                 />
                 <p className='flex flex-row justify-center items-center'>Mauritius weather / Serenity-H / shutterstock.com</p>
             </div>

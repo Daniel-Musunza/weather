@@ -10,7 +10,7 @@ const Home = () => {
     <>
     <NavBar/>
     <div className="mt-[40px]">
-      <div className="padding-x flex flex-row items-center justify-center bg-darkBlue py-[30px]">
+      <div className="padding-x hidden xl:flex flex-row items-center justify-center bg-darkBlue py-[30px]">
         <SearchBar/>
       </div>
       <div className="padding-x flex flex-col gap-[10px] mt-[30px]">
@@ -25,9 +25,13 @@ const Home = () => {
           <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</p>
         </div>
       </div>
-      <div className="padding-x flex flex-row justify-center gap-[30px]  mt-[40px] w-[100%]">
-        <WeatherDisplay/>
-        <SearchForm/>
+      <div className="padding-x flex flex-col xl:flex-row justify-center gap-[30px]  mt-[40px] w-[100%] ">
+          <div className="w-[100%] xl:w-[70%]">
+              <WeatherDisplay />
+          </div>
+          <div className="w-[100%] xl:w-[30%] ">
+              <SearchForm />
+          </div>
       </div>
     </div>
     </>

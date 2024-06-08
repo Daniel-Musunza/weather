@@ -26,3 +26,10 @@ code {
 .align-super {
   vertical-align: super;
 }
+
+
+@layer utilities {
+  .unicode-bidi-isolate {
+    unicode-bidi: isolate;
+  }
+}

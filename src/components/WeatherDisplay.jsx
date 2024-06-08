@@ -95,14 +95,14 @@ const WeatherDisplay = () => {
     };
 
   return (
-    <div className="flex flex-col gap-[40px] pb-[200px] w-[70%]">
+    <div className="flex flex-col gap-[40px] pb-[200px] ">
         <div className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
         </div>
-        <div className="  flex flex-row gap-[10px] items-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-max">
-            <div className="flex flex-col gap-[10px]">
+        <div className="  flex flex-row gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
+            <div className="flex flex-col gap-[10px] flex-grow">
                 <p className='text-[14px] text-darkBlue'>Now: 07/06/2024 - local time: 21:20</p>
-                <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[350px]">
+                <div className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
                     <div className="flex flex-col items-center gap-[15px]">
                         <img
                             src="../../images/icons/weather-color-moon-stars.svg"
@@ -119,7 +119,7 @@ const WeatherDisplay = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[10px] w-[200px] lg:w-[300px] xl:w-[200px]">
                 <p className='text-[14px] text-darkBlue'>Tomorrow</p>
                 <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                     <div className="flex flex-col items-center gap-[15px]">
@@ -138,7 +138,7 @@ const WeatherDisplay = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[10px] w-[200px] lg:w-[300px] xl:w-[200px]">
                 <p className='text-[14px] text-darkBlue'>The day after tomorrow</p>
                 <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                     <div className="flex flex-col items-center gap-[15px]">
@@ -158,8 +158,10 @@ const WeatherDisplay = () => {
                 </div>
             </div>
         </div>
-        <div className="flex flex-row gap-[40px]">
-            <p className='text-[20px] font-[800] text-darkBlue-2'>Go to:</p>
+        <div className="flex flex-row gap-[20px]">
+            <div className="flex flex-row flex-nowrap ">
+                <p className='text-[18px] font-[800] text-darkBlue-2'>Go to:</p>
+            </div>
             <div className="flex flex-row flex-wrap gap-[10px]">
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'

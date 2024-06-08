@@ -3,8 +3,8 @@ import icons from '../utils/icons'
 
 const SearchForm = () => {
   return (
-    <div className="flex flex-col sticky w-[30%] ">
-        <div className="flex flex-col gap-[40px]">
+    <div className="flex flex-col  ">
+        <div className="flex flex-col gap-[40px] w-[100%]">
             <p>Check the weather for another direction</p>
 
             <input
@@ -24,7 +24,7 @@ const SearchForm = () => {
                         <div className="relative w-full">
                         <input
                             type="text"
-                            className="w-[350px] pr-3 pl-10 py-2 border border-darkBlue focus:outline-none rounded"
+                            className="w-full pr-3 pl-10 py-2 border border-darkBlue focus:outline-none rounded"
                             placeholder="Country, region"
                         />
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -104,7 +104,71 @@ const SearchForm = () => {
                 </div>
             </form>
             <div className="flex flex-col gap-[20px]">
-                <div className="flex flex-row justify-center px-[15px] py-[10px]"></div>
+                <div className="flex flex-row justify-between items-center px-[15px] py-[12px] border-[1px] border-lightBlue-2 rounded-[10px] w-[100%] ">
+                    <div className="flex flex-row gap-[10px] justify-center items-center">
+                        <img src="../../images/icons/all-inclusive.svg" alt="" 
+                        className='h-[25px] w-[25px] '
+                        />
+                        <span>Maurtius holidays</span>
+                    </div>
+                    <div className="">
+                        <img src="../../images/icons/triangle-right.svg" alt="" 
+                        className='h-[25px] w-[25px]  text-[#E8AA42] '
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-row justify-between items-center px-[15px] py-[12px] border-[1px] border-lightBlue-2 rounded-[10px] w-[100%] ">
+                    <div className="flex flex-row gap-[10px] justify-center items-center">
+                        <img src="../../images/icons/all-inclusive.svg" alt="" 
+                        className='h-[25px] w-[25px] '
+                        />
+                        <span>Maurtius holidays</span>
+                    </div>
+                    <div className="">
+                        <img src="../../images/icons/triangle-right.svg" alt="" 
+                        className='h-[25px] w-[25px]  text-[#E8AA42] '
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-row justify-between items-center px-[15px] py-[12px] border-[1px] border-lightBlue-2 rounded-[10px] w-[100%] ">
+                    <div className="flex flex-row gap-[10px] justify-center items-center">
+                        <img src="../../images/icons/all-inclusive.svg" alt="" 
+                        className='h-[25px] w-[25px] '
+                        />
+                        <span>Maurtius holidays</span>
+                    </div>
+                    <div className="">
+                        <img src="../../images/icons/triangle-right.svg" alt="" 
+                        className='h-[25px] w-[25px]  text-[#E8AA42] '
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-row justify-between items-center px-[15px] py-[12px] border-[1px] border-lightBlue-2 rounded-[10px] w-[100%] ">
+                    <div className="flex flex-row gap-[10px] justify-center items-center">
+                        <img src="../../images/icons/all-inclusive.svg" alt="" 
+                        className='h-[25px] w-[25px] '
+                        />
+                        <span>Maurtius holidays</span>
+                    </div>
+                    <div className="">
+                        <img src="../../images/icons/triangle-right.svg" alt="" 
+                        className='h-[25px] w-[25px]  text-[#E8AA42] '
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-row justify-between items-center px-[15px] py-[12px] border-[1px] border-lightBlue-2 rounded-[10px] w-[100%] ">
+                    <div className="flex flex-row gap-[10px] justify-center items-center">
+                        <img src="../../images/icons/all-inclusive.svg" alt="" 
+                        className='h-[25px] w-[25px] '
+                        />
+                        <span>Maurtius holidays</span>
+                    </div>
+                    <div className="">
+                        <img src="../../images/icons/triangle-right.svg" alt="" 
+                        className='h-[25px] w-[25px]  text-[#E8AA42] '
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
