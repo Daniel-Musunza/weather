@@ -3,6 +3,7 @@ import NavBar from './NavBar'
 import icons from '../utils/icons'
 import SearchBar from './SearchBar'
 import WeatherDisplay from './WeatherDisplay'
+import SearchForm from './SearchForm'
 
 const Home = () => {
   return (
@@ -24,8 +25,9 @@ const Home = () => {
           <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</p>
         </div>
       </div>
-      <div className="padding-x flex flex-col mt-[40px]">
+      <div className="padding-x flex flex-row justify-center gap-[30px]  mt-[40px] w-[100%]">
         <WeatherDisplay/>
+        <SearchForm/>
       </div>
     </div>
     </>
