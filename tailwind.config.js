@@ -11,6 +11,7 @@ module.exports = {
         'darkBlue': '#0E46A3',
         'darkBlue-2': '#192655',
         'lightBlue': '#7286D3',
+        'lightBlue-2': '#C4DDFF'
       },
       keyframes: {
         slideLeft: {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import icons from '../utils/icons'
+import ImageView from './ImageView';
 
 const WeatherRecords = () => {
 
@@ -129,6 +130,7 @@ const WeatherRecords = () => {
                 </div>
             ))}
         </div>
+        <ImageView/>
     </div>
     
   )

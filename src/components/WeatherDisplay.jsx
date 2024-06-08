@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import WeatherRecords from './WeatherRecords';
+import ImageView from './ImageView';
+import WeatherRegions from './WeatherRegions';
 
 const WeatherDisplay = () => {
 
@@ -190,29 +192,7 @@ const WeatherDisplay = () => {
             </div>
         </div>
         <div className="flex flex-col">
-            <div className="flex flex-row">
-                <div className="absolute z-[1] ">
-                    <p className='text-white font-[700] rounded-tl-[30px] rounded-br-[20px] bg-darkBlue-2 py-[13px] px-[20px]'>from PLN 5,717</p>
-                </div>
-                <img src="../../images/photos/upload_6539018e83284.jpg" alt="" 
-                className='h-[250px] border-[1px] border-darkBlue-2 rounded-s-[30px] relative'
-                />
-                <div className="rounded-e-[30px] h-[250px] bg-darkBlue-2 flex flex-col gap-[40px] pl-[40px] py-[40px] p pr-[180px]">
-                    <h1 className='text-[25px] text-white font-[700]'>Holidays in Mauritius <span>✈</span></h1>
-                    <p className='  text-white'>Check out the best holiday offers!</p>
-                    <div className="">
-                        <button
-                        className='flex flex-row justify-center items-center gap-[20px] bg-[#FBA834] px-[45px] py-[9px] text-darkBlue-2 text-[15px] rounded-[20px] outline-none'
-                        >
-                        <span className='font-[900]'>See offers</span>
-                        <img src="../../images/icons/triangle-right.svg" alt="" 
-                        className='h-[20px] w-[20px]'
-                        />
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
+            <ImageView/>
         </div>
         <div className="flex flex-col">
             <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
@@ -352,28 +332,7 @@ const WeatherDisplay = () => {
                 ))}
             </div>
         </div>
-        <div className="flex flex-row">
-            <div className="absolute z-[1] ">
-                <p className='text-white font-[700] rounded-tl-[30px] rounded-br-[20px] bg-darkBlue-2 py-[13px] px-[20px]'>from PLN 5,717</p>
-            </div>
-            <img src="../../images/photos/upload_6539018e83284.jpg" alt="" 
-            className='h-[250px] border-[1px] border-darkBlue-2 rounded-s-[30px] relative'
-            />
-            <div className="rounded-e-[30px] h-[250px] bg-darkBlue-2 flex flex-col gap-[40px] pl-[40px] py-[40px] p pr-[180px]">
-                <h1 className='text-[25px] text-white font-[700]'>Holidays in Mauritius <span>✈</span></h1>
-                <p className='  text-white'>Check out the best holiday offers!</p>
-                <div className="">
-                    <button
-                    className='flex flex-row justify-center items-center gap-[20px] bg-[#FBA834] px-[45px] py-[9px] text-darkBlue-2 text-[15px] rounded-[20px] outline-none'
-                    >
-                    <span className='font-[900]'>See offers</span>
-                    <img src="../../images/icons/triangle-right.svg" alt="" 
-                    className='h-[20px] w-[20px]'
-                    />
-                    </button>
-                </div>
-            </div>
-        </div>
+        <ImageView/>
         <div className="flex flex-col justify-center items-center bg-white rounded-[6px] shadow-md p-[10px] gap-[40px]  ">
             <h2 className='font-[400] text-darkBlue-2 text-[14px]'>Select a month to check what the weather was like in Mauritius in previous years</h2>
             <div className="flex flex-row flex-wrap gap-[10px] justify-center items-center ">
@@ -432,6 +391,7 @@ const WeatherDisplay = () => {
             </div>
         </div>
         <WeatherRecords/>
+        <WeatherRegions/>
     </div>
   )
 }
