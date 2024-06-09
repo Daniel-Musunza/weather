@@ -144,7 +144,7 @@ const MonthTemp = () => {
                     <p key={index} className='px-[10px] py-[3px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
             ))}
         </div>
-        <div className="flex flex-col w-full overflow-hidden">
+        <div className="flex flex-col justify-center items-center w-full overflow-hidden">
             <div className="flex flex-row items-center justify-center gap-[10px] md:gap-[20px]">
                 <div className="shrink-0">
                     <button

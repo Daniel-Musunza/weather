@@ -39,7 +39,7 @@ const WeatherRecords = () => {
             <div className="flex flex-col gap-[20px] border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
                 <p className='text-[14px] text-darkBlue-2  '>Temperature records in Mauritius</p>
                 <div className="  flex flex-row flex-wrap gap-[10px] items-center justify-center ">
-                    <div className="flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
+                    <div className="w-full sm1:w-auto  flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
                         <div className="flex flex-row justify-center items-center gap-[10px]">
                             <img
                                 src="../../images/icons/thermometer-temperature.svg"
@@ -58,7 +58,7 @@ const WeatherRecords = () => {
                             <p className="text-[14px] font-[400] text-darkBlue-2">The highest temperature</p>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
+                    <div className="w-full sm1:w-auto  flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
                         <div className="flex flex-row justify-center items-center gap-[10px]">
                             <img
                                 src="../../images/icons/thermometer-temperature.svg"
@@ -77,7 +77,7 @@ const WeatherRecords = () => {
                             <p className="text-[14px] font-[400] text-darkBlue-2">The highest temperature</p>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
+                    <div className="w-full sm1:w-auto  flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
                         <div className="flex flex-row justify-center items-center gap-[10px]">
                             <img
                                 src="../../images/icons/thermometer-temperature.svg"

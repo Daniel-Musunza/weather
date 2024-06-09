@@ -170,7 +170,7 @@ const WeatherDisplay = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-[10px] w-[100%] sm1:w-[200px] lg:w-[300px] xl:w-[200px]">
+            <div className="flex flex-col gap-[10px] w-[100%] sm1:w-[200px] lg:w-[300px] xl:w-[250px]">
                 <p className='text-[14px] text-darkBlue'>Tomorrow</p>
                 <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                     <div className="flex flex-col items-center gap-[15px]">
@@ -189,7 +189,7 @@ const WeatherDisplay = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-[10px] w-[100%] sm1:w-[200px] lg:w-[300px] xl:w-[200px]">
+            <div className="flex flex-col gap-[10px] w-[100%] sm1:w-[200px] lg:w-[300px] xl:w-[250px]">
                 <p className='text-[14px] text-darkBlue'>The day after tomorrow</p>
                 <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                     <div className="flex flex-col items-center gap-[15px]">
