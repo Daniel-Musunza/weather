@@ -3,7 +3,7 @@ import icons from '../utils/icons'
 
 const SearchBar = () => {
   return (
-    <form action="" className='flex flex-col gap-[20px]'>
+    <form action="" className='flex flex-col gap-[20px] sticky top-[100px]'>
         <div className="flex flex-row items-center gap-4">
             <div className="flex flex-col gap-1">
                 <label htmlFor="" className='text-white'>Direction</label>

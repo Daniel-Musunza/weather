@@ -18,7 +18,7 @@ code {
 
 
 .padding-x {
-  @apply px-[10px] lg:px-[30px] xl:px-[60px] 2xl:px-[250px]
+  @apply px-[10px] lg:px-[30px] xl:px-[60px] 2xl:px-[230px]
 }
 
 

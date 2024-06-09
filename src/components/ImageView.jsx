@@ -2,7 +2,7 @@ import React from 'react'
 
 const ImageView = () => {
   return (
-        <div className="flex flex-col md1:flex-row w-[100%]">
+        <div className="flex flex-col md1:flex-row w-[100%] relative">
             <div className="absolute z-[1] ">
                 <p className='text-white font-[700] rounded-tl-[30px] rounded-br-[20px] bg-darkBlue-2 py-[13px] px-[20px]'>from PLN 5,717</p>
             </div>

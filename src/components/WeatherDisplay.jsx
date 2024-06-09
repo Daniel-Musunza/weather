@@ -142,11 +142,24 @@ const WeatherDisplay = () => {
     };
 
     
-
+    // flex flex-col gap-[40px] pb-[60px]
     const displayedData = weatherData.slice(currentIndex, currentIndex + cardsToShow);
+    
 
   return (
-    <div className="flex flex-col gap-[40px] pb-[60px]">
+    <div className="flex flex-col gap-[40px] pb-[60px] " >
+        <div className=" flex flex-col gap-[10px] mt-[30px]">
+            <h1 className='text-darkBlue-2 font-[900] text-[35px]'>Mauritius weather</h1>
+            <div className="flex flex-row items-center gap-[10px]">
+            <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</p>
+            <span>
+                <img src="../../images/icons/angle-right.svg" alt=""
+                className='h-[20px] w-[20px]'
+                />
+            </span>
+            <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</p>
+            </div>
+        </div>
         <div className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
         </div>
@@ -216,31 +229,31 @@ const WeatherDisplay = () => {
             <div className="flex flex-row flex-wrap gap-[10px]">
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">Long-term weather forecast
+                to="">Long-term weather forecast
                 </Link>
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">When to go?
+                to="">When to go?
                 </Link>
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">Year-round weather table
+                to="">Year-round weather table
                 </Link>
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">Historic weather
+                to="">Historic weather
                 </Link>
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">Weather records
+                to="">Weather records
                 </Link>
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">Temperatures and climate
+                to="">Temperatures and climate
                 </Link>
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                 to="">FAQ
+                to="">FAQ
                 </Link>
             </div>
         </div>
@@ -400,8 +413,8 @@ const WeatherDisplay = () => {
         </div>
         {/* table */}
         <div className="flex flex-col gap-[30px]">
-          <h1 className='font-[600] text-[20px] text-darkBlue-2'>Year-round weather table</h1>
-          <div className="overflow-auto ">
+        <h1 className='font-[600] text-[20px] text-darkBlue-2'>Year-round weather table</h1>
+        <div className="overflow-auto ">
             <table className="table-auto w-full text-left bg-white shadow-md rounded-[8px] border-[1px] border-[#ddd] p-[20px]">
                 <thead>
                 <tr>
@@ -514,13 +527,13 @@ const WeatherDisplay = () => {
                     </tr>
                 </tbody>
             </table>
-          </div>
+        </div>
         </div>
         <div className="flex flex-col justify-center items-center gap-[40px]">
             <h2 className='font-[600] text-darkBlue-2 text-[22px]'>Check weather details for a specific month:</h2>
             <div className="flex flex-row flex-wrap gap-[20px] justify-center items-center ">
                 {months.map((data, index) => (
-                     <p key={index} className='px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
+                    <p key={index} className='px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
                 ))}
             </div>
         </div>
@@ -529,6 +542,7 @@ const WeatherDisplay = () => {
         <WeatherRecords/>
         <WeatherRegions/>
     </div>
+    
   )
 }
 
