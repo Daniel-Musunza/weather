@@ -5,6 +5,7 @@ import ImageView from './ImageView';
 import WeatherRegions from './WeatherRegions';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto'; 
+import MonthTemp from './MonthTemp';
 
 const WeatherDisplay = () => {
 
@@ -77,13 +78,28 @@ const WeatherDisplay = () => {
         { name: 'October' }, { name: 'November' }, { name: 'December' }
     ];
 
+    const averageTemp = [
+        { month: 'Jan', temp: 5 },
+        { month: 'Feb', temp: 7 },
+        { month: 'Mar', temp: 10 },
+        { month: 'April', temp: 15 },
+        { month: 'May', temp: 20 },
+        { month: 'Jun', temp: 25 },
+        { month: 'Jul', temp: 30 },
+        { month: 'Aug', temp: 35 },
+        { month: 'Sep', temp: 20 },
+        { month: 'Oct', temp: 15 },
+        { month: 'Nov', temp: 10 },
+        { month: 'Dec', temp: 5 },
+      ];
+
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {
             return 4;
         } else if (window.innerWidth >= 768) {
             return 3;
         } else {
-            return 1;
+            return 5;
         }
     };
 
@@ -128,6 +144,7 @@ const WeatherDisplay = () => {
     
 
     const displayedData = weatherData.slice(currentIndex, currentIndex + cardsToShow);
+
   return (
     <div className="flex flex-col gap-[40px] pb-[60px]">
         <div className="">
@@ -233,7 +250,7 @@ const WeatherDisplay = () => {
         <div className="flex flex-col">
             <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
         </div>
-        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col items-center w-full">
+        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col items-center w-full overflow-hidden">
             <div className="flex flex-row items-center justify-center gap-[10px] md:gap-[20px]">
                 <div className="shrink-0">
                     <button
@@ -289,7 +306,7 @@ const WeatherDisplay = () => {
                     <img src="../../images/icons/arrow-right.svg" alt="Next" className='h-[25px] w-[25px]' />
                 </button>
             </div>
-            <div className="flex justify-center items-center w-full mt-[5px] px-[50px]">
+            <div className="hidden md:flex justify-center items-center w-full mt-[5px] px-[50px]">
                 <div className="relative w-full h-10 flex items-center justify-center">
                     <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
                     <div className="absolute flex justify-between w-full px-2">
@@ -382,6 +399,123 @@ const WeatherDisplay = () => {
             </div>
         </div>
         {/* table */}
+        <div className="flex flex-col gap-[30px]">
+          <h1 className='font-[600] text-[20px] text-darkBlue-2'>Year-round weather table</h1>
+          <div className="overflow-auto ">
+            <table className="table-auto w-full text-left bg-white shadow-md rounded-[8px] border-[1px] border-[#ddd] p-[20px]">
+                <thead>
+                <tr>
+                    <th className=' py-[40px] px-[10px] border-l-[1px] border-l-[#ddd] rounded-[6px]'></th>
+                    {averageTemp.map((data, index) => (
+                    <th className='py-[40px] px-[10px]' key={index}>{data.month}</th>
+                    ))}
+                </tr>
+                </thead>
+                <tbody className='border border-[#ddd] space-y-4 p-[1px]'>
+                    <tr className="mb-[40px]">
+                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                            <div className="flex flex-col gap-[5px] w-[150px]">
+                                <img src="../../images/icons/temperature-hot.svg" alt="" 
+                                className='h-[40px] w-[40px]'
+                                />
+                                <p className='text-darkBlue-2 text-[13px]  font-[500]'>Average temperature during the day</p>
+                            </div>
+                        </td>
+                        <td colSpan={12}
+                        className='py-[10px] md:py-[30px] px-[20px]'
+                        >
+                        <div className="relative w-full h-10 flex items-center justify-center">
+                            <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
+                            <div className="absolute flex justify-between w-full px-2">
+                            {averageTemp.map((data, index) => (
+                                <div key={index} className="relative flex flex-col items-center">
+                                <div className="w-2 h-2 bg-[#E8C872] rounded-full"></div>
+                                <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                                </div>
+                            ))}
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr className='py-[10px] md:py-[30px] px-[20px]'> 
+                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                            <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                                <img src="../../images/icons/rain.svg" alt="" 
+                                className='h-[40px] w-[40px]'
+                                />
+                                <p className='text-darkBlue-2 text-[13px] font-[500]'>Change of precipitation</p>
+                            </div>
+                        </td>
+                        <td colSpan={12}
+                        className='py-[10px] md:py-[30px] px-[20px]'
+                        >
+                        <div className="relative w-full h-10 flex items-center justify-center">
+                            <div className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></div>
+                            <div className="absolute flex justify-between w-full px-2">
+                            {averageTemp.map((data, index) => (
+                                <div key={index} className="relative flex flex-col items-center">
+                                <div className="w-2 h-2 bg-[#3559E0] rounded-full"></div>
+                                <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                                </div>
+                            ))}
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr className='py-[10px] md:py-[30px] px-[20px]'>
+                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                            <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                                <img src="../../images/icons/water.svg" alt="" 
+                                className='h-[40px] w-[40px]'
+                                />
+                                <p className='text-darkBlue-2 text-[13px] font-[500]'>Temperature of water</p>
+                            </div>
+                        </td>
+                        <td colSpan={12}
+                        className='py-[10px] md:py-[30px] px-[20px]'
+                        >
+                        <div className="relative w-full h-10 flex items-center justify-center">
+                            <div className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></div>
+                            <div className="absolute flex justify-between w-full px-2">
+                            {averageTemp.map((data, index) => (
+                                <div key={index} className="relative flex flex-col items-center">
+                                <div className="w-2 h-2 bg-[#3559E0] rounded-full"></div>
+                                <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                                </div>
+                            ))}
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr className='py-[10px] md:py-[30px] px-[20px]'>
+                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                            <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                                <img src="../../images/icons/sun-day-light-bright.svg" alt="" 
+                                className='h-[40px] w-[40px]'
+                                />
+                                <p className='text-darkBlue-2 text-[13px] font-[500]'>Sunny hours</p>
+                            </div>
+                        </td>
+                        <td colSpan={12}
+                        className='py-[10px] md:py-[30px] px-[20px]'
+                        >
+                        <div className="relative w-full h-10 flex items-center justify-center">
+                            <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
+                            <div className="absolute flex justify-between w-full px-2">
+                            {averageTemp.map((data, index) => (
+                                <div key={index} className="relative flex flex-col items-center">
+                                <div className="w-2 h-2 bg-[#E8C872] rounded-full"></div>
+                                <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                                </div>
+                            ))}
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+        </div>
         <div className="flex flex-col justify-center items-center gap-[40px]">
             <h2 className='font-[600] text-darkBlue-2 text-[22px]'>Check weather details for a specific month:</h2>
             <div className="flex flex-row flex-wrap gap-[20px] justify-center items-center ">
@@ -391,63 +525,7 @@ const WeatherDisplay = () => {
             </div>
         </div>
         <ImageView/>
-        <div className="flex flex-col justify-center items-center bg-white rounded-[6px] shadow-md p-[10px] gap-[40px]  ">
-            <h2 className='font-[400] text-darkBlue-2 text-[14px]'>Select a month to check what the weather was like in Mauritius in previous years</h2>
-            <div className="flex flex-row flex-wrap gap-[10px] justify-center items-center ">
-                {months.map((data, index) => (
-                     <p key={index} className='px-[10px] py-[3px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
-                ))}
-            </div>
-            {/* <div className="flex flex-row gap-[10px] items-center">
-                <div>
-                    <button
-                        onClick={handlePrev}
-                        disabled={currentIndex === 0}
-                        className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50"
-                    >
-                        <img src="../../images/icons/triangle-left.svg" alt=""
-                        className='h-[30px] w-[30px]'
-                        />
-                    </button>
-                </div>
-                <div className="w-max flex flex-row gap-[10px] overflow-hidden">
-                    <div className={`flex flex-row gap-[10px] transition-transform ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
-                        {weatherData.slice(currentIndex, currentIndex + 6).map((data, index) => (
-                            <div key={index} className="flex flex-col gap-[10px] min-w-[100px]">
-                                <p className="text-[14px] text-darkBlue">{data.date}</p>
-                                <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
-                                    <div className="flex flex-col items-center gap-[10px]">
-                                        <img
-                                            src={data.image}
-                                            alt={data.condition}
-                                            className="h-[60px] w-[60px]"
-                                        />
-                                    </div>
-                                    <div>
-                                        <p className="text-[40px] font-extrabold text-darkBlue-2">
-                                            {data.temp}
-                                            <span className="align-super text-[18px]">°C</span>
-                                        </p>
-                                    </div>
-                                    <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div>
-                    <button
-                        onClick={handleNext}
-                        disabled={currentIndex >= weatherData.length - 6}
-                        className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50"
-                    >
-                        <img src="../../images/icons/triangle-right.svg" alt=""
-                        className='h-[30px] w-[30px]'
-                        />
-                    </button>
-                </div>
-            </div> */}
-        </div>
+        <MonthTemp/>
         <WeatherRecords/>
         <WeatherRegions/>
     </div>
