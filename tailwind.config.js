@@ -33,7 +33,7 @@ module.exports = {
         },
       },
       animation: {
-        slideLeft: 'slideLeft 0.5mds ease-in-out',
+        slideLeft: 'slideLeft 0.5s ease-in-out',
         slideRight: 'slideRight 0.5s ease-in-out',
       },
     },

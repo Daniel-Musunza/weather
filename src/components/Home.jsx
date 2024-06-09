@@ -26,12 +26,12 @@ const Home = () => {
           </div>
       </div> */}
       <MainContainer />
-      <div className="padding-x">
+      {/* <div className="padding-x">
         <MoreInfo/>
-      </div>
-      <BottomTabs/>
+      </div> */}
+     
     </div>
-    <Footer/>
+  
     </>
   )
 }

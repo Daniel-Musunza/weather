@@ -97,7 +97,7 @@ const WeatherDisplay = () => {
         if (window.innerWidth >= 1024) {
             return 4;
         } else if (window.innerWidth >= 768) {
-            return 3;
+            return 4;
         } else {
             return 5;
         }
@@ -149,7 +149,7 @@ const WeatherDisplay = () => {
   return (
     <div className="flex flex-col gap-[40px]  " >
         <div className=" flex flex-col gap-[10px] mt-[30px]">
-            <h1 className='text-darkBlue-2 font-[900] text-[35px]'>Mauritius weather</h1>
+            <h1 className='text-darkBlue-2 font-[900] text-[30px]'>Mauritius weather</h1>
             <div className="flex flex-row items-center gap-[10px]">
             <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</p>
             <span>
@@ -163,8 +163,8 @@ const WeatherDisplay = () => {
         <div className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
         </div>
-        <div className="  flex flex-row flex-wrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
-            <div className="flex flex-col gap-[10px] flex-grow">
+        <div className="  flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
+            <div className="flex flex-col gap-[10px] w-[100%] flex-grow">
                 <p className='text-[14px] text-darkBlue'>Now: 07/06/2024 - local time: 21:20</p>
                 <div className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
                     <div className="flex flex-col items-center gap-[15px]">
@@ -183,50 +183,53 @@ const WeatherDisplay = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-[10px] w-[100%] sm1:w-[200px] lg:w-[300px] xl:w-[250px]">
-                <p className='text-[14px] text-darkBlue'>Tomorrow</p>
-                <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                    <div className="flex flex-col items-center gap-[15px]">
-                        <img
-                            src="../../images/icons/sun-behind-rain-cloud.svg"
-                            alt=""
-                            className="h-[60px] w-[60px]"
-                        />
-                        <p className="text-[17px] font-[600] text-darkBlue-2">Rainy</p>
+            <div className="flex flex-col sm1:flex-row gap-[10px] w-[100%]">
+                <div className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
+                    <p className='text-[14px] text-darkBlue'>Tomorrow</p>
+                    <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <div className="flex flex-col items-center gap-[15px]">
+                            <img
+                                src="../../images/icons/sun-behind-rain-cloud.svg"
+                                alt=""
+                                className="h-[60px] w-[60px]"
+                            />
+                            <p className="text-[17px] font-[600] text-darkBlue-2">Rainy</p>
+                        </div>
+                        <div className="">
+                            <p className="text-5xl font-extrabold text-darkBlue-2">
+                            22
+                            <span className="align-super text-2xl">°C</span>
+                            </p>
+                        </div>
                     </div>
-                    <div className="">
-                        <p className="text-5xl font-extrabold text-darkBlue-2">
-                        22
-                        <span className="align-super text-2xl">°C</span>
-                        </p>
+                </div>
+                <div className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
+                    <p className='text-[14px] text-darkBlue'>The day after tomorrow</p>
+                    <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <div className="flex flex-col items-center gap-[15px]">
+                            <img
+                                src="../../images/icons/sun-behind-rain-cloud.svg"
+                                alt=""
+                                className="h-[60px] w-[60px]"
+                            />
+                            <p className="text-[17px] font-[600] text-darkBlue-2">Rainy</p>
+                        </div>
+                        <div className="">
+                            <p className="text-5xl font-extrabold text-darkBlue-2">
+                            24
+                            <span className="align-super text-2xl">°C</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-[10px] w-[100%] sm1:w-[200px] lg:w-[300px] xl:w-[250px]">
-                <p className='text-[14px] text-darkBlue'>The day after tomorrow</p>
-                <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                    <div className="flex flex-col items-center gap-[15px]">
-                        <img
-                            src="../../images/icons/sun-behind-rain-cloud.svg"
-                            alt=""
-                            className="h-[60px] w-[60px]"
-                        />
-                        <p className="text-[17px] font-[600] text-darkBlue-2">Rainy</p>
-                    </div>
-                    <div className="">
-                        <p className="text-5xl font-extrabold text-darkBlue-2">
-                        24
-                        <span className="align-super text-2xl">°C</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            
         </div>
-        <div className="flex flex-row gap-[20px]">
+        <div className="flex flex-col justify-center items-center md:items-start md:flex-row gap-[20px]">
             <div className="flex flex-row flex-nowrap ">
-                <p className='text-[18px] font-[800] text-darkBlue-2'>Go to:</p>
+                <p className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</p>
             </div>
-            <div className="flex flex-row flex-wrap gap-[10px]">
+            <div className="flex flex-row flex-wrap justify-center items-center md:items-start  gap-[10px]">
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
                 to="">Long-term weather forecast
