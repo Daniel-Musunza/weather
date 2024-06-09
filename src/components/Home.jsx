@@ -4,6 +4,7 @@ import icons from '../utils/icons'
 import SearchBar from './SearchBar'
 import WeatherDisplay from './WeatherDisplay'
 import SearchForm from './SearchForm'
+import BottomTabs from './ButtomTabs'
 
 const Home = () => {
   return (
@@ -33,6 +34,7 @@ const Home = () => {
               <SearchForm />
           </div>
       </div>
+      <BottomTabs/>
     </div>
     </>
   )
