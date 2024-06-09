@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
 import WeatherRecords from './WeatherRecords';
 import ImageView from './ImageView';
 import WeatherRegions from './WeatherRegions';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto'; 
 
 const WeatherDisplay = () => {
 
@@ -77,8 +77,25 @@ const WeatherDisplay = () => {
         { name: 'October' }, { name: 'November' }, { name: 'December' }
     ];
 
+    const getCardsToShow = () => {
+        if (window.innerWidth >= 1024) {
+            return 4;
+        } else if (window.innerWidth >= 768) {
+            return 3;
+        } else {
+            return 1;
+        }
+    };
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animationDirection, setAnimationDirection] = useState('');
+    const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
+
+    useEffect(() => {
+        const handleResize = () => setCardsToShow(getCardsToShow());
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handlePrev = () => {
         if (currentIndex > 0) {
@@ -88,7 +105,7 @@ const WeatherDisplay = () => {
     };
 
     const handleNext = () => {
-        if (currentIndex < weatherData.length - getCardsToShow()) {
+        if (currentIndex < weatherData.length - cardsToShow) {
             setAnimationDirection('slideLeft');
             setCurrentIndex((prevIndex) => prevIndex + 1);
         }
@@ -108,18 +125,9 @@ const WeatherDisplay = () => {
         }
     };
 
-    const getCardsToShow = () => {
-        if (window.innerWidth >= 1280) {
-            return 4;
-        }else if (window.innerWidth >= 1024) {
-            return 5;
-        }else if (window.innerWidth >= 768) {
-            return 4;
-        } else {
-            return 6;
-        }
-    };
+    
 
+    const displayedData = weatherData.slice(currentIndex, currentIndex + cardsToShow);
   return (
     <div className="flex flex-col gap-[40px] pb-[60px]">
         <div className="">
@@ -225,21 +233,21 @@ const WeatherDisplay = () => {
         <div className="flex flex-col">
             <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
         </div>
-        <div className="flex flex-col bg-white rounded-[6px] shadow-md p-[10px] w-full">
-            <div className=" p-[10px] flex flex-row gap-[10px] justify-center items-center w-full">
-                <div className="hidden md:block shrink-0">
+        <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col items-center w-full">
+            <div className="flex flex-row items-center justify-center gap-[10px] md:gap-[20px]">
+                <div className="shrink-0">
                     <button
                         onClick={handlePrev}
                         disabled={currentIndex === 0}
-                        className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
+                        className="hidden md:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
                     >
                         <img src="../../images/icons/triangle-left.svg" alt="Previous" className="h-[30px] w-[30px] shrink-0" />
                     </button>
                 </div>
-                <div className="w-max flex flex-row gap-[10px] overflow-hidden">
+                <div className="w-full flex flex-row gap-[10px] overflow-hidden">
                     <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
-                        {weatherData.slice(currentIndex, currentIndex + getCardsToShow()).map((data, index) => (
-                            <div key={index} className="flex flex-col gap-[10px] min-w-[80px] md:min-w-[150px] lg:min-w-[150px] xl:min-w-[140px]  ">
+                        {displayedData.map((data, index) => (
+                            <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
                                 <p className="text-[14px] text-darkBlue">{data.date}</p>
                                 <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
                                     <div className="flex flex-col items-center gap-[10px]">
@@ -257,33 +265,42 @@ const WeatherDisplay = () => {
                         ))}
                     </div>
                 </div>
-                <div className="hidden md:block shrink-0">
+                <div className="shrink-0">
                     <button
                         onClick={handleNext}
-                        disabled={currentIndex >= weatherData.length - getCardsToShow()}
-                        className="px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
+                        disabled={currentIndex >= weatherData.length - cardsToShow}
+                        className="hidden md:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
                     >
                         <img src="../../images/icons/triangle-right.svg" alt="Next" className="h-[30px] w-[30px] shrink-0" />
                     </button>
                 </div>
             </div>
-            <div className="flex md:hidden flex-row items-center justify-center gap-[20px]">
+            <div className="flex md:hidden flex-row items-center justify-center gap-[20px] mt-[10px]">
                 <button
-                onClick={handlePrevSmall}
-                disabled={currentIndex === 0}
+                    onClick={handlePrevSmall}
+                    disabled={currentIndex === 0}
                 >
-                    <img src="../../images/icons/arrow-left.svg" alt="" 
-                    className='h-[25px] w-[25px] '
-                    />
+                    <img src="../../images/icons/arrow-left.svg" alt="Previous" className='h-[25px] w-[25px]' />
                 </button>
                 <button
-                onClick={handleNextSmall}
-                disabled={currentIndex >= weatherData.length - getCardsToShow()}
+                    onClick={handleNextSmall}
+                    disabled={currentIndex >= weatherData.length - 1}
                 >
-                    <img src="../../images/icons/arrow-right.svg" alt=""
-                    className='h-[25px] w-[25px] '
-                    />
+                    <img src="../../images/icons/arrow-right.svg" alt="Next" className='h-[25px] w-[25px]' />
                 </button>
+            </div>
+            <div className="flex justify-center items-center w-full mt-[5px] px-[50px]">
+                <div className="relative w-full h-10 flex items-center justify-center">
+                    <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
+                    <div className="absolute flex justify-between w-full px-2">
+                        {displayedData.map((data, index) => (
+                            <div key={index} className="relative flex flex-col items-center">
+                                <div className="w-2 h-2 bg-[#E8C872] rounded-full"></div>
+                                <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
         
