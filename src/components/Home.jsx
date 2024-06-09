@@ -6,12 +6,13 @@ import WeatherDisplay from './WeatherDisplay'
 import SearchForm from './SearchForm'
 import BottomTabs from './ButtomTabs'
 import MoreInfo from './MoreInfo'
+import Footer from './Footer'
 
 const Home = () => {
   return (
     <>
     <NavBar/>
-    <div className="mt-[40px]">
+    <div className="mt-[40px] mb-[100px]">
       <div className="padding-x hidden xl:flex flex-row items-center justify-center bg-darkBlue py-[30px]">
         <SearchBar/>
       </div>
@@ -40,6 +41,7 @@ const Home = () => {
       </div>
       <BottomTabs/>
     </div>
+    <Footer/>
     </>
   )
 }
