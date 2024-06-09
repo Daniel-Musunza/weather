@@ -79,7 +79,7 @@ const Footer = () => {
                 </Link>
             </div>
         </div>
-        <div className="p-4 flex flex-col justify-center items-center md:flex-wrap gap-[20px]">
+        <div className="p-4 flex flex-col md:flex-row justify-center items-center md:flex-wrap gap-[20px]">
             {words.map((word, index) => (
                 <p key={index} className="text-base font-[700] text-darkBlue-2">
                 {word}
