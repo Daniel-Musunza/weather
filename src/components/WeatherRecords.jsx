@@ -74,8 +74,8 @@ const WeatherRecords = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-[10px] ">
-                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
-                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>16/06/2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">Lowest temperature</p>
                             </div>
                         </div>
                     </div>
@@ -95,8 +95,8 @@ const WeatherRecords = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-[10px] ">
-                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
-                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>February 2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The warmest month</p>
                             </div>
                         </div>
                         <div className="w-full  flex flex-col justify-center items-center gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
@@ -114,8 +114,8 @@ const WeatherRecords = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-[10px] ">
-                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
-                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>June 2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The coldest month</p>
                             </div>
                         </div>
                     </div>

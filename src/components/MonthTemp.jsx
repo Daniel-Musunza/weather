@@ -145,8 +145,8 @@ const MonthTemp = () => {
             ))}
         </div>
         <div className="flex flex-col justify-center items-center w-full overflow-hidden">
-            <div className="flex flex-row items-center justify-center gap-[10px] md:gap-[20px]">
-                <div className="shrink-0">
+            <div className="flex flex-row  justify-center gap-[10px] md:gap-[20px]">
+                <div className="shrink-0 mt-[50px]">
                     <button
                         onClick={handlePrev}
                         disabled={currentIndex === 0}
@@ -176,7 +176,7 @@ const MonthTemp = () => {
                         ))}
                     </div>
                 </div>
-                <div className="shrink-0">
+                <div className="shrink-0 mt-[50px]">
                     <button
                         onClick={handleNext}
                         disabled={currentIndex >= weatherData.length - cardsToShow}
