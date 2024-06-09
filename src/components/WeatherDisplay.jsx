@@ -95,7 +95,7 @@ const WeatherDisplay = () => {
     };
 
   return (
-    <div className="flex flex-col gap-[40px] xl:pb-[200px] ">
+    <div className="flex flex-col gap-[40px] pb-[60px]">
         <div className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
         </div>

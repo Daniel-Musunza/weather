@@ -5,6 +5,7 @@ import SearchBar from './SearchBar'
 import WeatherDisplay from './WeatherDisplay'
 import SearchForm from './SearchForm'
 import BottomTabs from './ButtomTabs'
+import MoreInfo from './MoreInfo'
 
 const Home = () => {
   return (
@@ -33,6 +34,9 @@ const Home = () => {
           <div className="w-[100%] xl:w-[30%] ">
               <SearchForm />
           </div>
+      </div>
+      <div className="padding-x">
+        <MoreInfo/>
       </div>
       <BottomTabs/>
     </div>
