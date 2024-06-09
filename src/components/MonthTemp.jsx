@@ -141,7 +141,7 @@ const MonthTemp = () => {
         <h2 className='font-[400] text-darkBlue-2 text-[14px]'>Select a month to check what the weather was like in Mauritius in previous years</h2>
         <div className="flex flex-row flex-wrap gap-[10px] justify-center items-center ">
             {months.map((data, index) => (
-                    <p key={index} className='px-[10px] py-[3px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue '>{data.name}</p>
+                    <p key={index} className='px-[10px] py-[3px] rounded-[20px] bg-[#EEF2FF] shadow-md  text-[14px] font-[600] text-darkBlue '>{data.name}</p>
             ))}
         </div>
         <div className="flex flex-col justify-center items-center w-full overflow-hidden">

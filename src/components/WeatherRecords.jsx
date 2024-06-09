@@ -38,62 +38,85 @@ const WeatherRecords = () => {
             </div>
             <div className="flex flex-col gap-[20px] border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
                 <p className='text-[14px] text-darkBlue-2  '>Temperature records in Mauritius</p>
-                <div className="  flex flex-row flex-wrap gap-[10px] items-center justify-center ">
-                    <div className="w-full sm1:w-auto  flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
-                        <div className="flex flex-row justify-center items-center gap-[10px]">
-                            <img
-                                src="../../images/icons/thermometer-temperature.svg"
-                                alt=""
-                                className="h-[40px] w-[40px]"
-                            />
-                            <div className="">
-                                <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                22
-                                <span className="align-super text-[15px]">°C</span>
-                                </p>
+                <div className="  flex flex-row flex-nowrap gap-[10px] items-center justify-center ">
+                    <div className="flex flex-col md:flex-row gap-[10px] w-[100%] ">
+                        <div className="w-full   flex flex-col justify-center items-center gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
+                            <div className="flex flex-row justify-center items-center gap-[10px]">
+                                <img
+                                    src="../../images/icons/thermometer-temperature.svg"
+                                    alt=""
+                                    className="h-[40px] w-[30px]"
+                                />
+                                <div className="">
+                                    <p className="text-[30px] font-extrabold text-darkBlue-2">
+                                    22
+                                    <span className="align-super text-[14px]">°C</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col justify-center items-center gap-[10px] ">
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center gap-[10px] ">
-                            <p className='text-darkBlue-2 font-[600] '>13/02/2024</p>
-                            <p className="text-[14px] font-[400] text-darkBlue-2">The highest temperature</p>
+                        <div className="w-full  flex flex-col justify-center items-center gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
+                            <div className="flex flex-row justify-center items-center gap-[10px]">
+                                <img
+                                    src="../../images/icons/thermometer-temperature.svg"
+                                    alt=""
+                                    className="h-[40px] w-[30px]"
+                                />
+                                <div className="">
+                                    <p className="text-[30px] font-extrabold text-darkBlue-2">
+                                    22
+                                    <span className="align-super text-[14px]">°C</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col justify-center items-center gap-[10px] ">
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
+                            </div>
                         </div>
                     </div>
-                    <div className="w-full sm1:w-auto  flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
-                        <div className="flex flex-row justify-center items-center gap-[10px]">
-                            <img
-                                src="../../images/icons/thermometer-temperature.svg"
-                                alt=""
-                                className="h-[40px] w-[40px]"
-                            />
-                            <div className="">
-                                <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                22
-                                <span className="align-super text-[15px]">°C</span>
-                                </p>
+                    <div className="flex flex-col md:flex-row gap-[10px] w-[100%] ">
+                        <div className="w-full  flex flex-col justify-center items-center gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md   ">
+                            <div className="flex flex-row justify-center items-center gap-[10px]">
+                                <img
+                                    src="../../images/icons/thermometer-temperature.svg"
+                                    alt=""
+                                    className="h-[40px] w-[30px]"
+                                />
+                                <div className="">
+                                    <p className="text-[30px] font-extrabold text-darkBlue-2">
+                                    22
+                                    <span className="align-super text-[14px]">°C</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col justify-center items-center gap-[10px] ">
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center gap-[10px] ">
-                            <p className='text-darkBlue-2 font-[600] '>13/02/2024</p>
-                            <p className="text-[14px] font-[400] text-darkBlue-2">The highest temperature</p>
-                        </div>
-                    </div>
-                    <div className="w-full sm1:w-auto  flex flex-col gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
-                        <div className="flex flex-row justify-center items-center gap-[10px]">
-                            <img
-                                src="../../images/icons/thermometer-temperature.svg"
-                                alt=""
-                                className="h-[40px] w-[40px]"
-                            />
-                            <div className="">
-                                <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                22
-                                <span className="align-super text-[15px]">°C</span>
-                                </p>
+                        <div className="w-full  flex flex-col justify-center items-center gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md  ">
+                            <div className="flex flex-row justify-center items-center gap-[10px]">
+                                <img
+                                    src="../../images/icons/thermometer-temperature.svg"
+                                    alt=""
+                                    className="h-[40px] w-[30px]"
+                                />
+                                <div className="">
+                                    <p className="text-[30px] font-extrabold text-darkBlue-2">
+                                    22
+                                    <span className="align-super text-[14px]">°C</span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col justify-center items-center gap-[10px] ">
-                            <p className='text-darkBlue-2 font-[600] '>13/02/2024</p>
-                            <p className="text-[14px] font-[400] text-darkBlue-2">The highest temperature</p>
+                            <div className="flex flex-col justify-center items-center gap-[10px] ">
+                                <p className='text-darkBlue-2 font-[600] text-[14px] '>13/02/2024</p>
+                                <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
+                            </div>
                         </div>
                     </div>
                 </div>
