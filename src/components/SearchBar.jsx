@@ -83,13 +83,13 @@ const SearchBar = () => {
                 <input type="checkbox" name="" id="" 
                 className='h-[20px] w-[20px]'
                 />
-                <label htmlFor="" className='text-[13px]'>All Inclusive</label>
+                <label htmlFor="" className='text-[13px] text-white'>All Inclusive</label>
             </div>
             <div className="flex flex-row items-center gap-[10px]">
                 <input type="checkbox" name="" id="" 
                 className='h-[20px] w-[20px]'
                 />
-                <label htmlFor="" className='text-[13px]'>Last Minute</label>
+                <label htmlFor="" className='text-[13px] text-white'>Last Minute</label>
             </div>
         </div>
     </form>

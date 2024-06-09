@@ -3,14 +3,14 @@ import icons from '../utils/icons'
 
 const SearchForm = () => {
   return (
-    <div className="flex flex-col  ">
+    <div className="flex flex-col sticky xl:mt-[170px] ">
         <div className="flex flex-col gap-[40px] w-[100%]">
             <p>Check the weather for another direction</p>
 
             <input
                 type="text"
                 className="w-full pl-3 pr-10 py-2 border-[2px] border-[#7286D3] focus:outline-none rounded-[10px]"
-                placeholder="Search..."
+                placeholder="Name of country, region or city..."
             />
             <form action=""
             className='bg-darkBlue p-[20px] flex flex-col gap-[40px] '
@@ -87,13 +87,13 @@ const SearchForm = () => {
                             <input type="checkbox" name="" id="" 
                             className='h-[20px] w-[20px]'
                             />
-                            <label htmlFor="" className='text-[13px]'>All Inclusive</label>
+                            <label htmlFor="" className='text-[13px] text-white'>All Inclusive</label>
                         </div>
                         <div className="flex flex-row items-center gap-[10px]">
                             <input type="checkbox" name="" id="" 
                             className='h-[20px] w-[20px]'
                             />
-                            <label htmlFor="" className='text-[13px]'>Last Minute</label>
+                            <label htmlFor="" className='text-[13px] text-white'>Last Minute</label>
                         </div>
                     </div>
                     <div className="flex flex-row items-center mt-6 ">

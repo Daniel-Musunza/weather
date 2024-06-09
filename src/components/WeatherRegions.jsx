@@ -105,7 +105,7 @@ const WeatherRegions = () => {
         </div>
         <div className="flex flex-col gap-[30px]">
             <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about Mauritius</p>
-            <div className="flex flex-row gap-[20px] overflow-auto">
+            <div className="flex flex-row gap-[20px] overflow-auto" style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
                 {blogImages.map((blog) => (
                     <div className="flex flex-col gap-[20px] w-[200px] shrink-0">
                         <img src={blog.image} alt=""

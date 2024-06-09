@@ -70,7 +70,7 @@ const NavBar = () => {
             <input
                 type="text"
                 className="w-full pl-3 pr-10 py-2 border-[2px] border-[#7286D3] focus:outline-none rounded-[10px]"
-                placeholder="Search..."
+                placeholder="Search the website"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 <div className="flex items-center justify-center bg-[#7286D3] w-8 h-8 rounded-[10px]">

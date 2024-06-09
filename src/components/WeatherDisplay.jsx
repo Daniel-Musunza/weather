@@ -147,7 +147,7 @@ const WeatherDisplay = () => {
     
 
   return (
-    <div className="flex flex-col gap-[40px] pb-[60px] " >
+    <div className="flex flex-col gap-[40px]  " >
         <div className=" flex flex-col gap-[10px] mt-[30px]">
             <h1 className='text-darkBlue-2 font-[900] text-[35px]'>Mauritius weather</h1>
             <div className="flex flex-row items-center gap-[10px]">
@@ -414,7 +414,7 @@ const WeatherDisplay = () => {
         {/* table */}
         <div className="flex flex-col gap-[30px]">
         <h1 className='font-[600] text-[20px] text-darkBlue-2'>Year-round weather table</h1>
-        <div className="overflow-auto ">
+        <div className="overflow-auto " style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
             <table className="table-auto w-full text-left bg-white shadow-md rounded-[8px] border-[1px] border-[#ddd] p-[20px]">
                 <thead>
                 <tr>
