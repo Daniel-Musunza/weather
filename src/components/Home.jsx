@@ -29,7 +29,7 @@ const Home = () => {
       {/* <div className="padding-x">
         <MoreInfo/>
       </div> */}
-     
+     <BottomTabs/>
     </div>
   
     </>
