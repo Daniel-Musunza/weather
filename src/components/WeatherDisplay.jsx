@@ -148,10 +148,10 @@ const WeatherDisplay = () => {
     
 
   return (
-    <div className="flex flex-col gap-[40px]  " >
+    <Box className="flex flex-col gap-[40px]  " >
         <Box className=" flex flex-col gap-[10px] mt-[30px]">
             <h1 className='text-darkBlue-2 font-[900] text-[30px]'>Mauritius weather</h1>
-            <div className="flex flex-row items-center gap-[10px]">
+            <Box className="flex flex-row items-center gap-[10px]">
             <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</Text>
             <span>
                 <img src="../../images/icons/angle-right.svg" alt=""
@@ -159,78 +159,78 @@ const WeatherDisplay = () => {
                 />
             </span>
             <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</Text>
-            </div>
+            </Box>
         </Box>
-        <div className="">
+        <Box className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
-        </div>
-        <div className="  flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
-            <div className="flex flex-col gap-[10px] w-[100%] flex-grow">
+        </Box>
+        <Box className="  flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
+            <Box className="flex flex-col gap-[10px] w-[100%] flex-grow">
                 <Text className='text-[14px] text-darkBlue'>Now: 07/06/2024 - local time: 21:20</Text>
-                <div className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
-                    <div className="flex flex-col items-center gap-[15px]">
+                <Box className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
+                    <Box className="flex flex-col items-center gap-[15px]">
                         <img
                             src="../../images/icons/weather-color-moon-stars.svg"
                             alt=""
                             className="h-[60px] w-[60px]"
                         />
                         <Text className="text-[17px] font-[600] text-darkBlue-2">Sunny</Text>
-                    </div>
-                    <div className="">
+                    </Box>
+                    <Box className="">
                         <Text className="text-5xl font-extrabold text-darkBlue-2">
                         18
                         <span className="align-super text-2xl">°C</span>
                         </Text>
-                    </div>
-                </div>
-            </div>
-            <div className="flex flex-col sm1:flex-row gap-[10px] w-[100%]">
-                <div className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
+                    </Box>
+                </Box>
+            </Box>
+            <Box className="flex flex-col sm1:flex-row gap-[10px] w-[100%]">
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
                     <Text className='text-[14px] text-darkBlue'>Tomorrow</Text>
-                    <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                        <div className="flex flex-col items-center gap-[15px]">
+                    <Box className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-col items-center gap-[15px]">
                             <img
                                 src="../../images/icons/sun-behind-rain-cloud.svg"
                                 alt=""
                                 className="h-[60px] w-[60px]"
                             />
                             <Text className="text-[17px] font-[600] text-darkBlue-2">Rainy</Text>
-                        </div>
-                        <div className="">
+                        </Box>
+                        <Box className="">
                             <Text className="text-5xl font-extrabold text-darkBlue-2">
                             22
                             <span className="align-super text-2xl">°C</span>
                             </Text>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
+                        </Box>
+                    </Box>
+                </Box>
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
                     <Text className='text-[14px] text-darkBlue'>The day after tomorrow</Text>
-                    <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                        <div className="flex flex-col items-center gap-[15px]">
+                    <Box className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-col items-center gap-[15px]">
                             <img
                                 src="../../images/icons/sun-behind-rain-cloud.svg"
                                 alt=""
                                 className="h-[60px] w-[60px]"
                             />
                             <Text className="text-[17px] font-[600] text-darkBlue-2">Rainy</Text>
-                        </div>
-                        <div className="">
+                        </Box>
+                        <Box className="">
                             <Text className="text-5xl font-extrabold text-darkBlue-2">
                             24
                             <span className="align-super text-2xl">°C</span>
                             </Text>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
             
-        </div>
-        <div className="flex flex-col justify-center items-center md:items-start md:flex-row gap-[20px]">
-            <div className="flex flex-row flex-nowrap ">
+        </Box>
+        <Box className="flex flex-col justify-center items-center md:items-start md:flex-row gap-[20px]">
+            <Box className="flex flex-row flex-nowrap ">
                 <Text className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</Text>
-            </div>
-            <div className="flex flex-row flex-wrap justify-center items-center md:items-start  gap-[10px]">
+            </Box>
+            <Box className="flex flex-row flex-wrap justify-center items-center md:items-start  gap-[10px]">
                 <Link
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
                 to="">Long-term weather forecast
@@ -259,18 +259,18 @@ const WeatherDisplay = () => {
                 className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
                 to="">FAQ
                 </Link>
-            </div>
-        </div>
-        <div className="flex flex-col">
+            </Box>
+        </Box>
+        <Box className="flex flex-col">
             <ImageView/>
-        </div>
-        <div className="flex flex-col gap-[20px]">
-            <div className="flex flex-col">
+        </Box>
+        <Box className="flex flex-col gap-[20px]">
+            <Box className="flex flex-col">
                 <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
-            </div>
-            <div className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col items-center w-full overflow-hidden">
-                <div className="flex flex-row  justify-center gap-[10px] md:gap-[20px]">
-                    <div className="shrink-0 mt-[50px]">
+            </Box>
+            <Box className="bg-white rounded-[6px] shadow-md p-[10px] flex flex-col items-center w-full overflow-hidden">
+                <Box className="flex flex-row  justify-center gap-[10px] md:gap-[20px]">
+                    <Box className="shrink-0 mt-[50px]">
                         <button
                             onClick={handlePrev}
                             disabled={currentIndex === 0}
@@ -278,29 +278,29 @@ const WeatherDisplay = () => {
                         >
                             <img src="../../images/icons/triangle-left.svg" alt="Previous" className="h-[30px] w-[30px] shrink-0" />
                         </button>
-                    </div>
-                    <div className="w-full flex flex-row gap-[10px] overflow-hidden">
-                        <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
+                    </Box>
+                    <Box className="w-full flex flex-row gap-[10px] overflow-hidden">
+                        <Box className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                             {displayedData.map((data, index) => (
-                                <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
+                                <Box key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
                                     <Text className="text-[14px] text-darkBlue">{data.date}</Text>
-                                    <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
-                                        <div className="flex flex-col items-center gap-[10px]">
+                                    <Box className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
+                                        <Box className="flex flex-col items-center gap-[10px]">
                                             <img src={data.image} alt={data.condition} className="h-[60px] w-[60px]" />
-                                        </div>
-                                        <div>
+                                        </Box>
+                                        <Box>
                                             <Text className="text-[40px] font-extrabold text-darkBlue-2">
                                                 {data.temp}
                                                 <span className="align-super text-[18px]">°C</span>
                                             </Text>
-                                        </div>
+                                        </Box>
                                         <Text className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</Text>
-                                    </div>
-                                </div>
+                                    </Box>
+                                </Box>
                             ))}
-                        </div>
-                    </div>
-                    <div className="shrink-0 mt-[50px]">
+                        </Box>
+                    </Box>
+                    <Box className="shrink-0 mt-[50px]">
                         <button
                             onClick={handleNext}
                             disabled={currentIndex >= weatherData.length - cardsToShow}
@@ -308,9 +308,9 @@ const WeatherDisplay = () => {
                         >
                             <img src="../../images/icons/triangle-right.svg" alt="Next" className="h-[30px] w-[30px] shrink-0" />
                         </button>
-                    </div>
-                </div>
-                <div className="flex md:hidden flex-row items-center justify-center gap-[20px] mt-[10px]">
+                    </Box>
+                </Box>
+                <Box className="flex md:hidden flex-row items-center justify-center gap-[20px] mt-[10px]">
                     <button
                         onClick={handlePrevSmall}
                         disabled={currentIndex === 0}
@@ -323,108 +323,108 @@ const WeatherDisplay = () => {
                     >
                         <img src="../../images/icons/arrow-right.svg" alt="Next" className='h-[25px] w-[25px]' />
                     </button>
-                </div>
-                <div className="hidden md:flex justify-center items-center w-full mt-[5px] px-[50px]">
-                    <div className="relative w-full h-10 flex items-center justify-center">
-                        <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
-                        <div className="absolute flex justify-between w-full px-2">
+                </Box>
+                <Box className="hidden md:flex justify-center items-center w-full mt-[5px] px-[50px]">
+                    <Box className="relative w-full h-10 flex items-center justify-center">
+                        <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
+                        <Box className="absolute flex justify-between w-full px-2">
                             {displayedData.map((data, index) => (
-                                <div key={index} className="relative flex flex-col items-center">
-                                    <div className="w-2 h-2 bg-[#E8C872] rounded-full"></div>
+                                <Box key={index} className="relative flex flex-col items-center">
+                                    <Box className="w-2 h-2 bg-[#E8C872] rounded-full"></Box>
                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
-                                </div>
+                                </Box>
                             ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className="flex flex-col gap-[20px]">
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+        <Box className="flex flex-col gap-[20px]">
             <h1 className='font-[600] text-[20px] text-darkBlue-2'>When to go to Mauritius?</h1>
-            <div className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
+            <Box className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
                 <Text className='text-[14px] '>The warmest months in Mauritius</Text>
-                <div className="flex flex-col sm1:flex-row flex-nowrap justify-center items-center gap-[10px]">
-                    <div className="flex flex-col md:flex-row gap-[10px] w-[100%]">
-                        <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px]  flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)]">
+                <Box className="flex flex-col sm1:flex-row flex-nowrap justify-center items-center gap-[10px]">
+                    <Box className="flex flex-col md:flex-row gap-[10px] w-[100%]">
+                        <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px]  flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)]">
                             <Text className='text-darkBlue-2 font-[600]'>February</Text>
-                            <div className="flex flex-row items-center gap-[10px]">
-                                <div className="flex flex-row items-center gap-[10px]">
+                            <Box className="flex flex-row items-center gap-[10px]">
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>18°C</span>
-                                </div>
-                                <div className="flex flex-row items-center gap-[10px]">
+                                </Box>
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/rain.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>thirty%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
                             <Text className='text-darkBlue-2 font-[600]'>March</Text>
-                            <div className="flex flex-row items-center gap-[10px]">
-                                <div className="flex flex-row items-center gap-[10px]">
+                            <Box className="flex flex-row items-center gap-[10px]">
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>28°C</span>
-                                </div>
-                                <div className="flex flex-row items-center gap-[10px]">
+                                </Box>
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/rain.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>23°C</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col md:flex-row gap-[10px] w-[100%] ">
-                        <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box className="flex flex-col md:flex-row gap-[10px] w-[100%] ">
+                        <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
                             <Text className='text-darkBlue-2 font-[600]'>January</Text>
-                            <div className="flex flex-row items-center gap-[10px]">
-                                <div className="flex flex-row items-center gap-[10px]">
+                            <Box className="flex flex-row items-center gap-[10px]">
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>28°C</span>
-                                </div>
-                                <div className="flex flex-row items-center gap-[10px]">
+                                </Box>
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/rain.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>31°C</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
                             <Text className='text-darkBlue-2 font-[600]'>April</Text>
-                            <div className="flex flex-row items-center gap-[10px]">
-                                <div className="flex flex-row items-center gap-[10px]">
+                            <Box className="flex flex-row items-center gap-[10px]">
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>27°C</span>
-                                </div>
-                                <div className="flex flex-row items-center gap-[10px]">
+                                </Box>
+                                <Box className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/rain.svg" alt=""
                                     className='h-[25px] w-[25px]' 
                                     />
                                     <span className='text-[16px] font-[600] text-darkBlue-2'>10°C</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
                                           
-                </div>
+                </Box>
                 <Text className='text-darkBlue-2 text-[15px]'>To know when is the best time to go to Mauritius, remember that the island is located in the southern hemisphere. This means that the seasons are opposite to those in our climate. When it's winter here, it's summer in Mauritius, and when it's summer in our climatic conditions, it's winter on the island. Of course, the definition of winter in a climate similar to that of Africa is completely different from the one we know from our reality. Before we book a paradise luxury holiday on a unique island, let's check the weather tables for given months. And of course, let's determine our own needs - beachgoers need different weather, and lovers of water sports or other forms of active recreation need a completely different one. Mauritius has a tropical climate, but its location makes the climate difficult to define. Moreover, the weather in the north and south of the island may be different at the same time. There is no classic rainy season on the island, but it is worth being aware that there are months when there is quite a lot of rainfall and it may make it difficult to visit or enjoy attractions. So if we are wondering when to go to Mauritius, let's take into account when the rainy weather occurs.</Text>
-            </div>
-        </div>
+            </Box>
+        </Box>
         {/* table */}
-        <div className="flex flex-col gap-[30px]">
+        <Box className="flex flex-col gap-[30px]">
         <h1 className='font-[600] text-[20px] text-darkBlue-2'>Year-round weather table</h1>
-        <div className="overflow-auto " style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+        <Box className="overflow-auto " style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
             <table className="table-auto w-full text-left bg-white shadow-md rounded-[8px] border-[1px] border-[#ddd] p-[20px]">
                 <thead>
                 <tr>
@@ -437,123 +437,123 @@ const WeatherDisplay = () => {
                 <tbody className='border border-[#ddd] space-y-4 p-[1px]'>
                     <tr className="mb-[40px]">
                         <td className='py-[10px] md:py-[30px] px-[20px]'>
-                            <div className="flex flex-col gap-[5px] w-[150px]">
+                            <Box className="flex flex-col gap-[5px] w-[150px]">
                                 <img src="../../images/icons/temperature-hot.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
                                 <Text className='text-darkBlue-2 text-[13px]  font-[500]'>Average temperature during the day</Text>
-                            </div>
+                            </Box>
                         </td>
                         <td colSpan={12}
                         className='py-[10px] md:py-[30px] px-[20px]'
                         >
-                        <div className="relative w-full h-10 flex items-center justify-center">
-                            <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
-                            <div className="absolute flex justify-between w-full px-2">
+                        <Box className="relative w-full h-10 flex items-center justify-center">
+                            <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
+                            <Box className="absolute flex justify-between w-full px-2">
                             {averageTemp.map((data, index) => (
-                                <div key={index} className="relative flex flex-col items-center">
-                                <div className="w-2 h-2 bg-[#E8C872] rounded-full"></div>
+                                <Box key={index} className="relative flex flex-col items-center">
+                                <Box className="w-2 h-2 bg-[#E8C872] rounded-full"></Box>
                                 <span className="absolute top-4 text-xs">{data.temp}°C</span>
-                                </div>
+                                </Box>
                             ))}
-                            </div>
-                        </div>
+                            </Box>
+                        </Box>
                         </td>
                     </tr>
                     <tr className='py-[10px] md:py-[30px] px-[20px]'> 
                         <td className='py-[10px] md:py-[30px] px-[20px]'>
-                            <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                            <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
                                 <img src="../../images/icons/rain.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
                                 <Text className='text-darkBlue-2 text-[13px] font-[500]'>Change of precipitation</Text>
-                            </div>
+                            </Box>
                         </td>
                         <td colSpan={12}
                         className='py-[10px] md:py-[30px] px-[20px]'
                         >
-                        <div className="relative w-full h-10 flex items-center justify-center">
-                            <div className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></div>
-                            <div className="absolute flex justify-between w-full px-2">
+                        <Box className="relative w-full h-10 flex items-center justify-center">
+                            <Box className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></Box>
+                            <Box className="absolute flex justify-between w-full px-2">
                             {averageTemp.map((data, index) => (
-                                <div key={index} className="relative flex flex-col items-center">
-                                <div className="w-2 h-2 bg-[#3559E0] rounded-full"></div>
+                                <Box key={index} className="relative flex flex-col items-center">
+                                <Box className="w-2 h-2 bg-[#3559E0] rounded-full"></Box>
                                 <span className="absolute top-4 text-xs">{data.temp}°C</span>
-                                </div>
+                                </Box>
                             ))}
-                            </div>
-                        </div>
+                            </Box>
+                        </Box>
                         </td>
                     </tr>
                     <tr className='py-[10px] md:py-[30px] px-[20px]'>
                         <td className='py-[10px] md:py-[30px] px-[20px]'>
-                            <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                            <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
                                 <img src="../../images/icons/water.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
                                 <Text className='text-darkBlue-2 text-[13px] font-[500]'>Temperature of water</Text>
-                            </div>
+                            </Box>
                         </td>
                         <td colSpan={12}
                         className='py-[10px] md:py-[30px] px-[20px]'
                         >
-                        <div className="relative w-full h-10 flex items-center justify-center">
-                            <div className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></div>
-                            <div className="absolute flex justify-between w-full px-2">
+                        <Box className="relative w-full h-10 flex items-center justify-center">
+                            <Box className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></Box>
+                            <Box className="absolute flex justify-between w-full px-2">
                             {averageTemp.map((data, index) => (
-                                <div key={index} className="relative flex flex-col items-center">
-                                <div className="w-2 h-2 bg-[#3559E0] rounded-full"></div>
+                                <Box key={index} className="relative flex flex-col items-center">
+                                <Box className="w-2 h-2 bg-[#3559E0] rounded-full"></Box>
                                 <span className="absolute top-4 text-xs">{data.temp}°C</span>
-                                </div>
+                                </Box>
                             ))}
-                            </div>
-                        </div>
+                            </Box>
+                        </Box>
                         </td>
                     </tr>
                     <tr className='py-[10px] md:py-[30px] px-[20px]'>
                         <td className='py-[10px] md:py-[30px] px-[20px]'>
-                            <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                            <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
                                 <img src="../../images/icons/sun-day-light-bright.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
                                 <Text className='text-darkBlue-2 text-[13px] font-[500]'>Sunny hours</Text>
-                            </div>
+                            </Box>
                         </td>
                         <td colSpan={12}
                         className='py-[10px] md:py-[30px] px-[20px]'
                         >
-                        <div className="relative w-full h-10 flex items-center justify-center">
-                            <div className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></div>
-                            <div className="absolute flex justify-between w-full px-2">
+                        <Box className="relative w-full h-10 flex items-center justify-center">
+                            <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
+                            <Box className="absolute flex justify-between w-full px-2">
                             {averageTemp.map((data, index) => (
-                                <div key={index} className="relative flex flex-col items-center">
-                                <div className="w-2 h-2 bg-[#E8C872] rounded-full"></div>
+                                <Box key={index} className="relative flex flex-col items-center">
+                                <Box className="w-2 h-2 bg-[#E8C872] rounded-full"></Box>
                                 <span className="absolute top-4 text-xs">{data.temp}°C</span>
-                                </div>
+                                </Box>
                             ))}
-                            </div>
-                        </div>
+                            </Box>
+                        </Box>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-        </div>
-        <div className="flex flex-col justify-center items-center gap-[40px]">
+        </Box>
+        </Box>
+        <Box className="flex flex-col justify-center items-center gap-[40px]">
             <h2 className='font-[600] text-darkBlue-2 text-[20px]'>Check weather details for a specific month:</h2>
-            <div className="grid grid-cols-2 gap-[20px] sm:flex sm:flex-wrap sm:gap-[10px] sm:justify-center sm:items-center">
+            <Box className="grid grid-cols-2 gap-[20px] sm:flex sm:flex-wrap sm:gap-[10px] sm:justify-center sm:items-center">
                 {months.map((data, index) => (
                     <Text key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue">
                         {data.name}
                     </Text>
                 ))}
-            </div>
-        </div>
+            </Box>
+        </Box>
         <ImageView/>
         <MonthTemp/>
         <WeatherRecords/>
         {/* <WeatherRegions/> */}
-    </div>
+    </Box>
     
   )
 }
