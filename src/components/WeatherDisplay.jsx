@@ -551,7 +551,7 @@ const WeatherDisplay = () => {
         <ImageView/>
         <MonthTemp/>
         <WeatherRecords/>
-        <WeatherRegions/>
+        {/* <WeatherRegions/> */}
     </div>
     
   )
