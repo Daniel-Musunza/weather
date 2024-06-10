@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const MoreInfo = () => {
 
     const holidaysData = [

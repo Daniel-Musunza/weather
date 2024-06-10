@@ -6,6 +6,7 @@ import WeatherRegions from './WeatherRegions';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto'; 
 import MonthTemp from './MonthTemp';
+import { Card, Text, Button, Box } from '@mantine/core';
 
 const WeatherDisplay = () => {
 
@@ -148,24 +149,24 @@ const WeatherDisplay = () => {
 
   return (
     <div className="flex flex-col gap-[40px]  " >
-        <div className=" flex flex-col gap-[10px] mt-[30px]">
+        <Box className=" flex flex-col gap-[10px] mt-[30px]">
             <h1 className='text-darkBlue-2 font-[900] text-[30px]'>Mauritius weather</h1>
             <div className="flex flex-row items-center gap-[10px]">
-            <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</p>
+            <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</Text>
             <span>
                 <img src="../../images/icons/angle-right.svg" alt=""
                 className='h-[20px] w-[20px]'
                 />
             </span>
-            <p className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</p>
+            <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</Text>
             </div>
-        </div>
+        </Box>
         <div className="">
             <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in Mauritius</h2>
         </div>
         <div className="  flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
             <div className="flex flex-col gap-[10px] w-[100%] flex-grow">
-                <p className='text-[14px] text-darkBlue'>Now: 07/06/2024 - local time: 21:20</p>
+                <Text className='text-[14px] text-darkBlue'>Now: 07/06/2024 - local time: 21:20</Text>
                 <div className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
                     <div className="flex flex-col items-center gap-[15px]">
                         <img
@@ -173,19 +174,19 @@ const WeatherDisplay = () => {
                             alt=""
                             className="h-[60px] w-[60px]"
                         />
-                        <p className="text-[17px] font-[600] text-darkBlue-2">Sunny</p>
+                        <Text className="text-[17px] font-[600] text-darkBlue-2">Sunny</Text>
                     </div>
                     <div className="">
-                        <p className="text-5xl font-extrabold text-darkBlue-2">
+                        <Text className="text-5xl font-extrabold text-darkBlue-2">
                         18
                         <span className="align-super text-2xl">°C</span>
-                        </p>
+                        </Text>
                     </div>
                 </div>
             </div>
             <div className="flex flex-col sm1:flex-row gap-[10px] w-[100%]">
                 <div className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
-                    <p className='text-[14px] text-darkBlue'>Tomorrow</p>
+                    <Text className='text-[14px] text-darkBlue'>Tomorrow</Text>
                     <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                         <div className="flex flex-col items-center gap-[15px]">
                             <img
@@ -193,18 +194,18 @@ const WeatherDisplay = () => {
                                 alt=""
                                 className="h-[60px] w-[60px]"
                             />
-                            <p className="text-[17px] font-[600] text-darkBlue-2">Rainy</p>
+                            <Text className="text-[17px] font-[600] text-darkBlue-2">Rainy</Text>
                         </div>
                         <div className="">
-                            <p className="text-5xl font-extrabold text-darkBlue-2">
+                            <Text className="text-5xl font-extrabold text-darkBlue-2">
                             22
                             <span className="align-super text-2xl">°C</span>
-                            </p>
+                            </Text>
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px]">
-                    <p className='text-[14px] text-darkBlue'>The day after tomorrow</p>
+                    <Text className='text-[14px] text-darkBlue'>The day after tomorrow</Text>
                     <div className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                         <div className="flex flex-col items-center gap-[15px]">
                             <img
@@ -212,13 +213,13 @@ const WeatherDisplay = () => {
                                 alt=""
                                 className="h-[60px] w-[60px]"
                             />
-                            <p className="text-[17px] font-[600] text-darkBlue-2">Rainy</p>
+                            <Text className="text-[17px] font-[600] text-darkBlue-2">Rainy</Text>
                         </div>
                         <div className="">
-                            <p className="text-5xl font-extrabold text-darkBlue-2">
+                            <Text className="text-5xl font-extrabold text-darkBlue-2">
                             24
                             <span className="align-super text-2xl">°C</span>
-                            </p>
+                            </Text>
                         </div>
                     </div>
                 </div>
@@ -227,7 +228,7 @@ const WeatherDisplay = () => {
         </div>
         <div className="flex flex-col justify-center items-center md:items-start md:flex-row gap-[20px]">
             <div className="flex flex-row flex-nowrap ">
-                <p className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</p>
+                <Text className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</Text>
             </div>
             <div className="flex flex-row flex-wrap justify-center items-center md:items-start  gap-[10px]">
                 <Link
@@ -282,18 +283,18 @@ const WeatherDisplay = () => {
                         <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                             {displayedData.map((data, index) => (
                                 <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
-                                    <p className="text-[14px] text-darkBlue">{data.date}</p>
+                                    <Text className="text-[14px] text-darkBlue">{data.date}</Text>
                                     <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
                                         <div className="flex flex-col items-center gap-[10px]">
                                             <img src={data.image} alt={data.condition} className="h-[60px] w-[60px]" />
                                         </div>
                                         <div>
-                                            <p className="text-[40px] font-extrabold text-darkBlue-2">
+                                            <Text className="text-[40px] font-extrabold text-darkBlue-2">
                                                 {data.temp}
                                                 <span className="align-super text-[18px]">°C</span>
-                                            </p>
+                                            </Text>
                                         </div>
-                                        <p className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</p>
+                                        <Text className="text-[17px] font-[600] text-darkBlue-2">{data.condition}</Text>
                                     </div>
                                 </div>
                             ))}
@@ -341,11 +342,11 @@ const WeatherDisplay = () => {
         <div className="flex flex-col gap-[20px]">
             <h1 className='font-[600] text-[20px] text-darkBlue-2'>When to go to Mauritius?</h1>
             <div className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
-                <p className='text-[14px] '>The warmest months in Mauritius</p>
+                <Text className='text-[14px] '>The warmest months in Mauritius</Text>
                 <div className="flex flex-col sm1:flex-row flex-nowrap justify-center items-center gap-[10px]">
                     <div className="flex flex-col md:flex-row gap-[10px] w-[100%]">
                         <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px]  flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)]">
-                            <p className='text-darkBlue-2 font-[600]'>February</p>
+                            <Text className='text-darkBlue-2 font-[600]'>February</Text>
                             <div className="flex flex-row items-center gap-[10px]">
                                 <div className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
@@ -362,7 +363,7 @@ const WeatherDisplay = () => {
                             </div>
                         </div>
                         <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
-                            <p className='text-darkBlue-2 font-[600]'>March</p>
+                            <Text className='text-darkBlue-2 font-[600]'>March</Text>
                             <div className="flex flex-row items-center gap-[10px]">
                                 <div className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
@@ -381,7 +382,7 @@ const WeatherDisplay = () => {
                     </div>
                     <div className="flex flex-col md:flex-row gap-[10px] w-[100%] ">
                         <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
-                            <p className='text-darkBlue-2 font-[600]'>January</p>
+                            <Text className='text-darkBlue-2 font-[600]'>January</Text>
                             <div className="flex flex-row items-center gap-[10px]">
                                 <div className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
@@ -398,7 +399,7 @@ const WeatherDisplay = () => {
                             </div>
                         </div>
                         <div className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
-                            <p className='text-darkBlue-2 font-[600]'>April</p>
+                            <Text className='text-darkBlue-2 font-[600]'>April</Text>
                             <div className="flex flex-row items-center gap-[10px]">
                                 <div className="flex flex-row items-center gap-[10px]">
                                     <img src="../../images/icons/temperature-hot.svg" alt=""
@@ -417,7 +418,7 @@ const WeatherDisplay = () => {
                     </div>
                                           
                 </div>
-                <p className='text-darkBlue-2 text-[15px]'>To know when is the best time to go to Mauritius, remember that the island is located in the southern hemisphere. This means that the seasons are opposite to those in our climate. When it's winter here, it's summer in Mauritius, and when it's summer in our climatic conditions, it's winter on the island. Of course, the definition of winter in a climate similar to that of Africa is completely different from the one we know from our reality. Before we book a paradise luxury holiday on a unique island, let's check the weather tables for given months. And of course, let's determine our own needs - beachgoers need different weather, and lovers of water sports or other forms of active recreation need a completely different one. Mauritius has a tropical climate, but its location makes the climate difficult to define. Moreover, the weather in the north and south of the island may be different at the same time. There is no classic rainy season on the island, but it is worth being aware that there are months when there is quite a lot of rainfall and it may make it difficult to visit or enjoy attractions. So if we are wondering when to go to Mauritius, let's take into account when the rainy weather occurs.</p>
+                <Text className='text-darkBlue-2 text-[15px]'>To know when is the best time to go to Mauritius, remember that the island is located in the southern hemisphere. This means that the seasons are opposite to those in our climate. When it's winter here, it's summer in Mauritius, and when it's summer in our climatic conditions, it's winter on the island. Of course, the definition of winter in a climate similar to that of Africa is completely different from the one we know from our reality. Before we book a paradise luxury holiday on a unique island, let's check the weather tables for given months. And of course, let's determine our own needs - beachgoers need different weather, and lovers of water sports or other forms of active recreation need a completely different one. Mauritius has a tropical climate, but its location makes the climate difficult to define. Moreover, the weather in the north and south of the island may be different at the same time. There is no classic rainy season on the island, but it is worth being aware that there are months when there is quite a lot of rainfall and it may make it difficult to visit or enjoy attractions. So if we are wondering when to go to Mauritius, let's take into account when the rainy weather occurs.</Text>
             </div>
         </div>
         {/* table */}
@@ -440,7 +441,7 @@ const WeatherDisplay = () => {
                                 <img src="../../images/icons/temperature-hot.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
-                                <p className='text-darkBlue-2 text-[13px]  font-[500]'>Average temperature during the day</p>
+                                <Text className='text-darkBlue-2 text-[13px]  font-[500]'>Average temperature during the day</Text>
                             </div>
                         </td>
                         <td colSpan={12}
@@ -465,7 +466,7 @@ const WeatherDisplay = () => {
                                 <img src="../../images/icons/rain.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
-                                <p className='text-darkBlue-2 text-[13px] font-[500]'>Change of precipitation</p>
+                                <Text className='text-darkBlue-2 text-[13px] font-[500]'>Change of precipitation</Text>
                             </div>
                         </td>
                         <td colSpan={12}
@@ -490,7 +491,7 @@ const WeatherDisplay = () => {
                                 <img src="../../images/icons/water.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
-                                <p className='text-darkBlue-2 text-[13px] font-[500]'>Temperature of water</p>
+                                <Text className='text-darkBlue-2 text-[13px] font-[500]'>Temperature of water</Text>
                             </div>
                         </td>
                         <td colSpan={12}
@@ -515,7 +516,7 @@ const WeatherDisplay = () => {
                                 <img src="../../images/icons/sun-day-light-bright.svg" alt="" 
                                 className='h-[40px] w-[40px]'
                                 />
-                                <p className='text-darkBlue-2 text-[13px] font-[500]'>Sunny hours</p>
+                                <Text className='text-darkBlue-2 text-[13px] font-[500]'>Sunny hours</Text>
                             </div>
                         </td>
                         <td colSpan={12}
@@ -542,9 +543,9 @@ const WeatherDisplay = () => {
             <h2 className='font-[600] text-darkBlue-2 text-[20px]'>Check weather details for a specific month:</h2>
             <div className="grid grid-cols-2 gap-[20px] sm:flex sm:flex-wrap sm:gap-[10px] sm:justify-center sm:items-center">
                 {months.map((data, index) => (
-                    <p key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue">
+                    <Text key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue">
                         {data.name}
-                    </p>
+                    </Text>
                 ))}
             </div>
         </div>
