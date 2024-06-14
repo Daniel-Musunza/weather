@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Text, Button } from '@mantine/core';
 
-const ImageView = () => {
+const ImageView = (props) => {
   return (
     <div className="flex flex-col md:flex-row w-full relative">
       <div className="absolute z-10">
@@ -25,7 +25,7 @@ const ImageView = () => {
         className='rounded-b-[15px] md:rounded-bl-[0px] md:rounded-e-[15px]  bg-darkBlue-2 flex flex-col gap-[10px] md:gap-[5px] justify-between items-center md:justify-start px-[20px] md:pl-[40px] py-[40px] md:pr-[80px] w-full '
       >
         <h1 className='flex flex-row gap-[5px] items-center text-[25px] text-white font-[700]'>
-          <span>Holidays in Mauritius </span>
+          <span>Holidays in {props.destination} </span>
           <img
             src="../../images/icons/plane-airplane-aircraft-flight-travel-vacation.svg"
             alt=""
