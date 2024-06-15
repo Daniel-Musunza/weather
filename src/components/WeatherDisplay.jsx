@@ -23,8 +23,7 @@ const getCurrentDate = () => {
     return `${dd}/${mm}/${yyyy}`;
 };
 
-const getWeatherIcon = (condition) => {
-    console.log(condition)
+export const getWeatherIcon = (condition) => {
     switch (condition) {
         case 'Sunny':
             return "../../images/icons/sun-day-light-bright.svg";
@@ -37,6 +36,68 @@ const getWeatherIcon = (condition) => {
         default:
             return "../../images/icons/weather-default.svg";
     }
+};
+
+const getWarmestMonths = (weatherData) => {
+    // Group data by month
+    const monthlyData = {};
+    weatherData.forEach(data => {
+        const [day, month, year] = data.date.split("/");
+        const monthYear = `${month}/${year}`;
+        if (!monthlyData[monthYear]) {
+            monthlyData[monthYear] = [];
+        }
+        monthlyData[monthYear].push(data);
+    });
+
+    // Calculate average temperature and humidity for each month
+    const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => {
+        const totalTemp = monthlyData[monthYear].reduce((sum, data) => sum + data.temperature, 0);
+        const totalHumidity = monthlyData[monthYear].reduce((sum, data) => sum + data.humidity, 0);
+        const avgTemp = totalTemp / monthlyData[monthYear].length;
+        const avgHumidity = totalHumidity / monthlyData[monthYear].length;
+        return { monthYear, avgTemp, avgHumidity };
+    });
+
+    // Sort months by average temperature in descending order
+    monthlyAvgTemp.sort((a, b) => b.avgTemp - a.avgTemp);
+
+    // Get the top 3 warmest months
+    const warmestMonths = monthlyAvgTemp.slice(0, 4);
+    return warmestMonths;
+};
+
+const getWeatherStatistics = (weatherData) => {
+    if (!weatherData || weatherData.length === 0) return {};
+
+    const highestTemp = weatherData.reduce((max, current) => (current.temperature > max.temperature ? current : max));
+    const lowestTemp = weatherData.reduce((min, current) => (current.temperature < min.temperature ? current : min));
+
+    const monthlyData = {};
+    weatherData.forEach(data => {
+        const [day, month, year] = data.date.split("/");
+        const monthYear = `${year}-${month}`;
+        if (!monthlyData[monthYear]) {
+            monthlyData[monthYear] = { totalTemp: 0, count: 0 };
+        }
+        monthlyData[monthYear].totalTemp += data.temperature;
+        monthlyData[monthYear].count += 1;
+    });
+
+    const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => ({
+        monthYear,
+        avgTemp: monthlyData[monthYear].totalTemp / monthlyData[monthYear].count
+    }));
+
+    const warmestMonth = monthlyAvgTemp.reduce((max, current) => (current.avgTemp > max.avgTemp ? current : max));
+    const coldestMonth = monthlyAvgTemp.reduce((min, current) => (current.avgTemp < min.avgTemp ? current : min));
+
+    return {
+        highestTemp,
+        lowestTemp,
+        warmestMonth,
+        coldestMonth
+    };
 };
 
 const WeatherDisplay = (props) => {
@@ -58,68 +119,12 @@ const WeatherDisplay = (props) => {
     const tomorrowWeather = data.daily_weather.find(weather => weather.date === tomorrowDateString);
     const dayAfterTomorrowWeather = data.daily_weather.find(weather => weather.date === dayAfterTomorrowDateString);
 
+    const warmestMonths = getWarmestMonths(data?.daily_weather);
 
-    const weatherData = [
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "26",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "22",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "22",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "22",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "22",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "23",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "22",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "22",
-            condition: "Rainy"
-        },
-        {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "20",
-            condition: "Rainy"
-        }, {
-            date: "13/06/2024",
-            image: "../../images/icons/sun-behind-rain-cloud.svg",
-            temp: "24",
-            condition: "Rainy"
-        }
-    ]
+    const destination_info = data?.destination_info[0];
+
+    // Example usage:
+    const weatherStats = getWeatherStatistics(data?.daily_weather);
 
     const months = [
         { name: 'January' }, { name: 'February' }, { name: 'March' },
@@ -171,7 +176,7 @@ const WeatherDisplay = (props) => {
     };
 
     const handleNext = () => {
-        if (currentIndex < weatherData.length - cardsToShow) {
+        if (currentIndex < data?.daily_weather.length - cardsToShow) {
             setAnimationDirection('slideLeft');
             setCurrentIndex((prevIndex) => prevIndex + 1);
         }
@@ -185,7 +190,7 @@ const WeatherDisplay = (props) => {
     };
 
     const handleNextSmall = () => {
-        if (currentIndex < weatherData.length - 1) {
+        if (currentIndex < data?.daily_weather.length - 1) {
             setAnimationDirection('slideLeft');
             setCurrentIndex((prevIndex) => prevIndex + 1);
         }
@@ -207,7 +212,7 @@ const WeatherDisplay = (props) => {
                             className='h-[20px] w-[20px]'
                         />
                     </span>
-                    <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>MAURITIUS</Text>
+                    <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Text>
                 </Box>
             </Box>
             <Box className="">
@@ -318,7 +323,7 @@ const WeatherDisplay = (props) => {
                 </Box>
             </Box>
             <Box className="flex flex-col">
-                <ImageView destination={data?.destination}/>
+                <ImageView destination={data?.destination} />
             </Box>
             <Box className="flex flex-col gap-[20px]">
                 <Box className="flex flex-col">
@@ -359,7 +364,7 @@ const WeatherDisplay = (props) => {
                         <Box className="shrink-0 mt-[50px]">
                             <button
                                 onClick={handleNext}
-                                disabled={currentIndex >= weatherData.length - cardsToShow}
+                                disabled={currentIndex >= data?.daily_weather.length - cardsToShow}
                                 className="hidden md:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
                             >
                                 <img src="../../images/icons/triangle-right.svg" alt="Next" className="h-[30px] w-[30px] shrink-0" />
@@ -375,7 +380,7 @@ const WeatherDisplay = (props) => {
                         </button>
                         <button
                             onClick={handleNextSmall}
-                            disabled={currentIndex >= weatherData.length - 1}
+                            disabled={currentIndex >= data?.daily_weather.length - 1}
                         >
                             <img src="../../images/icons/arrow-right.svg" alt="Next" className='h-[25px] w-[25px]' />
                         </button>
@@ -401,81 +406,29 @@ const WeatherDisplay = (props) => {
                 <Box className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
                     <Text className='text-[14px] '>The warmest months in {data?.destination}</Text>
                     <Box className="flex flex-col sm1:flex-row flex-nowrap justify-center items-center gap-[10px]">
-                        <Box className="flex flex-col md:flex-row gap-[10px] w-[100%]">
-                            <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px]  flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)]">
-                                <Text className='text-darkBlue-2 font-[600]'>February</Text>
-                                <Box className="flex flex-row items-center gap-[10px]">
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/temperature-hot.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>18°C</span>
-                                    </Box>
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/rain.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>thirty%</span>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
-                                <Text className='text-darkBlue-2 font-[600]'>March</Text>
-                                <Box className="flex flex-row items-center gap-[10px]">
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/temperature-hot.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>28°C</span>
-                                    </Box>
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/rain.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>23°C</span>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Box>
-                        <Box className="flex flex-col md:flex-row gap-[10px] w-[100%] ">
-                            <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
-                                <Text className='text-darkBlue-2 font-[600]'>January</Text>
-                                <Box className="flex flex-row items-center gap-[10px]">
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/temperature-hot.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>28°C</span>
-                                    </Box>
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/rain.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>31°C</span>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)] ">
-                                <Text className='text-darkBlue-2 font-[600]'>April</Text>
-                                <Box className="flex flex-row items-center gap-[10px]">
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/temperature-hot.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>27°C</span>
-                                    </Box>
-                                    <Box className="flex flex-row items-center gap-[10px]">
-                                        <img src="../../images/icons/rain.svg" alt=""
-                                            className='h-[25px] w-[25px]'
-                                        />
-                                        <span className='text-[16px] font-[600] text-darkBlue-2'>10°C</span>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Box>
+                        {warmestMonths
+                            .map((monthData, index) => {
+                                const [month, year] = monthData.monthYear.split("/");
+                                const monthName = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'long' });
 
+                                return (
+                                    <Box key={index} className="bg-[#DBDFFD] flex flex-col justify-center items-center gap-[20px] py-[10px] px-[20px] rounded-[6px] flex-grow basis-[calc(33.333%-20px)] sm:basis-[calc(50%-20px)] xs:basis-[calc(100%-20px)]">
+                                        <Text className='text-darkBlue-2 font-[600]'>{monthName}</Text>
+                                        <Box className="flex flex-row items-center gap-[10px]">
+                                            <Box className="flex flex-row items-center gap-[5px]">
+                                                <img src="../../images/icons/temperature-hot.svg" alt="" className='h-[25px] w-[25px]' />
+                                                <span className='text-[16px] font-[600] text-darkBlue-2'>{monthData.avgTemp.toFixed(1)}°C</span>
+                                            </Box>
+                                            <Box className="flex flex-row items-center gap-[5px]">
+                                                <img src="../../images/icons/rain.svg" alt="" className='h-[25px] w-[25px]' />
+                                                <span className='text-[16px] font-[600] text-darkBlue-2'>{monthData.avgHumidity.toFixed(1)}%</span>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                );
+                            })}
                     </Box>
-                    <Text className='text-darkBlue-2 text-[15px]'>To know when is the best time to go to Mauritius, remember that the island is located in the southern hemisphere. This means that the seasons are opposite to those in our climate. When it's winter here, it's summer in Mauritius, and when it's summer in our climatic conditions, it's winter on the island. Of course, the definition of winter in a climate similar to that of Africa is completely different from the one we know from our reality. Before we book a paradise luxury holiday on a unique island, let's check the weather tables for given months. And of course, let's determine our own needs - beachgoers need different weather, and lovers of water sports or other forms of active recreation need a completely different one. Mauritius has a tropical climate, but its location makes the climate difficult to define. Moreover, the weather in the north and south of the island may be different at the same time. There is no classic rainy season on the island, but it is worth being aware that there are months when there is quite a lot of rainfall and it may make it difficult to visit or enjoy attractions. So if we are wondering when to go to Mauritius, let's take into account when the rainy weather occurs.</Text>
+                    <Text className='text-darkBlue-2 text-[15px]'>{destination_info?.weather_description}</Text>
                 </Box>
             </Box>
             {/* table */}
@@ -606,9 +559,9 @@ const WeatherDisplay = (props) => {
                     ))}
                 </Box>
             </Box>
-            <ImageView />
-            <MonthTemp />
-            <WeatherRecords />
+            <ImageView destination={data.destination}/>
+            <MonthTemp daily_weather={data?.daily_weather}/>
+            <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats}/>
             {/* <WeatherRegions/> */}
         </Box>
 
