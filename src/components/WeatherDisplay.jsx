@@ -34,7 +34,7 @@ export const getWeatherIcon = (condition) => {
         case 'Snowy':
             return "../../images/icons/weather-snowy.svg";
         default:
-            return "../../images/icons/weather-default.svg";
+            return "../../images/icons/sun-behind-rain-cloud.svg";
     }
 };
 
@@ -42,7 +42,7 @@ const getWarmestMonths = (weatherData) => {
     // Group data by month
     const monthlyData = {};
     weatherData.forEach(data => {
-        const [day, month, year] = data.date.split("/");
+        const [day, month, year] = data?.date?.split("/");
         const monthYear = `${month}/${year}`;
         if (!monthlyData[monthYear]) {
             monthlyData[monthYear] = [];
@@ -52,7 +52,7 @@ const getWarmestMonths = (weatherData) => {
 
     // Calculate average temperature and humidity for each month
     const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => {
-        const totalTemp = monthlyData[monthYear].reduce((sum, data) => sum + data.temperature, 0);
+        const totalTemp = monthlyData[monthYear].reduce((sum, data) => sum + data?.temperature, 0);
         const totalHumidity = monthlyData[monthYear].reduce((sum, data) => sum + data.humidity, 0);
         const avgTemp = totalTemp / monthlyData[monthYear].length;
         const avgHumidity = totalHumidity / monthlyData[monthYear].length;
@@ -70,17 +70,17 @@ const getWarmestMonths = (weatherData) => {
 const getWeatherStatistics = (weatherData) => {
     if (!weatherData || weatherData.length === 0) return {};
 
-    const highestTemp = weatherData.reduce((max, current) => (current.temperature > max.temperature ? current : max));
-    const lowestTemp = weatherData.reduce((min, current) => (current.temperature < min.temperature ? current : min));
+    const highestTemp = weatherData.reduce((max, current) => (current?.temperature > max?.temperature ? current : max));
+    const lowestTemp = weatherData.reduce((min, current) => (current?.temperature < min?.temperature ? current : min));
 
     const monthlyData = {};
     weatherData.forEach(data => {
-        const [day, month, year] = data.date.split("/");
+        const [day, month, year] = data?.date?.split("/");
         const monthYear = `${year}-${month}`;
         if (!monthlyData[monthYear]) {
             monthlyData[monthYear] = { totalTemp: 0, count: 0 };
         }
-        monthlyData[monthYear].totalTemp += data.temperature;
+        monthlyData[monthYear].totalTemp += data?.temperature;
         monthlyData[monthYear].count += 1;
     });
 
@@ -89,8 +89,8 @@ const getWeatherStatistics = (weatherData) => {
         avgTemp: monthlyData[monthYear].totalTemp / monthlyData[monthYear].count
     }));
 
-    const warmestMonth = monthlyAvgTemp.reduce((max, current) => (current.avgTemp > max.avgTemp ? current : max));
-    const coldestMonth = monthlyAvgTemp.reduce((min, current) => (current.avgTemp < min.avgTemp ? current : min));
+    const warmestMonth = monthlyAvgTemp.reduce((max, current) => (current.avgTemp > max?.avgTemp ? current : max));
+    const coldestMonth = monthlyAvgTemp.reduce((min, current) => (current.avgTemp < min?.avgTemp ? current : min));
 
     return {
         highestTemp,
@@ -115,9 +115,9 @@ const WeatherDisplay = (props) => {
     const dayAfterTomorrowDateString = `${String(dayAfterTomorrowDate.getDate()).padStart(2, '0')}/${String(dayAfterTomorrowDate.getMonth() + 1).padStart(2, '0')}/${dayAfterTomorrowDate.getFullYear()}`;
 
     // Filter weather data for today, tomorrow, and the day after tomorrow
-    const todayWeather = data.daily_weather.find(weather => weather.date === currentDate);
-    const tomorrowWeather = data.daily_weather.find(weather => weather.date === tomorrowDateString);
-    const dayAfterTomorrowWeather = data.daily_weather.find(weather => weather.date === dayAfterTomorrowDateString);
+    const todayWeather = data.daily_weather.find(weather => weather?.date === currentDate);
+    const tomorrowWeather = data.daily_weather.find(weather => weather?.date === tomorrowDateString);
+    const dayAfterTomorrowWeather = data.daily_weather.find(weather => weather?.date === dayAfterTomorrowDateString);
 
     const warmestMonths = getWarmestMonths(data?.daily_weather);
 
@@ -133,20 +133,65 @@ const WeatherDisplay = (props) => {
         { name: 'October' }, { name: 'November' }, { name: 'December' }
     ];
 
-    const averageTemp = [
-        { month: 'Jan', temp: 5 },
-        { month: 'Feb', temp: 7 },
-        { month: 'Mar', temp: 10 },
-        { month: 'April', temp: 15 },
-        { month: 'May', temp: 20 },
-        { month: 'Jun', temp: 25 },
-        { month: 'Jul', temp: 30 },
-        { month: 'Aug', temp: 35 },
-        { month: 'Sep', temp: 20 },
-        { month: 'Oct', temp: 15 },
-        { month: 'Nov', temp: 10 },
-        { month: 'Dec', temp: 5 },
-    ];
+    let averageTemp = [];
+
+    let averageWaterTemp = [];
+
+    let averageHumidity = [];
+
+    let averageSunnyHours = [];
+
+    // Function to parse date in "DD/MM/YYYY" format and return the month in 'short' format
+    const parseDateToMonth = (dateString) => {
+        const [day, month, year] = dateString.split('/').map(Number);
+        const date = new Date(year, month - 1, day);
+        if (!isNaN(date)) {
+            return date.toLocaleString('default', { month: 'short' });
+        }
+        return null;
+    };
+
+    // Step 1: Group data by month and calculate the sum of temperatures and the count of days for each month
+    const monthData = data?.daily_weather.reduce((acc, x) => {
+        const month = parseDateToMonth(x.date);
+
+        if (month) {
+            if (!acc[month]) {
+                acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
+            }
+
+            acc[month].tempSum += x.temperature;
+            acc[month].waterTempSum += x.water_temperature;
+            acc[month].humidSum += x.humidity;
+            if (x.condition === "Sunny") {
+                acc[month].sunnyHrsSum += x.condition_hours;
+            }
+            acc[month].count += 1;
+        }
+
+        return acc;
+    }, {});
+
+    // Step 2: Calculate the average temperature for each month and format the result
+    averageTemp = Object.keys(monthData).map(month => ({
+        month: month,
+        temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
+    }));
+
+    averageWaterTemp = Object.keys(monthData).map(month => ({
+        month: month,
+        temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
+    }));
+
+    averageHumidity = Object.keys(monthData).map(month => ({
+        month: month,
+        humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
+    }));
+
+    averageSunnyHours = Object.keys(monthData).map(month => ({
+        month: month,
+        hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
+    }));
 
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {
@@ -292,40 +337,40 @@ const WeatherDisplay = (props) => {
                     <Text className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</Text>
                 </Box>
                 <Box className="flex flex-row flex-wrap justify-center items-center md:items-start  gap-[10px]">
-                    <Link
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">Long-term weather forecast
-                    </Link>
-                    <Link
+                        href="#long-term-weather-forecast">Long-term weather forecast
+                    </a>
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">When to go?
-                    </Link>
-                    <Link
+                        href="#when-to-go">When to go?
+                    </a>
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">Year-round weather table
-                    </Link>
-                    <Link
+                        href="#year-round-weather-table">Year-round weather table
+                    </a>
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">Historic weather
-                    </Link>
-                    <Link
+                        href="#historic-weather">Historic weather
+                    </a>
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">Weather records
-                    </Link>
-                    <Link
+                        href="#weather-records">Weather records
+                    </a>
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">Temperatures and climate
-                    </Link>
-                    <Link
+                        href="#temperatures-and-climate">Temperatures and climate
+                    </a>
+                    <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        to="">FAQ
-                    </Link>
+                        href="#faq">FAQ
+                    </a>
                 </Box>
             </Box>
-            <Box className="flex flex-col">
+            <Box className="flex flex-col" >
                 <ImageView destination={data?.destination} />
             </Box>
-            <Box className="flex flex-col gap-[20px]">
+            <Box className="flex flex-col gap-[20px]" id="long-term-weather-forecast">
                 <Box className="flex flex-col">
                     <h2 className='text-[22px] font-[700] text-darkBlue-2'>Long-term weather forecast</h2>
                 </Box>
@@ -344,14 +389,14 @@ const WeatherDisplay = (props) => {
                             <Box className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                                 {displayedData.map((data, index) => (
                                     <Box key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
-                                        <Text className="text-[14px] text-darkBlue">{data.date}</Text>
+                                        <Text className="text-[14px] text-darkBlue">{data?.date}</Text>
                                         <Box className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
                                             <Box className="flex flex-col items-center gap-[10px]">
                                                 <img src={getWeatherIcon(data.condition)} alt={data.condition} className="h-[60px] w-[60px]" />
                                             </Box>
                                             <Box>
                                                 <Text className="text-[40px] font-extrabold text-darkBlue-2">
-                                                    {data.temperature}
+                                                    {data?.temperature}
                                                     <span className="align-super text-[18px]">°C</span>
                                                 </Text>
                                             </Box>
@@ -391,8 +436,8 @@ const WeatherDisplay = (props) => {
                             <Box className="absolute flex justify-between w-full px-2">
                                 {displayedData.map((data, index) => (
                                     <Box key={index} className="relative flex flex-col items-center">
-                                        <Box className="w-2 h-2 bg-[#E8C872] rounded-full " style={{ marginTop: `-${data.temperature - 18}px` }}></Box>
-                                        <span className="absolute top-4 text-xs">{data.temperature}°C</span>
+                                        <Box className="w-2 h-2 bg-[#E8C872] rounded-full " style={{ marginTop: `-${data?.temperature - 18}px` }}></Box>
+                                        <span className="absolute top-4 text-xs">{data?.temperature}°C</span>
                                     </Box>
                                 ))}
                             </Box>
@@ -401,14 +446,14 @@ const WeatherDisplay = (props) => {
                 </Box>
             </Box>
 
-            <Box className="flex flex-col gap-[20px]">
+            <Box className="flex flex-col gap-[20px]" id="when-to-go">
                 <h1 className='font-[600] text-[20px] text-darkBlue-2'>When to go to {data?.destination}?</h1>
                 <Box className="flex flex-col gap-[20px] bg-[whitesmoke] border-[1px] border-[#ddd] rounded-[8px] p-[20px]">
                     <Text className='text-[14px] '>The warmest months in {data?.destination}</Text>
                     <Box className="flex flex-col sm1:flex-row flex-nowrap justify-center items-center gap-[10px]">
                         {warmestMonths
                             .map((monthData, index) => {
-                                const [month, year] = monthData.monthYear.split("/");
+                                const [month, year] = monthData?.monthYear?.split("/");
                                 const monthName = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'long' });
 
                                 return (
@@ -417,7 +462,7 @@ const WeatherDisplay = (props) => {
                                         <Box className="flex flex-row items-center gap-[10px]">
                                             <Box className="flex flex-row items-center gap-[5px]">
                                                 <img src="../../images/icons/temperature-hot.svg" alt="" className='h-[25px] w-[25px]' />
-                                                <span className='text-[16px] font-[600] text-darkBlue-2'>{monthData.avgTemp.toFixed(1)}°C</span>
+                                                <span className='text-[16px] font-[600] text-darkBlue-2'>{monthData?.avgTemp.toFixed(1)}°C</span>
                                             </Box>
                                             <Box className="flex flex-row items-center gap-[5px]">
                                                 <img src="../../images/icons/rain.svg" alt="" className='h-[25px] w-[25px]' />
@@ -432,7 +477,7 @@ const WeatherDisplay = (props) => {
                 </Box>
             </Box>
             {/* table */}
-            <Box className="flex flex-col gap-[30px]">
+            <Box className="flex flex-col gap-[30px]" id="year-round-weather-table">
                 <h1 className='font-[600] text-[20px] text-darkBlue-2'>Year-round weather table</h1>
                 <Box className="overflow-auto " style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
                     <table className="table-auto w-full text-left bg-white shadow-md rounded-[8px] border-[1px] border-[#ddd] p-[20px]">
@@ -462,10 +507,14 @@ const WeatherDisplay = (props) => {
                                         <Box className="absolute flex justify-between w-full px-2">
                                             {averageTemp.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#E8C872] rounded-full"></Box>
+                                                    <Box
+                                                        className={`w-2 h-2 bg-[#E8C872] rounded-full `}
+                                                        style={{ marginBottom: `${(data.temp - 20) * 3}px` }}
+                                                    ></Box>
                                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
                                                 </Box>
                                             ))}
+
                                         </Box>
                                     </Box>
                                 </td>
@@ -485,10 +534,12 @@ const WeatherDisplay = (props) => {
                                     <Box className="relative w-full h-10 flex items-center justify-center">
                                         <Box className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></Box>
                                         <Box className="absolute flex justify-between w-full px-2">
-                                            {averageTemp.map((data, index) => (
+                                            {averageHumidity.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#3559E0] rounded-full"></Box>
-                                                    <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                                                    <Box className="w-2 h-2 bg-[#3559E0] rounded-full"
+                                                        style={{ marginBottom: `${data.humid - 40}px` }}
+                                                    ></Box>
+                                                    <span className="absolute top-4 text-xs">{data.humid}% </span>
                                                 </Box>
                                             ))}
                                         </Box>
@@ -510,9 +561,11 @@ const WeatherDisplay = (props) => {
                                     <Box className="relative w-full h-10 flex items-center justify-center">
                                         <Box className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></Box>
                                         <Box className="absolute flex justify-between w-full px-2">
-                                            {averageTemp.map((data, index) => (
+                                            {averageWaterTemp.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#3559E0] rounded-full"></Box>
+                                                    <Box className="w-2 h-2 bg-[#3559E0] rounded-full"
+                                                        style={{ marginBottom: `${(data.temp - 20) * 3}px` }}
+                                                    ></Box>
                                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
                                                 </Box>
                                             ))}
@@ -535,10 +588,12 @@ const WeatherDisplay = (props) => {
                                     <Box className="relative w-full h-10 flex items-center justify-center">
                                         <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
                                         <Box className="absolute flex justify-between w-full px-2">
-                                            {averageTemp.map((data, index) => (
+                                            {averageSunnyHours.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#E8C872] rounded-full"></Box>
-                                                    <span className="absolute top-4 text-xs">{data.temp}°C</span>
+                                                    <Box className="w-2 h-2 bg-[#E8C872] rounded-full"
+                                                        style={{ marginBottom: `${data.hrs - 5}px` }}
+                                                    ></Box>
+                                                    <span className="absolute top-4 text-xs">{data.hrs}hrs</span>
                                                 </Box>
                                             ))}
                                         </Box>
@@ -549,20 +604,22 @@ const WeatherDisplay = (props) => {
                     </table>
                 </Box>
             </Box>
-            <Box className="flex flex-col justify-center items-center gap-[40px]">
+            <Box className="flex flex-col justify-center items-center gap-[40px]" id="historic-weather">
                 <h2 className='font-[600] text-darkBlue-2 text-[20px]'>Check weather details for a specific month:</h2>
                 <Box className="grid grid-cols-2 gap-[20px] sm:flex sm:flex-wrap sm:gap-[10px] sm:justify-center sm:items-center">
-                    {months.map((data, index) => (
-                        <Text key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue">
-                            {data.name}
-                        </Text>
+                    {months.map((x, index) => (
+                        <Link to={`/${data.destination}/${x.name}`}>
+                            <Text key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue cursor-pointer">
+                                {x.name}
+                            </Text>
+                        </Link>
                     ))}
                 </Box>
             </Box>
-            <ImageView destination={data.destination}/>
-            <MonthTemp daily_weather={data?.daily_weather}/>
-            <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats}/>
-            {/* <WeatherRegions/> */}
+            <ImageView destination={data?.destination} />
+            <MonthTemp daily_weather={data?.daily_weather} />
+            <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
+            <WeatherRegions destination={data?.destination}/>
         </Box>
 
     )

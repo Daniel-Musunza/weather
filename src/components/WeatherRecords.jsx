@@ -13,9 +13,12 @@ const WeatherRecords = (props) => {
     }
 
     const formatMonthYear = (monthYear) => {
+        if(monthYear){
+
         const [year, month] = monthYear.split("-");
         const date = new Date(year, month - 1);
         return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+        }
     };
 
     const renderFormattedHTML = (htmlString) => {
@@ -24,7 +27,7 @@ const WeatherRecords = (props) => {
 
     return (
         <div className="flex flex-col gap-[30px]">
-            <div className="flex flex-col gap-[30px]">
+            <div className="flex flex-col gap-[30px]" id="weather-records">
                 <div className="">
                     <h2 className='text-[22px] font-[600] text-darkBlue-2'>Weather records</h2>
                 </div>
@@ -37,13 +40,13 @@ const WeatherRecords = (props) => {
                                     <img src="../../images/icons/thermometer-temperature.svg" alt="" className="h-[40px] w-[30px]" />
                                     <div>
                                         <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                            {props?.weatherStats.highestTemp.temperature}
+                                            {props?.weatherStats.highestTemp?.temperature}
                                             <span className="align-super text-[14px]">°C</span>
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-center items-center gap-[10px]">
-                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{props?.weatherStats.highestTemp.date}</p>
+                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{props?.weatherStats.highestTemp?.date}</p>
                                     <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The highest temperature</p>
                                 </div>
                             </div>
@@ -52,13 +55,13 @@ const WeatherRecords = (props) => {
                                     <img src="../../images/icons/thermometer-temperature.svg" alt="" className="h-[40px] w-[30px]" />
                                     <div>
                                         <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                            {props?.weatherStats.lowestTemp.temperature}
+                                            {props?.weatherStats.lowestTemp?.temperature}
                                             <span className="align-super text-[14px]">°C</span>
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-center items-center gap-[10px]">
-                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{props?.weatherStats.lowestTemp.date}</p>
+                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{props?.weatherStats.lowestTemp?.date}</p>
                                     <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">Lowest temperature</p>
                                 </div>
                             </div>
@@ -69,13 +72,13 @@ const WeatherRecords = (props) => {
                                     <img src="../../images/icons/thermometer-temperature.svg" alt="" className="h-[40px] w-[30px]" />
                                     <div>
                                         <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                            {props?.weatherStats.warmestMonth.avgTemp.toFixed(1)}
+                                            {props?.weatherStats.warmestMonth?.avgTemp.toFixed(1)}
                                             <span className="align-super text-[14px]">°C</span>
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-center items-center gap-[10px]">
-                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{new Date(`01/${formatMonthYear(props?.weatherStats.warmestMonth.monthYear)}`).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
+                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{new Date(`01/${formatMonthYear(props?.weatherStats.warmestMonth?.monthYear)}`).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
                                     <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The warmest month</p>
                                 </div>
                             </div>
@@ -84,13 +87,13 @@ const WeatherRecords = (props) => {
                                     <img src="../../images/icons/thermometer-temperature.svg" alt="" className="h-[40px] w-[30px]" />
                                     <div>
                                         <p className="text-[30px] font-extrabold text-darkBlue-2">
-                                            {props?.weatherStats.coldestMonth.avgTemp.toFixed(1)}
+                                            {props?.weatherStats.coldestMonth?.avgTemp.toFixed(1)}
                                             <span className="align-super text-[14px]">°C</span>
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-center items-center gap-[10px]">
-                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{new Date(`01/${formatMonthYear(props?.weatherStats.coldestMonth.monthYear)}`).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
+                                    <p className="text-darkBlue-2 font-[600] text-[14px]">{new Date(`01/${formatMonthYear(props?.weatherStats.coldestMonth?.monthYear)}`).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
                                     <p className="flex flex-row justify-center items-center text-[12px] font-[400] text-darkBlue-2">The coldest month</p>
                                 </div>
                             </div>
@@ -99,10 +102,13 @@ const WeatherRecords = (props) => {
                     <p className='text-[14px] text-darkBlue-2'>Weather records are based on data we collect from 2023. We do not include previous years in our analyses.</p>
                 </div>
             </div>
-            <div className="flex flex-col gap-[30px]" dangerouslySetInnerHTML={renderFormattedHTML(props?.more_information)}>
+            <div className="flex flex-col gap-[30px]" id="temperatures-and-climate" dangerouslySetInnerHTML={renderFormattedHTML(props?.more_information)}>
 
             </div>
-            <div className="flex flex-col gap-[20px]">
+            <div className="flex flex-col gap-[20px]" id="faq">
+            <div className="">
+                    <h2 className='text-[22px] font-[600] text-darkBlue-2'>FAQ </h2>
+                </div>
                 {faqs?.map((data, index) => (
                     <div key={index} className="flex flex-row justify-between bg-white p-[20px] rounded-[6px] shadow-md border-[1px]" >
                         <div className="flex flex-col gap-[20px]">

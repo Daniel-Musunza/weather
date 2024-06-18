@@ -63,7 +63,7 @@ const MonthTemp = (props) => {
         setSelectedMonth(month);
         setCurrentIndex(0);
         const filteredData = props.daily_weather.filter(data => {
-            const date = new Date(data.date.split('/').reverse().join('/'));
+            const date = new Date(data?.date?.split('/').reverse().join('/'));
             return date.getMonth() === month.value;
         });
         setFilteredWeather(filteredData);
@@ -100,14 +100,14 @@ const MonthTemp = (props) => {
                         <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                             {displayedData.map((data, index) => (
                                 <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
-                                    <p className="text-[14px] text-darkBlue">{data.date}</p>
+                                    <p className="text-[14px] text-darkBlue">{data?.date}</p>
                                     <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
                                         <div className="flex flex-col items-center gap-[10px]">
                                             <img src={getWeatherIcon(data.condition)} alt={data.condition} className="h-[60px] w-[60px]" />
                                         </div>
                                         <div>
                                             <p className="text-[40px] font-extrabold text-darkBlue-2">
-                                                {data.temperature}
+                                                {data?.temperature}
                                                 <span className="align-super text-[18px]">°C</span>
                                             </p>
                                         </div>

@@ -1,41 +1,11 @@
 import React from 'react'
 import icons from '../utils/icons'
 
-const WeatherRegions = () => {
+const WeatherRegions = (props) => {
 
     const regionsWeather = [
         {
-            name: "France",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-        {
-            name: "France",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-        {
-            name: "France",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-        {
-            name: "France",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-        {
-            name: "France",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-        {
-            name: "France",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-        {
-            name: "France",
+            name: "Paris",
             temp: "22°C",
             image: "../../images/photos/Francja.svg"
         },
@@ -62,8 +32,8 @@ const WeatherRegions = () => {
 
   return (
     <div className="flex flex-col gap-[40px]">
-        <div className="flex flex-col p-[20px] rounded-[8px] border-[1px] border-lightBlue-2 gap-[20px]">
-            <p className='text-[18px] font-[600] text-darkBlue-2 '>Weather in the regions of Mauritius</p>
+        {/* <div className="flex flex-col p-[20px] rounded-[8px] border-[1px] border-lightBlue-2 gap-[20px]">
+            <p className='text-[18px] font-[600] text-darkBlue-2 '>Weather in the regions of {props?.destination}</p>
             <div className="border-[1px] border-lightBlue-2"></div>
             <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row justify-around items-center w-[100%] ">
@@ -75,12 +45,14 @@ const WeatherRegions = () => {
                     <span className='px-[8px] py-[5px] bg-[#C4DDFF] rounded-[3px]'>Now:22°C</span>
                 </div>
             </div>
-        </div>
+        </div> */}
         <div className="flex flex-col p-[20px] border-[1px] border-lightBlue-2 rounded-[8px] gap-[30px]">
-            <p className='text-[22px] font-[600] text-darkBlue-2 '>Weather in other countries</p>
+            <p className='text-[22px] font-[600] text-darkBlue-2 '>Weather in other destinations</p>
             <div className="border-[1px] border-lightBlue-2"></div>
             <div className="flex flex-col gap-[15px]">
-                {regionsWeather.map((region, index) => (
+                {regionsWeather
+                .slice(0,8)
+                .map((region, index) => (
                     <div className="flex flex-row justify-between items-center px-[15px] py-[4px] border-[1px] border-lightBlue-2 rounded-[10px] shadow-md">
                         <div className="flex flex-row justify-center items-center gap-[20px]">
                             <img src={region.image} alt="" 
@@ -104,12 +76,12 @@ const WeatherRegions = () => {
             </div>
         </div>
         <div className="flex flex-col gap-[30px]">
-            <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about Mauritius</p>
-            <div className="flex flex-row gap-[20px] overflow-auto" style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+            <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about {props.destination}</p>
+            <div className="flex flex-row gap-[20px]" style={{ overflowX: 'scroll', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
                 {blogImages.map((blog) => (
-                    <div className="flex flex-col gap-[20px] w-[200px] shrink-0">
+                    <div className="flex flex-col gap-[20px] w-[160px] shrink-0">
                         <img src={blog.image} alt=""
-                        className='w-[200px] h-[120px] rounded-[8px]'
+                        className='w-[160px] rounded-[8px]'
                         />
                         <p className='text-darkBlue-2 font-[600]'>{blog.text}</p>
                     </div>
