@@ -27,7 +27,7 @@ const NavBar = () => {
 
   return (
     <div className='flex flex-col gap-[30px] relative '>
-      <div className="padding-x w-[100%] flex flex-row items-center justify-between py-[30px] shadow-md ">
+      <div className="px-[10px] md:px-[8%] w-[100%] flex flex-row items-center justify-between py-[30px] shadow-md ">
         <div className="flex xl:hidden">
             {showBars && (
                 <button

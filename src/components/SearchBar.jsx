@@ -7,10 +7,10 @@ const SearchBar = () => {
         <div className="flex flex-row items-center gap-4">
             <div className="flex flex-col gap-1">
                 <label htmlFor="" className='text-white'>Direction</label>
-                <div className="relative w-full">
+                <div className="relative w-[300px]">
                 <input
                     type="text"
-                    className="w-[350px] pr-3 pl-10 py-2 border border-darkBlue focus:outline-none rounded"
+                    className="w-full pr-3 pl-10 py-2 border border-darkBlue focus:outline-none rounded"
                     placeholder="Country, region"
                 />
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -20,9 +20,9 @@ const SearchBar = () => {
                 </div>
                 </div>
             </div>
-            <div className="flex flex-row items-center justify-center gap-[1px]">
+            <div className="flex flex-row items-center justify-center">
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="" className='text-white'>Depature from</label>
+                    <label htmlFor="" className='text-white'>Depature Date</label>
                     <div className="w-full">
                     <input type="date" name="" id=""
                         className="w-full pl-3 py-2 border border-darkBlue focus:outline-none rounded"

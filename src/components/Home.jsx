@@ -14,7 +14,7 @@ const Home = () => {
     <>
     <NavBar/>
     <div className=" mt-[40px] mb-[100px]">
-      <div className="padding-x hidden xl:flex flex-row items-center justify-center bg-darkBlue py-[30px]">
+      <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row bg-darkBlue py-[30px]">
         <SearchBar/>
       </div>
       {/* <div className="padding-x flex flex-col xl:flex-row justify-center gap-[30px]  mt-[40px] w-[100%] ">
