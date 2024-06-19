@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import WeatherRecords from './WeatherRecords';
 import ImageView from './ImageView';
 import WeatherRegions from './WeatherRegions';
@@ -100,9 +100,8 @@ const getWeatherStatistics = (weatherData) => {
     };
 };
 
-const WeatherDisplay = (props) => {
-
-    const data = props?.data
+const WeatherDisplay = ({data}) => {
+    const navigate = useNavigate();
     const currentTime = getCurrentTime();
     const currentDate = getCurrentDate();
     const tomorrowDate = new Date();
@@ -245,6 +244,10 @@ const WeatherDisplay = (props) => {
     // flex flex-col gap-[40px] pb-[60px]
     const displayedData = data?.daily_weather.slice(currentIndex, currentIndex + cardsToShow);
 
+    const handleNavigation = (sectionId) => {
+        navigate(`/${data.destination}#${sectionId}`);
+        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    };
 
     return (
         <Box className="flex flex-col gap-[40px]  " >
@@ -336,34 +339,38 @@ const WeatherDisplay = (props) => {
                 <Box className="flex flex-row flex-nowrap ">
                     <Text className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</Text>
                 </Box>
-                <Box className="flex flex-row flex-wrap justify-center items-center md:items-start  gap-[10px]">
+                <Box className="flex flex-row flex-wrap justify-center items-center md:items-start cursor-pointer gap-[10px]">
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#long-term-weather-forecast">Long-term weather forecast
+                        onClick={() => handleNavigation('long-term-weather-forecast')}
+                    >
+                        Long-term weather forecast
                     </a>
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#when-to-go">When to go?
+                        onClick={() => handleNavigation('when-to-go')}
+                    >
+                        When to go?
                     </a>
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#year-round-weather-table">Year-round weather table
+                        onClick={() => handleNavigation('year-round-weather-table')}>Year-round weather table
                     </a>
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#historic-weather">Historic weather
+                        onClick={() => handleNavigation('historic-weather')}>Historic weather
                     </a>
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#weather-records">Weather records
+                        onClick={() => handleNavigation('weather-records')}>Weather records
                     </a>
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#temperatures-and-climate">Temperatures and climate
+                        onClick={() => handleNavigation('temperatures-and-climate')}>Temperatures and climate
                     </a>
                     <a
                         className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                        href="#faq">FAQ
+                        onClick={() => handleNavigation('faq')}>FAQ
                     </a>
                 </Box>
             </Box>
@@ -509,7 +516,7 @@ const WeatherDisplay = (props) => {
                                                 <Box key={index} className="relative flex flex-col items-center">
                                                     <Box
                                                         className={`w-2 h-2 bg-[#E8C872] rounded-full `}
-                                                        style={{ marginBottom: `${(data.temp - 20) * 3}px` }}
+                                                        style={{ marginTop: `-${data?.temp - 18}px` }}
                                                     ></Box>
                                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
                                                 </Box>
@@ -537,7 +544,7 @@ const WeatherDisplay = (props) => {
                                             {averageHumidity.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
                                                     <Box className="w-2 h-2 bg-[#3559E0] rounded-full"
-                                                        style={{ marginBottom: `${data.humid - 40}px` }}
+                                                    style={{ marginTop: `-${data?.humid - 40}px` }}
                                                     ></Box>
                                                     <span className="absolute top-4 text-xs">{data.humid}% </span>
                                                 </Box>
@@ -564,7 +571,7 @@ const WeatherDisplay = (props) => {
                                             {averageWaterTemp.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
                                                     <Box className="w-2 h-2 bg-[#3559E0] rounded-full"
-                                                        style={{ marginBottom: `${(data.temp - 20) * 3}px` }}
+                                                        style={{ marginTop: `-${data?.temp - 5}px` }}
                                                     ></Box>
                                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
                                                 </Box>
@@ -591,7 +598,7 @@ const WeatherDisplay = (props) => {
                                             {averageSunnyHours.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
                                                     <Box className="w-2 h-2 bg-[#E8C872] rounded-full"
-                                                        style={{ marginBottom: `${data.hrs - 5}px` }}
+                                                        style={{ marginTop: `-${data?.hrs - 5}px` }}
                                                     ></Box>
                                                     <span className="absolute top-4 text-xs">{data.hrs}hrs</span>
                                                 </Box>
@@ -619,7 +626,7 @@ const WeatherDisplay = (props) => {
             <ImageView destination={data?.destination} />
             <MonthTemp daily_weather={data?.daily_weather} />
             <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
-            <WeatherRegions destination={data?.destination}/>
+            <WeatherRegions destination={data?.destination} />
         </Box>
 
     )

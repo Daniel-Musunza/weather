@@ -1,9 +1,8 @@
-const destination= "Dubai"
 
 const daily_weather = [
     {
         destination: "Dubai",
-        date: "18/06/2024",
+        date: "19/06/2024",
         temperature: 24,
         water_temperature: 20,
         humidity: 25,
@@ -12,7 +11,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "19/06/2024",
+        date: "20/06/2024",
         temperature: 18,
         water_temperature: null,
         humidity: 60,
@@ -21,7 +20,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "20/06/2024",
+        date: "21/06/2024",
         temperature: 22,
         water_temperature: null,
         humidity: 55,
@@ -64,7 +63,7 @@ const daily_weather = [
         condition: 'Cloudy',
         condition_hours: 6,
     }
-].filter(d=>d.destination === destination);
+]
 
 const destination_info = [
     {
@@ -101,7 +100,7 @@ const destination_info = [
         weather_description: "Sydney has a humid subtropical climate, with warm summers and mild winters. Rainfall is fairly evenly spread throughout the year.",
         more_information: `<div><img src="https://example.com/sydney.jpg" alt="Sydney"><br/><p>Sydney is known for its iconic Sydney Opera House and Harbour Bridge. The city offers beautiful beaches and vibrant cultural events.</p></div>`,
     }
-].filter(d=>d.destination === destination);
+]
 
 const faqs = [
     {
@@ -129,7 +128,7 @@ const faqs = [
         question: "What are some must-see attractions in Dubai?",
         answer: "Must-see attractions in Dubai include the Dubai Opera House, Dubai Harbour Bridge, Bondi Beach, and Taronga Zoo.",
     }
-].filter(d=>d.destination === destination);
+]
 
 const monthly_faqs = [
     {
@@ -162,7 +161,7 @@ const monthly_faqs = [
         question: "How is the weather in Dubai in July?",
         answer: "July in Dubai is winter, with mild temperatures around 13-18°C. It is a good time to visit if you prefer cooler weather.",
     }
-].filter(d=>d.destination === destination);
+]
 
 const monthly_weather_description = [
     {
@@ -190,6 +189,6 @@ const monthly_weather_description = [
         weather_description: "June in Dubai is winter, with cool and mild weather. Temperatures range from 10-18°C.",
         more_information: `<div><img src="https://example.com/Dubai_june.jpg" alt="Dubai in June"><br/><p>Winter in Dubai is mild, making it a good time to visit for those who prefer cooler weather. The city's cultural events and indoor attractions are popular during this time.</p></div>`,
     }
-].filter(d=>d.destination === destination);
+]
 
-export { destination, daily_weather, destination_info, faqs, monthly_faqs, monthly_weather_description };
+export {daily_weather, destination_info, faqs, monthly_faqs, monthly_weather_description };
