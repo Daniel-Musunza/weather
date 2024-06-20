@@ -1,15 +1,15 @@
 import React from 'react'
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 import icons from '../utils/icons'
-import SearchBar from './SearchBar'
-import WeatherDisplay from './WeatherDisplay'
-import SearchForm from './SearchForm'
-import BottomTabs from './ButtomTabs'
-import MoreInfo from './MoreInfo'
-import Footer from './Footer'
-import MainContainer from './MainContainer'
+import SearchBar from '../components/SearchBar'
+import WeatherDisplay from '../components/WeatherDisplay'
+import SearchForm from '../components/SearchForm'
+import BottomTabs from '../components/ButtomTabs'
+import MoreInfo from '../components/MoreInfo'
+import Footer from '../components/Footer'
+import MainContainer from '../components/MainContainer'
 
-const Home = () => {
+const DestinationWeather = () => {
   return (
     <>
     <NavBar/>
@@ -36,4 +36,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default DestinationWeather

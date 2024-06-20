@@ -2,7 +2,7 @@
 const daily_weather = [
     {
         destination: "Dubai",
-        date: "19/06/2024",
+        date: "20/06/2024",
         temperature: 24,
         water_temperature: 20,
         humidity: 25,
@@ -11,7 +11,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "20/06/2024",
+        date: "21/06/2024",
         temperature: 18,
         water_temperature: null,
         humidity: 60,
@@ -20,7 +20,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "21/06/2024",
+        date: "22/06/2024",
         temperature: 22,
         water_temperature: null,
         humidity: 55,

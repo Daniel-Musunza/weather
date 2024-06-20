@@ -1,10 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+
+import DestinationWeather from "./pages/DestinationWeather";
+import MonthlyWeather from "./pages/MonthlyWeather";
 function App() {
   return (
    <Router>
     <Routes>
-      <Route path="/:destination?" element={<Home/>}/>
+      <Route path="/:destination?" element={<DestinationWeather/>}/>
+      <Route path="/:destination?/:month?" element={<MonthlyWeather />}/>
     </Routes>
    </Router>
   );

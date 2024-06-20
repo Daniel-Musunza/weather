@@ -4,6 +4,7 @@ import SearchForm from './SearchForm';
 import { daily_weather, destination_info, faqs, monthly_faqs, monthly_weather_description } from '../utils/weatherdata';
 import MoreInfo from './MoreInfo';
 import { useParams } from 'react-router-dom';
+import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
 
 const MainContainer = () => {
   const [windowHeight, setWindowHeight] = useState(0);
@@ -16,12 +17,13 @@ const MainContainer = () => {
     monthly_weather_description: []
   });
 
-  const { destination } = useParams(); // Destructure destination from useParams
+  const { destination, month } = useParams(); // Destructure destination from useParams
 
   useEffect(() => {
     if (destination) {
       const filteredDestinations = {
         destination: destination,
+        month: month,
         daily_weather: daily_weather.filter(d => d.destination === destination),
         destination_info: destination_info.filter(d => d.destination === destination),
         faqs: faqs.filter(d => d.destination === destination),
@@ -57,9 +59,14 @@ const MainContainer = () => {
       {destination ? (
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-          {/* ${allowOverFlow ? 'overflow-y-auto xl:h-[150vh]' : ''} */}
+            {/* ${allowOverFlow ? 'overflow-y-auto xl:h-[150vh]' : ''} */}
             <div className={`w-[100%] xl:w-[70%] `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
-              <WeatherDisplay data={filteredData} />
+              {month ? (
+                <MonthlyWeatherDisplay data={filteredData} />
+              ) : (
+                <WeatherDisplay data={filteredData} />
+              )}
+
             </div>
             <div className="w-[100%] xl:w-[30%]">
               <SearchForm destination={destination} />
