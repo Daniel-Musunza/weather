@@ -12,12 +12,12 @@ import MainContainer from '../components/MainContainer'
 const DestinationWeather = () => {
   return (
     <>
-    <NavBar/>
-    <div className="mb-[100px]">
-      <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row py-[30px]" style={{backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)`}}>
-        <SearchBar/>
-      </div>
-      {/* <div className="padding-x flex flex-col xl:flex-row justify-center gap-[30px]  mt-[40px] w-[100%] ">
+      <NavBar />
+      <div className="mb-[100px]">
+        <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row py-[30px]" style={{ backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)` }}>
+          <SearchBar />
+        </div>
+        {/* <div className="padding-x flex flex-col xl:flex-row justify-center gap-[30px]  mt-[40px] w-[100%] ">
           <div className="w-[100%] xl:w-[70%] ">
               <WeatherDisplay />
           </div>
@@ -25,13 +25,13 @@ const DestinationWeather = () => {
               <SearchForm />
           </div>
       </div> */}
-      <MainContainer />
-      {/* <div className="padding-x">
+        <MainContainer />
+        {/* <div className="padding-x">
         <MoreInfo/>
       </div> */}
-     <BottomTabs/>
-    </div>
-  
+        <BottomTabs />
+      </div>
+    
     </>
   )
 }

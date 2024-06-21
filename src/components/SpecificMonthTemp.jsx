@@ -9,6 +9,14 @@ const SpecificMonthTemp = (props) => {
         { name: 'October', value: 9 }, { name: 'November', value: 10 }, { name: 'December', value: 11 }
     ];
 
+    const selectedMonth = months.find(month => month.name.toLowerCase() === props?.month?.toLowerCase());
+
+    // Filter the weather data based on the selected month value
+    const filteredWeather = props.daily_weather.filter(data => {
+        const date = new Date(data?.date?.split('/').reverse().join('/'));
+        return date.getMonth() === selectedMonth?.value;
+    });
+
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {
             return 4;
@@ -22,9 +30,6 @@ const SpecificMonthTemp = (props) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animationDirection, setAnimationDirection] = useState('');
     const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
-    const [filteredWeather, setFilteredWeather] = useState(props.daily_weather);
-    const [selectedMonth, setSelectedMonth] = useState(null);
-
     useEffect(() => {
         const handleResize = () => setCardsToShow(getCardsToShow());
         window.addEventListener('resize', handleResize);
@@ -59,34 +64,26 @@ const SpecificMonthTemp = (props) => {
         }
     };
 
-    const handleMonthClick = (month) => {
-        setSelectedMonth(month);
-        setCurrentIndex(0);
-        const filteredData = props.daily_weather.filter(data => {
-            const date = new Date(data?.date?.split('/').reverse().join('/'));
-            return date.getMonth() === month.value;
-        });
-        setFilteredWeather(filteredData);
-    };
-
     const displayedData = filteredWeather.slice(currentIndex, currentIndex + cardsToShow);
 
+    const currentYear = new Date().getFullYear();
+    const previousYear = currentYear - 1;
     return (
-        <div className="flex flex-col bg-white rounded-[6px] shadow-md p-[10px] gap-[40px] w-full overflow-hidden">
-          
-           <h1 className='font-[600] text-[20px] text-darkBlue-2'> Historic weather in {props.destination} in {props.month}</h1>
+        <div className="flex flex-col bg-white rounded-[6px] shadow-md p-[10px] gap-[40px] w-full overflow-hidden" id="historic-weather">
+
+            <h1 className='font-[600] text-[20px] text-darkBlue-2'> Historic weather in {props.destination} in {props.month}</h1>
             <div className="flex flex-row flex-wrap gap-[10px] justify-center items-center">
-                {months.map((data, index) => (
-                    <p
-                        key={index}
-                        className={`px-[10px] py-[3px] rounded-[20px] shadow-md text-[14px] font-[600] cursor-pointer ${selectedMonth === data ? 'bg-blue-500 text-white' : 'bg-[#EEF2FF] text-darkBlue'}`}
-                        onClick={() => handleMonthClick(data)}
-                    >
-                        {data.name}
-                    </p>
-                ))}
+                <p>Check what the weather was like in {props.destination} in {props.month} in previous years</p>
             </div>
-            <div className="flex flex-col justify-center items-center w-full overflow-hidden">
+
+            <div className="flex flex-col w-full overflow-hidden ml-[40px] gap-2">
+                <h2 className="font-bold">{previousYear}</h2> {/* Use font-semibold for a slightly increased font-weight */}
+                <h2 className="font-bold">{currentYear}</h2> {/* Use font-bold for a bolder font-weight */}
+            </div>
+
+            <div className="flex flex-col w-full overflow-hidden justify-center items-center">
+
+
                 <div className="flex flex-row justify-center gap-[10px] md:gap-[20px]">
                     <div className="shrink-0 mt-[50px]">
                         <button

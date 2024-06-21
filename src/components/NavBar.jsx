@@ -98,7 +98,7 @@ const NavBar = () => {
                     )}
                 </div>
             </div>
-            {/* <div className="padding-x hidden xl:flex flex-row items-center text-[14px] gap-[20px]">
+            <div className="padding-x hidden xl:flex flex-row items-center text-[14px] gap-[20px] h-[40px]">
         <Link to="" className='font-[600]'>BEACHES</Link>
          <Link to="" className='font-[600]'>WHERE TO GO ON VACATION</Link>
          <Link to="" className='font-[600] '>FLIGHTS</Link>
@@ -106,7 +106,7 @@ const NavBar = () => {
          <Link to="" className='font-[600]'>WARM COUNTRIES</Link>
          <Link to="" className='font-[600] '>OPINIONS</Link>
          <Link to="" className='font-[600] '>ATTRACTIONS</Link>
-      </div> */}
+      </div>
             {openToogle && (
                 <div className="z-[999] px-[10px] absolute flex flex-col gap-[30px] w-[100%] bg-white mt-[100px] pb-[20px] shadow-sm">
                     <div className="flex xl:hidden relative w-full">

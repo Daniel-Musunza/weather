@@ -2,7 +2,7 @@
 const daily_weather = [
     {
         destination: "Dubai",
-        date: "20/06/2024",
+        date: "21/06/2024",
         temperature: 24,
         water_temperature: 20,
         humidity: 25,
@@ -11,7 +11,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "21/06/2024",
+        date: "22/06/2024",
         temperature: 18,
         water_temperature: null,
         humidity: 60,
@@ -20,7 +20,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "22/06/2024",
+        date: "23/06/2024",
         temperature: 22,
         water_temperature: null,
         humidity: 55,
@@ -166,28 +166,21 @@ const monthly_faqs = [
 const monthly_weather_description = [
     {
         destination: "Dubai",
+        month: "June",
         weather_description: "June is one of the hottest months in Dubai, with temperatures soaring above 40°C. It is best to avoid outdoor activities during the midday heat.",
         more_information: `<div><img src="https://example.com/dubai_june.jpg" alt="Dubai in June"><br/><p>Dubai in June is extremely hot. It is advisable to stay hydrated and avoid the sun during peak hours. Indoor activities and shopping in air-conditioned malls are popular.</p></div>`,
     },
     {
         destination: "Dubai",
-        weather_description: "June in Dubai is pleasant, with temperatures ranging from 15-25°C. It is an ideal time for sightseeing and outdoor activities.",
-        more_information: `<div><img src="https://example.com/Dubai_june.jpg" alt="Dubai in June"><br/><p>June in Dubai offers warm and pleasant weather, perfect for exploring the city's parks, gardens, and outdoor cafes. Major events like the French Open also take place in June.</p></div>`,
+        month: "July",
+        weather_description: "July in Dubai is pleasant, with temperatures ranging from 15-25°C. It is an ideal time for sightseeing and outdoor activities.",
+        more_information: `<div><img src="https://example.com/Dubai_june.jpg" alt="Dubai in June"><br/><p>July in Dubai offers warm and pleasant weather, perfect for exploring the city's parks, gardens, and outdoor cafes. Major events like the French Open also take place in June.</p></div>`,
     },
     {
         destination: "Dubai",
-        weather_description: "June in Dubai is warm, with temperatures between 18-27°C. It's a great time for outdoor events and exploring the city.",
-        more_information: `<div><img src="https://example.com/newyork_june.jpg" alt="Dubai in June"><br/><p>Dubai in June is lively, with many outdoor concerts, street fairs, and cultural festivals. The pleasant weather makes it a great time to visit Central Park and other outdoor attractions.</p></div>`,
-    },
-    {
-        destination: "Dubai",
-        weather_description: "June marks the beginning of the rainy season in Dubai, with high humidity and frequent rain showers.",
-        more_information: `<div><img src="https://example.com/Dubai_june.jpg" alt="Dubai in June"><br/><p>In June, Dubai experiences a lot of rain. It's a good time to explore indoor attractions such as museums, shopping malls, and traditional tea houses.</p></div>`,
-    },
-    {
-        destination: "Dubai",
-        weather_description: "June in Dubai is winter, with cool and mild weather. Temperatures range from 10-18°C.",
-        more_information: `<div><img src="https://example.com/Dubai_june.jpg" alt="Dubai in June"><br/><p>Winter in Dubai is mild, making it a good time to visit for those who prefer cooler weather. The city's cultural events and indoor attractions are popular during this time.</p></div>`,
+        month: "September",
+        weather_description: "September in Dubai is warm, with temperatures between 18-27°C. It's a great time for outdoor events and exploring the city.",
+        more_information: `<div><img src="https://example.com/newyork_june.jpg" alt="Dubai in June"><br/><p>Dubai in September is lively, with many outdoor concerts, street fairs, and cultural festivals. The pleasant weather makes it a great time to visit Central Park and other outdoor attractions.</p></div>`,
     }
 ]
 
