@@ -3,11 +3,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import WeatherRecords from './WeatherRecords';
 import ImageView from './ImageView';
 import WeatherRegions from './WeatherRegions';
+
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
 import MonthTemp from './MonthTemp';
 import { Card, Text, Button, Box } from '@mantine/core';
-
+import { LineChart, Sparkline, AreaChart } from '@mantine/charts';
+import { faBedPulse } from '@fortawesome/free-solid-svg-icons';
 const getCurrentTime = () => {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
@@ -100,7 +104,7 @@ const getWeatherStatistics = (weatherData) => {
     };
 };
 
-const WeatherDisplay = ({data}) => {
+const WeatherDisplay = ({ data }) => {
     const navigate = useNavigate();
     const currentTime = getCurrentTime();
     const currentDate = getCurrentDate();
@@ -247,6 +251,245 @@ const WeatherDisplay = ({data}) => {
     const handleNavigation = (sectionId) => {
         navigate(`/${data.destination}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const displayedDataChartData = {
+        labels: displayedData.map(data => ''), // Assuming 'month' is a field in averageTemp
+        datasets: [
+            {
+                label: 'Long term focast',
+                data: displayedData.map(data => data.temperature),
+                fill: false,
+                borderColor: '#E8C872',
+                tension: 0.1,
+                borderWidth: 1,
+                pointRadius: 3, // Set to 3 to make the points visible
+                backgroundColor: '#E8C872'
+            }
+        ]
+    };
+
+    const tempChartData = {
+        labels: averageTemp.map(data => ''), // Assuming 'month' is a field in averageTemp
+        datasets: [
+            {
+                label: 'Average Temperature (°C)',
+                data: averageTemp.map(data => data.temp),
+                fill: false,
+                borderColor: '#E8C872',
+                tension: 0.1,
+                borderWidth: 1,
+                pointRadius: 3, // Set to 3 to make the points visible
+                backgroundColor: '#E8C872'
+            }
+        ]
+    };
+
+    // Data for Humidity chart
+    const HumidityChartData = {
+        labels: averageHumidity.map(data => ''), // Empty labels as we're displaying the values directly on the chart
+        datasets: [
+          {
+            label: 'Humidity (%)',
+            data: averageHumidity.map(data => data.humid), // Using humidity values as data points
+            fill: false,
+            borderColor: '#3559E0',
+            tension: 0.1,
+            borderWidth: 1,
+            pointRadius: 3, // Set to 3 to make the points visible
+            backgroundColor: '#3559E0',
+          }
+        ]
+      };
+
+    // Data for Water Temperature chart
+    const waterTempChartData = {
+        labels: averageWaterTemp?.map(data => ''), // Assuming 'month' is a field in averageWaterTemp
+        datasets: [
+            {
+                label: 'Water Temperature (°C)',
+                data: averageWaterTemp?.map(data => data.temp), // Assuming 'temp' is a field in averageWaterTemp
+                fill: false,
+                borderColor: '#3559E0',
+                tension: 0.1,
+                borderWidth: 1,
+                pointRadius: 3, // Set to 3 to make the points visible
+                backgroundColor: '#3559E0'
+            }
+        ]
+    };
+
+    // Data for Sunny Hours chart
+    const sunnyHoursChartData = {
+        labels: averageSunnyHours.map(data => ''), // Assuming 'month' is a field in averageSunnyHours
+        datasets: [
+            {
+                label: 'Sunny Hours',
+                data: averageSunnyHours.map(data => data.hrs), // Assuming 'hrs' is a field in averageSunnyHours
+                fill: false,
+                borderColor: '#E8C872',
+                tension: 0.1,
+                borderWidth: 1,
+                pointRadius: 3, // Set to 3 to make the points visible
+                backgroundColor: '#E8C872'
+            }
+        ]
+    };
+
+    // Chart options (common options for all charts)
+    const displayedDataChartOptions = {
+        scales: {
+            y: {
+                display: false,
+                min: Math.min(...displayedData.map(data => data.temperature)) - 4,
+                max: Math.max(...displayedData.map(data => data.temperature)) + 1,
+            },
+            x: {
+                display: false
+            }
+        },
+        plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              enabled: false,
+            },
+            datalabels: {
+              display: true,
+              align: 'top',
+              color: '#3559E0',
+              formatter: (value) => `${value}%`,
+              font: {
+                weight: 'bold',
+              }
+            }
+          },
+          maintainAspectRatio: false
+    };
+
+    const tempChartOptions = {
+        scales: {
+            y: {
+                display: false,
+                min: Math.min(...averageTemp.map(data => data.temp)) - 4,
+                max: Math.max(...averageTemp.map(data => data.temp)) + 1,
+            },
+            x: {
+                display: false
+            }
+        },
+        plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              enabled: false,
+            },
+            datalabels: {
+              display: true,
+              align: 'top',
+              color: '#3559E0',
+              formatter: (value) => `${value}%`,
+              font: {
+                weight: 'bold',
+              }
+            }
+          },
+          maintainAspectRatio: false
+    };
+
+    const wtempChartOptions = {
+        scales: {
+            y: {
+                display: false,
+                min: Math.min(...averageWaterTemp?.map(data => data.temp)) - 5,
+                max: Math.max(...averageWaterTemp?.map(data => data.temp)) + 1,
+            },
+            x: {
+                display: false
+            }
+        },
+        plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              enabled: false,
+            },
+            datalabels: {
+              display: true,
+              align: 'top',
+              color: '#3559E0',
+              formatter: (value) => `${value}%`,
+              font: {
+                weight: 'bold',
+              }
+            }
+          },
+          maintainAspectRatio: false,
+    };
+
+    const HumidityChartOptions = {
+        scales: {
+          y: {
+            display: false,
+            min: Math.min(...averageHumidity.map(data => data.humid)) - 5,
+            max: Math.max(...averageHumidity.map(data => data.humid)) + 1,
+          },
+          x: {
+            display: false // Hide x-axis as we're displaying the data labels directly
+          }
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            enabled: false,
+          },
+          datalabels: {
+            display: true,
+            align: 'top',
+            color: '#3559E0',
+            formatter: (value) => `${value}%`,
+            font: {
+              weight: 'bold',
+            }
+          }
+        },
+        maintainAspectRatio: false
+      };
+
+    const SunnyHoursChartOptions = {
+        scales: {
+            y: {
+                display: false,
+                min: Math.min(...averageSunnyHours?.map(data => data.hrs)) - 5,
+                max: Math.max(...averageSunnyHours?.map(data => data.hrs)) + 1,
+            },
+            x: {
+                display: false
+            }
+        },
+        plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              enabled: false,
+            },
+            datalabels: {
+              display: true,
+              align: 'top',
+              color: '#3559E0',
+              formatter: (value) => `${value}%`,
+              font: {
+                weight: 'bold',
+              }
+            }
+          },
+          maintainAspectRatio: false
     };
 
     return (
@@ -439,15 +682,10 @@ const WeatherDisplay = ({data}) => {
                     </Box>
                     <Box className="hidden md:flex justify-center items-center w-full mt-[5px] px-[50px]">
                         <Box className="relative w-full h-10 flex items-center justify-center">
-                            <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
-                            <Box className="absolute flex justify-between w-full px-2">
-                                {displayedData.map((data, index) => (
-                                    <Box key={index} className="relative flex flex-col items-center">
-                                        <Box className="w-2 h-2 bg-[#E8C872] rounded-full " style={{ marginTop: `-${data?.temperature - 18}px` }}></Box>
-                                        <span className="absolute top-4 text-xs">{data?.temperature}°C</span>
-                                    </Box>
-                                ))}
+                            <Box className="absolute w-[60%] h-[50px]">
+                                <Line data={displayedDataChartData} options={displayedDataChartOptions} />
                             </Box>
+                            
                         </Box>
                     </Box>
                 </Box>
@@ -506,25 +744,24 @@ const WeatherDisplay = ({data}) => {
                                         <Text className='text-darkBlue-2 text-[13px]  font-[500]'>Average temperature during the day</Text>
                                     </Box>
                                 </td>
-                                <td colSpan={12}
-                                    className='py-[10px] md:py-[30px] px-[20px]'
-                                >
+                                <td colSpan={12} className="py-[10px] md:py-[30px] px-[20px] ">
                                     <Box className="relative w-full h-10 flex items-center justify-center">
-                                        <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
-                                        <Box className="absolute flex justify-between w-full px-2">
+                                        <Box className="absolute w-full h-[50px]">
+                                            <Line data={tempChartData} options={tempChartOptions} />
+                                        </Box>
+
+                                        <div className="absolute flex justify-between w-full px-2">
+
                                             {averageTemp.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box
-                                                        className={`w-2 h-2 bg-[#E8C872] rounded-full `}
-                                                        style={{ marginTop: `-${data?.temp - 18}px` }}
-                                                    ></Box>
+                                                    
                                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
                                                 </Box>
                                             ))}
-
-                                        </Box>
+                                        </div>
                                     </Box>
                                 </td>
+
                             </tr>
                             <tr className='py-[10px] md:py-[30px] px-[20px]'>
                                 <td className='py-[10px] md:py-[30px] px-[20px]'>
@@ -539,13 +776,12 @@ const WeatherDisplay = ({data}) => {
                                     className='py-[10px] md:py-[30px] px-[20px]'
                                 >
                                     <Box className="relative w-full h-10 flex items-center justify-center">
-                                        <Box className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></Box>
+                                        <Box className="absolute w-full h-[50px]">
+                                            <Line data={HumidityChartData} options={HumidityChartOptions} />
+                                        </Box>
                                         <Box className="absolute flex justify-between w-full px-2">
                                             {averageHumidity.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#3559E0] rounded-full"
-                                                    style={{ marginTop: `-${data?.humid - 40}px` }}
-                                                    ></Box>
                                                     <span className="absolute top-4 text-xs">{data.humid}% </span>
                                                 </Box>
                                             ))}
@@ -566,13 +802,12 @@ const WeatherDisplay = ({data}) => {
                                     className='py-[10px] md:py-[30px] px-[20px]'
                                 >
                                     <Box className="relative w-full h-10 flex items-center justify-center">
-                                        <Box className="absolute w-full h-[0.5px] bg-[#3559E0] shadow-md"></Box>
+                                        <Box className="absolute w-full h-[50px]">
+                                            <Line data={waterTempChartData} options={wtempChartOptions} />
+                                        </Box>
                                         <Box className="absolute flex justify-between w-full px-2">
-                                            {averageWaterTemp.map((data, index) => (
+                                            {averageWaterTemp?.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#3559E0] rounded-full"
-                                                        style={{ marginTop: `-${data?.temp - 5}px` }}
-                                                    ></Box>
                                                     <span className="absolute top-4 text-xs">{data.temp}°C</span>
                                                 </Box>
                                             ))}
@@ -593,13 +828,13 @@ const WeatherDisplay = ({data}) => {
                                     className='py-[10px] md:py-[30px] px-[20px]'
                                 >
                                     <Box className="relative w-full h-10 flex items-center justify-center">
-                                        <Box className="absolute w-full h-[0.5px] bg-[#E8C872] shadow-md"></Box>
+                                        <Box className="absolute w-full h-[50px]">
+                                            <Line data={sunnyHoursChartData} options={SunnyHoursChartOptions} />
+                                        </Box>
                                         <Box className="absolute flex justify-between w-full px-2">
                                             {averageSunnyHours.map((data, index) => (
                                                 <Box key={index} className="relative flex flex-col items-center">
-                                                    <Box className="w-2 h-2 bg-[#E8C872] rounded-full"
-                                                        style={{ marginTop: `-${data?.hrs - 5}px` }}
-                                                    ></Box>
+                                                   
                                                     <span className="absolute top-4 text-xs">{data.hrs}hrs</span>
                                                 </Box>
                                             ))}
@@ -626,7 +861,7 @@ const WeatherDisplay = ({data}) => {
             <ImageView destination={data?.destination} />
             <MonthTemp daily_weather={data?.daily_weather} />
             <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
-            <WeatherRegions destination={data?.destination} />
+            <WeatherRegions destination={data?.destination} weatherOtherDestinations={data?.weatherOtherDestinations} />
         </Box>
 
     )

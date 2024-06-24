@@ -1,16 +1,17 @@
 import React from 'react'
 import icons from '../utils/icons'
+import { destinations } from '../utils/weatherdata'
+const WeatherRegions = ({ destination, weatherOtherDestinations }) => {
 
-const WeatherRegions = (props) => {
 
-    const regionsWeather = [
-        {
-            name: "Paris",
-            temp: "22°C",
-            image: "../../images/photos/Francja.svg"
-        },
-    ]
+    const regionsWeather = weatherOtherDestinations?.map(x => {
+        return {
+            name: x.destination,
+            temp: x.averageTemp,
+            image: "../../images/photos"
+        }
 
+    })
     const blogImages = [
         {
             image: "../../images/photos/Jakie-pamiatki-z-Mauritius.-Co-przywiezc-z-wakacji-na-Mauritius-shutterstock.com-Dusan-Petkovic.jpg",
@@ -30,9 +31,9 @@ const WeatherRegions = (props) => {
         },
     ]
 
-  return (
-    <div className="flex flex-col gap-[40px]">
-        {/* <div className="flex flex-col p-[20px] rounded-[8px] border-[1px] border-lightBlue-2 gap-[20px]">
+    return (
+        <div className="flex flex-col gap-[40px]">
+            {/* <div className="flex flex-col p-[20px] rounded-[8px] border-[1px] border-lightBlue-2 gap-[20px]">
             <p className='text-[18px] font-[600] text-darkBlue-2 '>Weather in the regions of {props?.destination}</p>
             <div className="border-[1px] border-lightBlue-2"></div>
             <div className="flex flex-row justify-between items-center">
@@ -46,50 +47,49 @@ const WeatherRegions = (props) => {
                 </div>
             </div>
         </div> */}
-        <div className="flex flex-col p-[20px] border-[1px] border-lightBlue-2 rounded-[8px] gap-[30px]">
-            <p className='text-[22px] font-[600] text-darkBlue-2 '>Weather in other destinations</p>
-            <div className="border-[1px] border-lightBlue-2"></div>
-            <div className="flex flex-col gap-[15px]">
-                {regionsWeather
-                .slice(0,8)
-                .map((region, index) => (
-                    <div className="flex flex-row justify-between items-center px-[15px] py-[4px] border-[1px] border-lightBlue-2 rounded-[10px] shadow-md">
-                        <div className="flex flex-row justify-center items-center gap-[20px]">
-                            <img src={region.image} alt="" 
-                            className='w-[40px] h-[40px] rounded-[50%]'
-                            />
-                            <span className='font-[600] text-[16px] text-darkBlue-2'>{region.name}</span>
-                        </div>
-                        <span className='flex flex-row justify-center items-center h-[25px] w-[80px] px-[8px] py-[5px] bg-[#C4DDFF] text-[14px] font-[600] rounded-[3px]'>Now:{region.temp}</span>
-                    </div>
-                ))}
-            </div>
-            <div className="flex flex-row justify-center items-center">
-                <button 
-                className='flex flex-row justify-center items-center gap-[5px] text-[18px] text-white bg-darkBlue-2 px-[30px] py-[10px] rounded-[25px] '
-                >
-                    <span>See all counties</span>
-                    <img src="../../images/icons/triangle-right.svg" alt="" 
-                    className='h-[25px] w-[25px] filter invert text-lightBlue '
-                    />
-                </button>
-            </div>
-        </div>
-        <div className="flex flex-col gap-[30px]">
-            <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about {props.destination}</p>
-            <div className="flex flex-row gap-[20px]" style={{ overflowX: 'scroll', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
-                {blogImages.map((blog) => (
-                    <div className="flex flex-col gap-[20px] w-[160px] shrink-0">
-                        <img src={blog.image} alt=""
-                        className='w-[160px] rounded-[8px]'
+            <div className="flex flex-col p-[20px] border-[1px] border-lightBlue-2 rounded-[8px] gap-[30px]">
+                <p className='text-[22px] font-[600] text-darkBlue-2 '>Weather in other destinations</p>
+                <div className="border-[1px] border-lightBlue-2"></div>
+                <div className="flex flex-col gap-[15px]">
+                    {regionsWeather?.slice(0, 8)
+                        .map((region, index) => (
+                            <div className="flex flex-row justify-between items-center px-[15px] py-[4px] border-[1px] border-lightBlue-2 rounded-[10px] shadow-md">
+                                <div className="flex flex-row justify-center items-center gap-[20px]">
+                                    <img src={region.image} alt=""
+                                        className='w-[40px] h-[40px] rounded-[50%]'
+                                    />
+                                    <span className='font-[600] text-[16px] text-darkBlue-2'>{region.name}</span>
+                                </div>
+                                <span className='flex flex-row justify-center items-center h-[25px] w-[80px] px-[8px] py-[5px] bg-[#C4DDFF] text-[14px] font-[600] rounded-[3px]'>{region.temp} °C</span>
+                            </div>
+                        ))}
+                </div>
+                <div className="flex flex-row justify-center items-center">
+                    <button
+                        className='flex flex-row justify-center items-center gap-[5px] text-[18px] text-white bg-darkBlue-2 px-[30px] py-[10px] rounded-[25px] '
+                    >
+                        <span>See all destinations</span>
+                        <img src="../../images/icons/triangle-right.svg" alt=""
+                            className='h-[25px] w-[25px] filter invert text-lightBlue '
                         />
-                        <p className='text-darkBlue-2 font-[600]'>{blog.text}</p>
-                    </div>
-                ))}
+                    </button>
+                </div>
+            </div>
+            <div className="flex flex-col gap-[30px]">
+                <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about {destination}</p>
+                <div className="flex flex-row gap-[20px]" style={{ overflowX: 'scroll', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+                    {blogImages.map((blog) => (
+                        <div className="flex flex-col gap-[20px] w-[160px] shrink-0">
+                            <img src={blog.image} alt=""
+                                className='w-[160px] rounded-[8px]'
+                            />
+                            <p className='text-darkBlue-2 font-[600]'>{blog.text}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default WeatherRegions

@@ -83,23 +83,23 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
 
 
     const filteredData = weatherData.filter(data => {
-      
+
         const [day, month, year] = data?.date?.split("/");
-      
-        return month ===  parsedMonth;
+
+        return month === parsedMonth;
     });
 
     let highestTemp = "";
     let lowestTemp = "";
 
     if (filteredData.length > 1) {
-         highestTemp = filteredData.reduce((max, current) => (current?.temperature > max?.temperature ? current : max), filteredData[0]);
-      lowestTemp = filteredData.reduce((min, current) => (current?.temperature < min?.temperature ? current : min), filteredData[0]);
-    
+        highestTemp = filteredData.reduce((max, current) => (current?.temperature > max?.temperature ? current : max), filteredData[0]);
+        lowestTemp = filteredData.reduce((min, current) => (current?.temperature < min?.temperature ? current : min), filteredData[0]);
+
     }
 
     // Find the highest and lowest temperatures in the filtered data
-  
+
     const monthlyData = {};
     weatherData.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
@@ -129,23 +129,11 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
 
 const MonthlyWeatherDisplay = ({ data }) => {
     const navigate = useNavigate();
-    const currentTime = getCurrentTime();
-    const currentDate = getCurrentDate();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
     const dayAfterTomorrowDate = new Date();
     dayAfterTomorrowDate.setDate(dayAfterTomorrowDate.getDate() + 2);
 
-    // Format next two days' dates in DD/MM/YYYY format
-    const tomorrowDateString = `${String(tomorrowDate.getDate()).padStart(2, '0')}/${String(tomorrowDate.getMonth() + 1).padStart(2, '0')}/${tomorrowDate.getFullYear()}`;
-    const dayAfterTomorrowDateString = `${String(dayAfterTomorrowDate.getDate()).padStart(2, '0')}/${String(dayAfterTomorrowDate.getMonth() + 1).padStart(2, '0')}/${dayAfterTomorrowDate.getFullYear()}`;
-
-    // Filter weather data for today, tomorrow, and the day after tomorrow
-    const todayWeather = data.daily_weather.find(weather => weather?.date === currentDate);
-    const tomorrowWeather = data.daily_weather.find(weather => weather?.date === tomorrowDateString);
-    const dayAfterTomorrowWeather = data.daily_weather.find(weather => weather?.date === dayAfterTomorrowDateString);
-
-    const warmestMonths = getWarmestMonths(data?.daily_weather);
 
     const destination_info = data?.destination_info[0];
 
@@ -182,7 +170,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
         const [day, month, year] = dateString.split('/').map(Number);
         const date = new Date(year, month - 1, day);
         if (!isNaN(date)) {
-            return date.toLocaleString('default', { month: 'short' });
+            return date.toLocaleString('default', { month: 'long' });
         }
         return null;
     };
@@ -191,7 +179,8 @@ const MonthlyWeatherDisplay = ({ data }) => {
     const monthData = data?.daily_weather.reduce((acc, x) => {
         const month = parseDateToMonth(x.date);
 
-        if (month) {
+
+        if (month === data?.month) {
             if (!acc[month]) {
                 acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
             }
@@ -239,8 +228,6 @@ const MonthlyWeatherDisplay = ({ data }) => {
         }
     };
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [animationDirection, setAnimationDirection] = useState('');
     const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
 
     useEffect(() => {
@@ -248,38 +235,6 @@ const MonthlyWeatherDisplay = ({ data }) => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    const handlePrev = () => {
-        if (currentIndex > 0) {
-            setAnimationDirection('slideRight');
-            setCurrentIndex((prevIndex) => prevIndex - 1);
-        }
-    };
-
-    const handleNext = () => {
-        if (currentIndex < data?.daily_weather.length - cardsToShow) {
-            setAnimationDirection('slideLeft');
-            setCurrentIndex((prevIndex) => prevIndex + 1);
-        }
-    };
-
-    const handlePrevSmall = () => {
-        if (currentIndex > 0) {
-            setAnimationDirection('slideRight');
-            setCurrentIndex((prevIndex) => prevIndex - 1);
-        }
-    };
-
-    const handleNextSmall = () => {
-        if (currentIndex < data?.daily_weather.length - 1) {
-            setAnimationDirection('slideLeft');
-            setCurrentIndex((prevIndex) => prevIndex + 1);
-        }
-    };
-
-
-    // flex flex-col gap-[40px] pb-[60px]
-    const displayedData = data?.daily_weather.slice(currentIndex, currentIndex + cardsToShow);
 
     const handleNavigation = (sectionId) => {
         navigate(`/${data.destination}/${data?.month}#${sectionId}`);
@@ -291,6 +246,8 @@ const MonthlyWeatherDisplay = ({ data }) => {
         window.location.reload();
     };
 
+    const weatherOtherDestinations = data.weatherOtherDestinations;
+    console.log(weatherOtherDestinations)
 
     return (
         <Box className="flex flex-col gap-[40px]  " >
@@ -340,7 +297,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                             </Box>
                                             <Box className="">
                                                 <Text className="text-4xl font-extrabold text-darkBlue-2">
-                                                    {tomorrowWeather?.temperature}
+                                                    {averageTemp[0]?.temp}
                                                     <span className="align-super text-[15px]">°C</span>
                                                 </Text>
                                             </Box>
@@ -366,7 +323,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                             </Box>
                                             <Box className="">
                                                 <Text className="text-4xl font-extrabold text-darkBlue-2">
-                                                    {dayAfterTomorrowWeather?.temperature}
+                                                    {averageHumidity[0]?.humid}
                                                     <span className="align-super text-[15px]">%</span>
                                                 </Text>
                                             </Box>
@@ -389,7 +346,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                             </Box>
                                             <Box className="">
                                                 <Text className="text-4xl font-extrabold text-darkBlue-2">
-                                                    {tomorrowWeather?.temperature}
+                                                    {averageWaterTemp[0]?.temp}
                                                     <span className="align-super text-[15px]">°C</span>
                                                 </Text>
                                             </Box>
@@ -412,7 +369,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                             </Box>
                                             <Box className="">
                                                 <Text className="text-4xl font-extrabold text-darkBlue-2">
-                                                    {dayAfterTomorrowWeather?.temperature}
+                                                    {averageSunnyHours[0]?.hrs}
                                                     <span className="align-super text-[15px]">hrs</span>
                                                 </Text>
                                             </Box>
@@ -531,119 +488,61 @@ const MonthlyWeatherDisplay = ({ data }) => {
                         <thead>
                             <tr>
                                 <th className=' py-[40px] px-[10px] border-l-[1px] border-l-[#ddd] rounded-[6px]'></th>
-
                                 <th className='py-[40px] px-[10px]'>
-                                    <Box className="flex flex-col gap-[5px] w-[150px]">
-                                        <img src="../../images/icons/temperature-hot.svg" alt=""
-                                            className='h-[40px] w-[40px]'
-                                        />
-                                        <Text className='text-darkBlue-2 text-[13px]  font-[500]'>Average temperature during the day</Text>
-                                    </Box>
+                                    <div className="flex flex-col gap-[5px] w-[150px]">
+                                        <img src="../../images/icons/temperature-hot.svg" alt="" className='h-[40px] w-[40px]' />
+                                        <span className='text-darkBlue-2 text-[13px] font-[500]'>Average temperature during the day</span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
-                                        <img src="../../images/icons/rain.svg" alt=""
-                                            className='h-[40px] w-[40px]'
-                                        />
-                                        <Text className='text-darkBlue-2 text-[13px] font-[500]'>Change of precipitation</Text>
-                                    </Box>
+                                    <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                                        <img src="../../images/icons/rain.svg" alt="" className='h-[40px] w-[40px]' />
+                                        <span className='text-darkBlue-2 text-[13px] font-[500]'>Change of precipitation</span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
-                                        <img src="../../images/icons/water.svg" alt=""
-                                            className='h-[40px] w-[40px]'
-                                        />
-                                        <Text className='text-darkBlue-2 text-[13px] font-[500]'>Temperature of water</Text>
-                                    </Box>
+                                    <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                                        <img src="../../images/icons/water.svg" alt="" className='h-[40px] w-[40px]' />
+                                        <span className='text-darkBlue-2 text-[13px] font-[500]'>Temperature of water</span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
-                                        <img src="../../images/icons/sun-day-light-bright.svg" alt=""
-                                            className='h-[40px] w-[40px]'
-                                        />
-                                        <Text className='text-darkBlue-2 text-[13px] font-[500]'>Sunny hours</Text>
-                                    </Box>
+                                    <div className="flex flex-col gap-[5px] justify-start w-[150px]">
+                                        <img src="../../images/icons/sun-day-light-bright.svg" alt="" className='h-[40px] w-[40px]' />
+                                        <span className='text-darkBlue-2 text-[13px] font-[500]'>Sunny hours</span>
+                                    </div>
                                 </th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody className='border border-[#ddd] space-y-4 p-[1px]'>
-                            <tr className="mb-[40px]">
-                                <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                    <Text>Dubai</Text>
-                                </td>
-                                <td colSpan={12}
-                                    className='py-[10px] md:py-[30px] px-[20px]'
-                                >
-                                 
-                                </td>
-                                <td>
-                                    <div
-                                        className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer'
-
-                                    >
-                                        Check
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className='py-[10px] md:py-[30px] px-[20px]'>
-                                <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                    Abu Dhabi
-                                </td>
-                                <td colSpan={12}
-                                    className='py-[10px] md:py-[30px] px-[20px]'
-                                >
-                                    
-                                </td>
-                                <td>
-                                    <div
-                                        className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer'
-
-                                    >
-                                        Check
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className='py-[10px] md:py-[30px] px-[20px]'>
-                                <td className='py-[10px] md:py-[30px] px-[20px]'>
-
-                                </td>
-                                <td colSpan={12}
-                                    className='py-[10px] md:py-[30px] px-[20px]'
-                                >
-                                   
-                                </td>
-                                <td>
-                                    <div
-                                        className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer'
-
-                                    >
-                                        Check
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className='py-[10px] md:py-[30px] px-[20px] mr-2'>
-                                <td className='py-[10px] md:py-[30px] px-[20px]'>
-
-                                </td>
-                                <td colSpan={12}
-                                    className='py-[10px] md:py-[30px] px-[20px]'
-                                >
-                                
-                                </td>
-                                <td>
-                                    <div
-                                        className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer'
-
-                                    >
-                                        Check
-
-                                    </div>
-                                </td>
-                            </tr>
+                            {weatherOtherDestinations?.filter(x=>x.destination !== data.destination)
+                            .map((x, index) => (
+                                <tr key={index} className="mb-[40px]">
+                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                        <span>{x.destination}</span>
+                                    </td>
+                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                        <span>{x.averageTemp} °C</span>
+                                    </td>
+                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                        <span>{x.averageHumidity} %</span>
+                                    </td>
+                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                        <span>{x.averageWaterTemp} °C</span>
+                                    </td>
+                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                        <span>{x.averageSunnyHours} hours</span>
+                                    </td>
+                                    <td>
+                                        <div
+                                            className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer mr-4'
+                                        >
+                                            Check
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </Box>
@@ -654,7 +553,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                 <ImageView destination={data?.destination} />
             </Box>
             <MonthWeatherRecords more_information={destination_info?.more_information} destination={data?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
-            <WeatherRegions destination={data?.destination} />
+            <WeatherRegions destination={data?.destination} weatherOtherDestinations = {weatherOtherDestinations}/>
         </Box>
 
     )
