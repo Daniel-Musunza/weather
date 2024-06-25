@@ -1,8 +1,11 @@
 import React from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import icons from '../utils/icons'
 import { destinations } from '../utils/weatherdata'
-const WeatherRegions = ({ destination, weatherOtherDestinations }) => {
 
+const WeatherRegions = ({ destination, weatherOtherDestinations, month }) => {
+    const navigate = useNavigate();
+    // const {month } = useParams(); 
 
     const regionsWeather = weatherOtherDestinations?.map(x => {
         return {
@@ -12,6 +15,7 @@ const WeatherRegions = ({ destination, weatherOtherDestinations }) => {
         }
 
     })
+
     const blogImages = [
         {
             image: "../../images/photos/Jakie-pamiatki-z-Mauritius.-Co-przywiezc-z-wakacji-na-Mauritius-shutterstock.com-Dusan-Petkovic.jpg",
@@ -30,6 +34,10 @@ const WeatherRegions = ({ destination, weatherOtherDestinations }) => {
             text: "New Year's Eve in Mauritius"
         },
     ]
+
+    // const handleNavigation = (d, month) => {
+    //     navigate(`/${d}#${month}`);
+    // };
 
     return (
         <div className="flex flex-col gap-[40px]">
@@ -53,26 +61,29 @@ const WeatherRegions = ({ destination, weatherOtherDestinations }) => {
                 <div className="flex flex-col gap-[15px]">
                     {regionsWeather?.slice(0, 8)
                         .map((region, index) => (
-                            <div className="flex flex-row justify-between items-center px-[15px] py-[4px] border-[1px] border-lightBlue-2 rounded-[10px] shadow-md">
-                                <div className="flex flex-row justify-center items-center gap-[20px]">
-                                    <img src={region.image} alt=""
+                            <a href={`/${region.name}/${month}`}>
+                                <div className="flex flex-row justify-between items-center px-[15px] py-[4px] border-[1px] border-lightBlue-2 rounded-[10px] shadow-md cursor-pointer">
+                                    <div className="flex flex-row justify-center items-center gap-[20px]">
+                                        {/* <img src={region.image} alt=""
                                         className='w-[40px] h-[40px] rounded-[50%]'
-                                    />
-                                    <span className='font-[600] text-[16px] text-darkBlue-2'>{region.name}</span>
+                                    /> */}
+                                        <span className='font-[600] text-[16px] text-darkBlue-2'>{region.name}</span>
+                                    </div>
+                                    <span className='flex flex-row justify-center items-center h-[25px] w-[80px] px-[8px] py-[5px] bg-[#C4DDFF] text-[14px] font-[600] rounded-[3px]'>{region.temp} °C</span>
                                 </div>
-                                <span className='flex flex-row justify-center items-center h-[25px] w-[80px] px-[8px] py-[5px] bg-[#C4DDFF] text-[14px] font-[600] rounded-[3px]'>{region.temp} °C</span>
-                            </div>
+                            </a>
                         ))}
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <button
+                    <Link
+                        to="/"
                         className='flex flex-row justify-center items-center gap-[5px] text-[18px] text-white bg-darkBlue-2 px-[30px] py-[10px] rounded-[25px] '
                     >
                         <span>See all destinations</span>
                         <img src="../../images/icons/triangle-right.svg" alt=""
                             className='h-[25px] w-[25px] filter invert text-lightBlue '
                         />
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="flex flex-col gap-[30px]">

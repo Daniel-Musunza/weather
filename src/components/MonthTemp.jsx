@@ -22,7 +22,7 @@ const MonthTemp = (props) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animationDirection, setAnimationDirection] = useState('');
     const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
-    const [filteredWeather, setFilteredWeather] = useState(props.daily_weather);
+    const [filteredWeather, setFilteredWeather] = useState(props?.daily_weather);
     const [selectedMonth, setSelectedMonth] = useState(null);
 
     useEffect(() => {
@@ -68,8 +68,8 @@ const MonthTemp = (props) => {
         });
         setFilteredWeather(filteredData);
     };
-
-    const displayedData = filteredWeather.slice(currentIndex, currentIndex + cardsToShow);
+    
+    const displayedData = filteredWeather.length>0 ? filteredWeather.slice(currentIndex, currentIndex + cardsToShow) : props?.daily_weather.slice(currentIndex, currentIndex + cardsToShow);
 
     return (
         <div className="flex flex-col justify-center items-center bg-white rounded-[6px] shadow-md p-[10px] gap-[40px] w-full overflow-hidden">
@@ -98,7 +98,7 @@ const MonthTemp = (props) => {
                     </div>
                     <div className="w-full flex flex-row gap-[10px] overflow-hidden">
                         <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
-                            {displayedData.map((data, index) => (
+                            {displayedData?.map((data, index) => (
                                 <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
                                     <p className="text-[14px] text-darkBlue">{data?.date}</p>
                                     <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">

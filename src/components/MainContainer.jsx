@@ -153,7 +153,7 @@ const MainContainer = () => {
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             {/* ${allowOverFlow ? 'overflow-y-auto xl:h-[150vh]' : ''} */}
-            <div className={`w-[100%] xl:w-[70%] `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+            <div className={`w-[100%] xl:w-[70%]  ${allowOverFlow ? 'overflow-y-auto xl:h-[300vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
               {month ? (
                 <MonthlyWeatherDisplay data={filteredData} />
               ) : (
@@ -162,7 +162,7 @@ const MainContainer = () => {
 
             </div>
             <div className="w-[100%] xl:w-[30%]">
-              <SearchForm destination={destination} />
+              <SearchForm destination={destination} destinations={destinations}/>
             </div>
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">

@@ -247,30 +247,29 @@ const MonthlyWeatherDisplay = ({ data }) => {
     };
 
     const weatherOtherDestinations = data.weatherOtherDestinations;
-    console.log(weatherOtherDestinations)
 
     return (
         <Box className="flex flex-col gap-[40px]  " >
             <Box className=" flex flex-col gap-[10px] mt-[30px]">
-                <h1 className='text-darkBlue-2 font-[900] text-[30px]'>{data.destination} weather</h1>
+                <h1 className=' font-[900] text-[30px]'>{data.destination} weather</h1>
                 <Box className="flex flex-row items-center gap-[10px]">
-                    <Link to={`/`} className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</Link>
+                    <Link to={`/`} style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</Link>
                     <span>
                         <img src="../../images/icons/angle-right.svg" alt=""
                             className='h-[20px] w-[20px]'
                         />
                     </span>
-                    <Link to={`/${data.destination}`} className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Link>
+                    <Link style={{ backgroundColor: 'rgb(18 98 175)' }} to={`/${data.destination}`} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Link>
                     <span>
                         <img src="../../images/icons/angle-right.svg" alt=""
                             className='h-[20px] w-[20px]'
                         />
                     </span>
-                    <Text className='bg-[#11009E] px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.month}</Text>
+                    <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.month}</Text>
                 </Box>
             </Box>
             <Box className="">
-                <h2 className='text-[20px] font-[600] text-darkBlue'>Current weather in {data.destination} in {data.month}</h2>
+                <h2 className='text-[20px] font-[600] '>Current weather in {data.destination} in {data.month}</h2>
             </Box>
 
             <Box className="flex flex-col gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
@@ -448,7 +447,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
 
             <Box className="flex flex-col  md:items-start md:flex-row gap-[20px]">
                 <Box className="flex flex-row flex-nowrap ">
-                    <Text className='text-nowrap text-[18px] font-[800] text-darkBlue-2'>Go to:</Text>
+                    <Text className='text-nowrap text-[18px] font-[800]'>Go to:</Text>
                 </Box>
                 <Box className="flex flex-row flex-wrap justify-center items-center md:items-start cursor-pointer gap-[10px]">
                     <a
@@ -516,33 +515,34 @@ const MonthlyWeatherDisplay = ({ data }) => {
                             </tr>
                         </thead>
                         <tbody className='border border-[#ddd] space-y-4 p-[1px]'>
-                            {weatherOtherDestinations?.filter(x=>x.destination !== data.destination)
-                            .map((x, index) => (
-                                <tr key={index} className="mb-[40px]">
-                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                        <span>{x.destination}</span>
-                                    </td>
-                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                        <span>{x.averageTemp} °C</span>
-                                    </td>
-                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                        <span>{x.averageHumidity} %</span>
-                                    </td>
-                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                        <span>{x.averageWaterTemp} °C</span>
-                                    </td>
-                                    <td className='py-[10px] md:py-[30px] px-[20px]'>
-                                        <span>{x.averageSunnyHours} hours</span>
-                                    </td>
-                                    <td>
-                                        <div
-                                            className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer mr-4'
-                                        >
-                                            Check
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                            {weatherOtherDestinations?.filter(x => x.destination !== data.destination)
+                                .map((x, index) => (
+                                    <tr key={index} className="mb-[40px]">
+                                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <span>{x.destination}</span>
+                                        </td>
+                                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <span>{x.averageTemp} °C</span>
+                                        </td>
+                                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <span>{x.averageHumidity} %</span>
+                                        </td>
+                                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <span>{x.averageWaterTemp} °C</span>
+                                        </td>
+                                        <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <span>{x.averageSunnyHours} hours</span>
+                                        </td>
+                                        <td>
+                                            <a
+                                                href={`/${x.destination}/${data?.month}`}
+                                                className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px] font-[600] text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000] cursor-pointer mr-4'
+                                            >
+                                                Check
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </Box>
@@ -553,7 +553,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                 <ImageView destination={data?.destination} />
             </Box>
             <MonthWeatherRecords more_information={destination_info?.more_information} destination={data?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
-            <WeatherRegions destination={data?.destination} weatherOtherDestinations = {weatherOtherDestinations}/>
+            <WeatherRegions destination={data?.destination} weatherOtherDestinations={weatherOtherDestinations} month={data?.month} />
         </Box>
 
     )

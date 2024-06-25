@@ -49,7 +49,7 @@ const SearchBar = () => {
                     <div className="flex flex-col gap-1">
                         <label htmlFor="" className='text-white'>Nights</label>
                         <div className="w-full">
-                            <input type="number" name="" id="" placeholder='7'
+                            <input type="number" name="" id="" placeholder='7' min={1}
                                 className="w-full pl-3 py-2 border border-darkBlue focus:outline-none rounded"
                             />
                         </div>

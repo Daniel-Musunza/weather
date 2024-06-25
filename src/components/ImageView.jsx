@@ -22,7 +22,7 @@ const ImageView = (props) => {
           className="w-[100%] md:w-[800px] h-full object-cover rounded-t-[15px] md:rounded-tr-[0px] md:rounded-s-[15px] " />
       </Card>
       <Card
-        className='rounded-b-[15px] md:rounded-bl-[0px] md:rounded-e-[15px]  bg-darkBlue-2 flex flex-col gap-[10px] md:gap-[5px] justify-between items-center md:justify-start px-[20px] md:pl-[40px] py-[40px] md:pr-[80px] w-full '
+        className='rounded-b-[15px] md:rounded-bl-[0px] md:rounded-e-[15px]  bg-[#002b49] flex flex-col gap-[10px] md:gap-[5px] justify-between items-center md:justify-start px-[20px] md:pl-[40px] py-[40px] md:pr-[80px] w-full '
       >
         <h1 className='flex flex-row gap-[5px] items-center text-[25px] text-white font-[700]'>
           <span>Holidays in {props.destination} </span>
@@ -36,17 +36,17 @@ const ImageView = (props) => {
         <div className="flex-grow flex flex-col justify-center items-center w-full">
           <a href="https://www.itravelholidays.co.uk/hoteloffers/AE/175">
             <div
-              className='inline-flex cursor-pointer flex-row items-center bg-[#FBA834] px-[45px] py-[9px] text-darkBlue-2 text-[15px] rounded-[20px] outline-none'
+              className='inline-flex cursor-pointer flex-row items-center bg-[#c70227]  text-white px-[45px] py-[9px] text-[15px] rounded-[20px] outline-none'
               variant="gradient"
               color="yellow"
             >
 
               <span className='font-[900]'>See offers</span>
-              <img
+              {/* <img
                 src="../../images/icons/triangle-right.svg"
                 alt=""
                 className='h-[20px] w-[20px]'
-              />
+              /> */}
 
             </div>
           </a>
