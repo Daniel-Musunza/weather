@@ -1,5 +1,5 @@
 const destinations = [
-    { destination: "Dubai", countryCode: "AE", stationID: 41196 },
+    { id: 175, destination: "Dubai", countryCode: "AE", stationID: 41196 },
     { destination: "Abu Dhabi", countryCode: "AE", stationID: 41200 },
     { destination: "Sharjah", countryCode: "AE", stationID: 41197 },
     { destination: "Ajman", countryCode: "AE", stationID: 41198 },
@@ -62,7 +62,7 @@ const daily_weather = [
     },
     {
         destination: "Dubai",
-        date: "25/06/2024",
+        date: "28/06/2024",
         temperature: 18,
         water_temperature: null,
         humidity: 60,

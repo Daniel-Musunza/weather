@@ -73,7 +73,7 @@ const MonthTemp = (props) => {
 
     return (
         <div className="flex flex-col justify-center items-center bg-white rounded-[6px] shadow-md p-[10px] gap-[40px] w-full overflow-hidden">
-            <h2 className='font-[400] text-darkBlue-2 text-[14px]'>Select a month to check what the weather was like in Mauritius in previous years</h2>
+            <h2 className='font-[400] text-darkBlue-2 text-[14px]'>Select a month to check what the weather was like in {props?.destination} in previous years</h2>
             <div className="flex flex-row flex-wrap gap-[10px] justify-center items-center">
                 {months.map((data, index) => (
                     <p

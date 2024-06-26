@@ -859,7 +859,7 @@ const WeatherDisplay = ({ data }) => {
                 </Box>
             </Box>
             <ImageView destination={data?.destination} />
-            <MonthTemp daily_weather={data?.daily_weather} />
+            <MonthTemp daily_weather={data?.daily_weather} destination={data?.destination}/>
             <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
             <WeatherRegions destination={data?.destination} weatherOtherDestinations={data?.weatherOtherDestinations} />
         </Box>
