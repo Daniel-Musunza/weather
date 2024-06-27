@@ -42,7 +42,7 @@ const SearchBar = () => {
 
     const url = `https://www.itravelholidays.co.uk/holidays?destinationIds=${destination}&selected=${departureDate}&departureAirports=${departure}&nights=${nights}&range=3&${roomsParams}`;
 
-    
+
     return (
         <div className='flex flex-col gap-[20px] sticky top-[100px]'>
             {isModalOpen && (<RoomsModal isOpen={isModalOpen} onClose={closeModal} rooms={rooms} setRooms={setRooms} />)}
@@ -113,7 +113,7 @@ const SearchBar = () => {
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="" className='text-white'>Nights</label>
-                        <div className="w-full">
+                        <div className="relative w-full">
                             <input type="number" name="" id="" placeholder='7' min={1}
                                 value={nights}
                                 onChange={(e) => {
@@ -122,6 +122,8 @@ const SearchBar = () => {
                                 }}
                                 className="w-full pl-3 py-2 border border-darkBlue focus:outline-none rounded"
                             />
+                          
+
                         </div>
                     </div>
                 </div>
@@ -147,7 +149,7 @@ const SearchBar = () => {
                 <a
                     href={url}
                     className="flex flex-row items-center mt-6"
-                   
+
                 >
                     <button
                         className='bg-[#c70227] text-sm font-semibold px-[55px] py-[10px] rounded-lg text-[#fff]'

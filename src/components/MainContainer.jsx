@@ -112,6 +112,7 @@ const MainContainer = () => {
   let weatherOtherDestinations = getWeatherOtherDestinations(daily_weather, month, destination);
 
   useEffect(() => {
+    
     if (destination) {
       const filteredDestinations = {
         destination: destination,
