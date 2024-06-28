@@ -43,7 +43,7 @@ export const getWeatherIcon = (condition) => {
 const getWarmestMonths = (weatherData) => {
     // Group data by month
     const monthlyData = {};
-    weatherData.forEach(data => {
+    weatherData?.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
         const monthYear = `${month}/${year}`;
         if (!monthlyData[monthYear]) {
@@ -101,7 +101,7 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
     // Find the highest and lowest temperatures in the filtered data
 
     const monthlyData = {};
-    weatherData.forEach(data => {
+    weatherData?.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
         const monthYear = `${year}-${month}`;
         if (!monthlyData[monthYear]) {
@@ -176,7 +176,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
     };
 
     // Step 1: Group data by month and calculate the sum of temperatures and the count of days for each month
-    const monthData = data?.daily_weather.reduce((acc, x) => {
+    const monthData = data?.daily_weather?.reduce((acc, x) => {
         const month = parseDateToMonth(x.date);
 
 
@@ -198,25 +198,28 @@ const MonthlyWeatherDisplay = ({ data }) => {
     }, {});
 
     // Step 2: Calculate the average temperature for each month and format the result
-    averageTemp = Object.keys(monthData).map(month => ({
-        month: month,
-        temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
-    }));
+    if (data?.daily_weather?.length > 0) {
+        // Step 2: Calculate the average temperature for each month and format the result
+        averageTemp = Object.keys(monthData).map(month => ({
+            month: month,
+            temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
+        }));
 
-    averageWaterTemp = Object.keys(monthData).map(month => ({
-        month: month,
-        temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
-    }));
+        averageWaterTemp = Object.keys(monthData).map(month => ({
+            month: month,
+            temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
+        }));
 
-    averageHumidity = Object.keys(monthData).map(month => ({
-        month: month,
-        humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
-    }));
+        averageHumidity = Object.keys(monthData).map(month => ({
+            month: month,
+            humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
+        }));
 
-    averageSunnyHours = Object.keys(monthData).map(month => ({
-        month: month,
-        hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
-    }));
+        averageSunnyHours = Object.keys(monthData).map(month => ({
+            month: month,
+            hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
+        }));
+    }
 
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {

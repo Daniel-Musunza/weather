@@ -12,7 +12,7 @@ const SpecificMonthTemp = (props) => {
     const selectedMonth = months.find(month => month.name.toLowerCase() === props?.month?.toLowerCase());
 
     // Filter the weather data based on the selected month value
-    const filteredWeather = props.daily_weather.filter(data => {
+    const filteredWeather = props.daily_weather?.filter(data => {
         const date = new Date(data?.date?.split('/').reverse().join('/'));
         return date.getMonth() === selectedMonth?.value;
     });
@@ -69,6 +69,7 @@ const SpecificMonthTemp = (props) => {
     const currentYear = new Date().getFullYear();
     const previousYear = currentYear - 1;
     return (
+        
         <div className="flex flex-col bg-white rounded-[6px] shadow-md p-[10px] gap-[40px] w-full overflow-hidden" id="historic-weather">
 
             <h1 className='font-[600] text-[20px] text-darkBlue-2'> Historic weather in {props.destination} in {props.month}</h1>
@@ -96,7 +97,7 @@ const SpecificMonthTemp = (props) => {
                     </div>
                     <div className="w-full flex flex-row gap-[10px] overflow-hidden">
                         <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
-                            {displayedData.map((data, index) => (
+                            {displayedData?.map((data, index) => (
                                 <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
                                     <p className="text-[14px] text-darkBlue">{data?.date}</p>
                                     <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">

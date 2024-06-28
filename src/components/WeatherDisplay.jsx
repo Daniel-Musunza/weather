@@ -45,7 +45,7 @@ export const getWeatherIcon = (condition) => {
 const getWarmestMonths = (weatherData) => {
     // Group data by month
     const monthlyData = {};
-    weatherData.forEach(data => {
+    weatherData?.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
         const monthYear = `${month}/${year}`;
         if (!monthlyData[monthYear]) {
@@ -78,7 +78,7 @@ const getWeatherStatistics = (weatherData) => {
     const lowestTemp = weatherData.reduce((min, current) => (current?.temperature < min?.temperature ? current : min));
 
     const monthlyData = {};
-    weatherData.forEach(data => {
+    weatherData?.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
         const monthYear = `${year}-${month}`;
         if (!monthlyData[monthYear]) {
@@ -118,9 +118,9 @@ const WeatherDisplay = ({ data }) => {
     const dayAfterTomorrowDateString = `${String(dayAfterTomorrowDate.getDate()).padStart(2, '0')}/${String(dayAfterTomorrowDate.getMonth() + 1).padStart(2, '0')}/${dayAfterTomorrowDate.getFullYear()}`;
 
     // Filter weather data for today, tomorrow, and the day after tomorrow
-    const todayWeather = data.daily_weather.find(weather => weather?.date === currentDate);
-    const tomorrowWeather = data.daily_weather.find(weather => weather?.date === tomorrowDateString);
-    const dayAfterTomorrowWeather = data.daily_weather.find(weather => weather?.date === dayAfterTomorrowDateString);
+    const todayWeather = data?.daily_weather?.find(weather => weather?.date === currentDate);
+    const tomorrowWeather = data?.daily_weather?.find(weather => weather?.date === tomorrowDateString);
+    const dayAfterTomorrowWeather = data?.daily_weather?.find(weather => weather?.date === dayAfterTomorrowDateString);
 
     const warmestMonths = getWarmestMonths(data?.daily_weather);
 
@@ -155,7 +155,7 @@ const WeatherDisplay = ({ data }) => {
     };
 
     // Step 1: Group data by month and calculate the sum of temperatures and the count of days for each month
-    const monthData = data?.daily_weather.reduce((acc, x) => {
+    const monthData = data?.daily_weather?.reduce((acc, x) => {
         const month = parseDateToMonth(x.date);
 
         if (month) {
@@ -175,6 +175,7 @@ const WeatherDisplay = ({ data }) => {
         return acc;
     }, {});
 
+    if(data?.daily_weather?.length>0){
     // Step 2: Calculate the average temperature for each month and format the result
     averageTemp = Object.keys(monthData).map(month => ({
         month: month,
@@ -195,7 +196,7 @@ const WeatherDisplay = ({ data }) => {
         month: month,
         hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
     }));
-
+    }
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {
             return 4;
@@ -224,7 +225,7 @@ const WeatherDisplay = ({ data }) => {
     };
 
     const handleNext = () => {
-        if (currentIndex < data?.daily_weather.length - cardsToShow) {
+        if (currentIndex < data?.daily_weather?.length - cardsToShow) {
             setAnimationDirection('slideLeft');
             setCurrentIndex((prevIndex) => prevIndex + 1);
         }
@@ -238,7 +239,7 @@ const WeatherDisplay = ({ data }) => {
     };
 
     const handleNextSmall = () => {
-        if (currentIndex < data?.daily_weather.length - 1) {
+        if (currentIndex < data?.daily_weather?.length - 1) {
             setAnimationDirection('slideLeft');
             setCurrentIndex((prevIndex) => prevIndex + 1);
         }
@@ -246,7 +247,7 @@ const WeatherDisplay = ({ data }) => {
 
 
     // flex flex-col gap-[40px] pb-[60px]
-    const displayedData = data?.daily_weather.slice(currentIndex, currentIndex + cardsToShow);
+    const displayedData = data?.daily_weather?.slice(currentIndex, currentIndex + cardsToShow) || [];
 
     const handleNavigation = (sectionId) => {
         navigate(`/${data.destination}#${sectionId}`);
@@ -254,11 +255,11 @@ const WeatherDisplay = ({ data }) => {
     };
 
     const displayedDataChartData = {
-        labels: displayedData.map(data => ''), // Assuming 'month' is a field in averageTemp
+        labels: displayedData?.map(data => ''), // Assuming 'month' is a field in averageTemp
         datasets: [
             {
                 label: 'Long term focast',
-                data: displayedData.map(data => data.temperature),
+                data: displayedData?.map(data => data.temperature),
                 fill: false,
                 borderColor: '#E8C872',
                 tension: 0.1,
@@ -637,7 +638,7 @@ const WeatherDisplay = ({ data }) => {
                         </Box>
                         <Box className="w-full flex flex-row gap-[10px] overflow-hidden">
                             <Box className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
-                                {displayedData.map((data, index) => (
+                                {displayedData?.map((data, index) => (
                                     <Box key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
                                         <Text className="text-[14px] text-darkBlue">{data?.date}</Text>
                                         <Box className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
@@ -659,7 +660,7 @@ const WeatherDisplay = ({ data }) => {
                         <Box className="shrink-0 mt-[50px]">
                             <button
                                 onClick={handleNext}
-                                disabled={currentIndex >= data?.daily_weather.length - cardsToShow}
+                                disabled={currentIndex >= data?.daily_weather?.length - cardsToShow}
                                 className="hidden md:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
                             >
                                 <img src="../../images/icons/triangle-right.svg" alt="Next" className="h-[30px] w-[30px] shrink-0" />
@@ -675,7 +676,7 @@ const WeatherDisplay = ({ data }) => {
                         </button>
                         <button
                             onClick={handleNextSmall}
-                            disabled={currentIndex >= data?.daily_weather.length - 1}
+                            disabled={currentIndex >= data?.daily_weather?.length - 1}
                         >
                             <img src="../../images/icons/arrow-right.svg" alt="Next" className='h-[25px] w-[25px]' />
                         </button>

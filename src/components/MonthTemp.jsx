@@ -62,14 +62,14 @@ const MonthTemp = (props) => {
     const handleMonthClick = (month) => {
         setSelectedMonth(month);
         setCurrentIndex(0);
-        const filteredData = props.daily_weather.filter(data => {
+        const filteredData = props.daily_weather?.filter(data => {
             const date = new Date(data?.date?.split('/').reverse().join('/'));
             return date.getMonth() === month.value;
         });
         setFilteredWeather(filteredData);
     };
     
-    const displayedData = filteredWeather.length>0 ? filteredWeather.slice(currentIndex, currentIndex + cardsToShow) : props?.daily_weather.slice(currentIndex, currentIndex + cardsToShow);
+    const displayedData = filteredWeather.length>0 ? filteredWeather.slice(currentIndex, currentIndex + cardsToShow) : props?.daily_weather?.slice(currentIndex, currentIndex + cardsToShow);
 
     return (
         <div className="flex flex-col justify-center items-center bg-white rounded-[6px] shadow-md p-[10px] gap-[40px] w-full overflow-hidden">
