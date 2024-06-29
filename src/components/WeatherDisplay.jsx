@@ -513,7 +513,7 @@ const WeatherDisplay = ({ data }) => {
 
             <Box className="flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
                 {/* Today's weather */}
-                <Box className="flex flex-col gap-[10px] w-[100%] flex-grow justify-between">
+                <Box className="flex flex-col gap-[10px] w-[100%] justify-between">
                     <Text className='text-[14px] text-darkBlue mb-5'>Now: {currentDate} - local time: {currentTime}</Text>
                     <Box className="flex flex-1 gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md ">
                         <Box className="flex flex-col items-center gap-[15px]">
@@ -526,7 +526,7 @@ const WeatherDisplay = ({ data }) => {
                             <Text className="text-[17px] font-[600] text-darkBlue-2">{todayWeather?.condition}</Text>
                         </Box>
                         <Box className="">
-                            <Text className="text-5xl font-extrabold text-darkBlue-2">
+                            <Text className="text-4xl font-extrabold text-darkBlue-2">
                                 {todayWeather?.temperature}
                                 <span className="align-super text-2xl">°C</span>
                             </Text>
@@ -534,10 +534,10 @@ const WeatherDisplay = ({ data }) => {
                     </Box>
                 </Box>
                 {/* Tomorrow's weather */}
-                <Box className="flex flex-col sm1:flex-row gap-[10px] w-[100%]">
-                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
+                <Box className="flex flex-col sm1:flex-row gap-[10px]  w-[100%]">
+                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[250px] lg:w-[350px] xl:w-[250px] justify-between">
                         <Text className='text-[14px] text-darkBlue'>Tomorrow: {tomorrowDateString}</Text>
-                        <Box className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] mt-4 border-[#ddd] shadow-md w-[100%]">
                             <Box className="flex flex-col items-center gap-[15px]">
                                 {/* Change the icon source dynamically based on weather condition */}
                                 <img
@@ -548,7 +548,7 @@ const WeatherDisplay = ({ data }) => {
                                 <Text className="text-[17px] font-[600] text-darkBlue-2">{tomorrowWeather?.condition}</Text>
                             </Box>
                             <Box className="">
-                                <Text className="text-5xl font-extrabold text-darkBlue-2">
+                                <Text className="text-4xl font-extrabold text-darkBlue-2">
                                     {tomorrowWeather?.temperature}
                                     <span className="align-super text-2xl">°C</span>
                                 </Text>
@@ -556,9 +556,9 @@ const WeatherDisplay = ({ data }) => {
                         </Box>
                     </Box>
                     {/* The day after tomorrow's weather */}
-                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
+                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[250px] lg:w-[350px] xl:w-[250px] justify-between">
                         <Text className='text-[14px] text-darkBlue'>The day after tomorrow: {dayAfterTomorrowDateString}</Text>
-                        <Box className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-row gap-[30px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] mt-4 shadow-md w-[100%]">
                             <Box className="flex flex-col items-center gap-[15px]">
                                 {/* Change the icon source dynamically based on weather condition */}
                                 <img
@@ -569,7 +569,7 @@ const WeatherDisplay = ({ data }) => {
                                 <Text className="text-[17px] font-[600] text-darkBlue-2">{dayAfterTomorrowWeather?.condition}</Text>
                             </Box>
                             <Box className="">
-                                <Text className="text-5xl font-extrabold text-darkBlue-2">
+                                <Text className="text-4xl font-extrabold text-darkBlue-2">
                                     {dayAfterTomorrowWeather?.temperature}
                                     <span className="align-super text-2xl">°C</span>
                                 </Text>
@@ -861,7 +861,7 @@ const WeatherDisplay = ({ data }) => {
             </Box>
             <ImageView destination={data?.destination} />
             <MonthTemp daily_weather={data?.daily_weather} destination={data?.destination}/>
-            <WeatherRecords more_information={destination_info?.more_information} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
+            <WeatherRecords destination_info={destination_info} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
             <WeatherRegions destination={data?.destination} weatherOtherDestinations={data?.weatherOtherDestinations} />
         </Box>
 

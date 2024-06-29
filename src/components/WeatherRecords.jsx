@@ -13,11 +13,11 @@ const WeatherRecords = (props) => {
     }
 
     const formatMonthYear = (monthYear) => {
-        if(monthYear){
+        if (monthYear) {
 
-        const [year, month] = monthYear.split("-");
-        const date = new Date(year, month - 1);
-        return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+            const [year, month] = monthYear.split("-");
+            const date = new Date(year, month - 1);
+            return date.toLocaleString('default', { month: 'long', year: 'numeric' });
         }
     };
 
@@ -102,11 +102,21 @@ const WeatherRecords = (props) => {
                     <p className='text-[14px] text-darkBlue-2'>Weather records are based on data we collect from 2023. We do not include previous years in our analyses.</p>
                 </div>
             </div>
-            <div className="flex flex-col gap-[30px]" id="temperatures-and-climate" dangerouslySetInnerHTML={renderFormattedHTML(props?.more_information)}>
-
+            <div className="flex flex-col gap-[30px]" id="temperatures-and-climate" >
+                <div>
+                    <h2 class='text-[22px] font-[600] text-darkBlue-2' >Temperatures and climate in {props?.destination}</h2>
+                    <div class="flex flex-col  gap-[5px]">
+                        <img src={props?.destination_info?.coverImage} className='w-full' alt=""
+                            class='rounded-[20px] h-[300px] md:h-[350px] lg:h-[400px] xl:h-[500px]'
+                        />
+                        <p class='flex flex-row justify-center items-center'>{props?.destination} weather</p>
+                    </div>
+                    <p className='text-[14px] text-darkBlue-2'>
+                      {props?.destination_info?.more_information}
+                    </p></div>
             </div>
             <div className="flex flex-col gap-[20px]" id="faq">
-            <div className="">
+                <div className="">
                     <h2 className='text-[22px] font-[600] text-darkBlue-2'>FAQ </h2>
                 </div>
                 {faqs?.map((data, index) => (

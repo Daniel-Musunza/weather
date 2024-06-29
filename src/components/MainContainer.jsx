@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import WeatherDisplay from './WeatherDisplay';
 import SearchForm from './SearchForm';
-import { destinations, daily_weather, destination_info, faqs, monthly_faqs, monthly_weather_description } from '../utils/weatherdata';
+import { destinations } from '../utils/weatherdata';
 import MoreInfo from './MoreInfo';
 import { useParams } from 'react-router-dom';
 import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
@@ -36,7 +36,7 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
   const destinationData = {};
 
   // Add data for the target destination
-  filteredWeather.forEach(x => {
+  filteredWeather?.forEach(x => {
     if (x.destination === targetDestination) {
       if (!destinationData[targetDestination]) {
         destinationData[targetDestination] = {
@@ -94,12 +94,19 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
 
   return result;
 };
-
+const months = [
+  { name: 'January', id: 1 }, { name: 'February', id: 2 }, { name: 'March', id: 3 },
+  { name: 'April', id: 4 }, { name: 'May', id: 5 }, { name: 'June', id: 6 },
+  { name: 'July', id: 7 }, { name: 'August', id: 8 }, { name: 'September', id: 9 },
+  { name: 'October', id: 10 }, { name: 'November', id: 11 }, { name: 'December', id: 12 }
+];
+const getMonth = (number) => {
+  return months.find(m => m.id == number)
+}
 
 const MainContainer = () => {
   const [windowHeight, setWindowHeight] = useState(0);
   const [allowOverFlow, setAllowOverFlow] = useState(false);
-  const [newData, setNewData] = useState([])
   const [filteredData, setFilteredData] = useState({
     daily_weather: [],
     destination_info: [],
@@ -108,29 +115,17 @@ const MainContainer = () => {
     monthly_weather_description: []
   });
 
+
   const { destination, month } = useParams(); // Destructure destination from useParams
 
   const getData = async (destination) => {
     try {
-      // const response = await fetch('http://192.168.100.39:3000/api/destination');
-      // if (!response.ok) {
-      //   throw new Error('Network response was not ok ' + response.statusText);
-      // }
-
-      // const newdestinations = await response.json();
-      // const newDestinations = newdestinations?.data.map(x => ({
-      //   id: x._id,
-      //   destination: x.name,
-      //   countryCode: x.countryCode,
-      //   stationID: x.stationID
-      // }));
-
       const destinationObj = destinations?.find((x) => x.destination === destination);
 
       const destination_id = destinationObj?.id;
 
-      if (!destination_id || destination_id == "undefined") {
-        return
+      if (!destination_id || destination_id === "undefined") {
+        return;
       }
 
       const response2 = await fetch(`http://192.168.100.39:3000/api/destination/${destination_id}?startDate=2024-01-01&endDate=2024-12-10`);
@@ -144,58 +139,101 @@ const MainContainer = () => {
         let condition = 'Cloudy'; // Default condition
         let condition_hours = null;
 
-        if (x.prcp > 0) {
+        if (x.prcp > 0 || x.tavg < 10) { // Assuming average temperature below 10°C indicates Rainy
           condition = 'Rainy';
           condition_hours = x.prcp; // Assuming prcp can represent rain hours, adjust if necessary
-        } else if (x.tsun > 0) {
+        } else if (x.tsun > 0 || x.tavg > 20) { // Assuming average temperature above 20°C indicates Sunny
           condition = 'Sunny';
           condition_hours = x.tsun;
         } else if (x.snow > 0) {
           condition = 'Snowy';
           condition_hours = x.snow; // Assuming snow can represent snow hours
+        } else if (x.wspd > 20) { // Assuming wind speed over 20 km/h is considered windy
+          condition = 'Windy';
+          condition_hours = x.wspd; // Assuming wind speed can represent windy hours, adjust if necessary
         }
 
         return {
           destination: destination, // Static destination, modify as necessary
           date: new Date(x.date).toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
           temperature: x.tavg, // Using average temperature
-          water_temperature: 20, // Static value, replace with actual if available
-          humidity: x.humid, // Assuming `humid` key for humidity, replace if incorrect
+          water_temperature: x.tmin, // Static value, replace with actual if available
+          humidity: x.prcp, // Assuming `humid` key for humidity, replace if incorrect
           condition: condition,
           condition_hours: condition_hours
         };
       });
 
-      setNewData({ dailyWeather })
+      const destinationInfo = data?.data?.destinationContent?.map(x => {
+        return {
+          destination: destination,
+          weather_description: x.weatherInfo,
+          more_information: x.destinationInfo,
+          cover_image: x.image
+        }
+      })
 
-      return { dailyWeather };
+      const faqs = data?.data?.destinationFaq?.map(x => {
+        return {
+          destination: destination,
+          question: x.question,
+          answer: x.answer,
+        }
+      })
+
+      const monthlyFaqs = data?.data?.monthFaq?.map(x => {
+        return {
+          month: getMonth(x.month)?.name,
+          destination: destination,
+          question: x.question,
+          answer: x.answer,
+        }
+      })
+
+      const monthlyContent =  data?.data?.monthContent?.map(x => {
+        return {
+          destination: destination,
+          month: getMonth(x.month)?.name,
+          weather_description: x.weatherInfo,
+          more_information: ""
+        }
+      })
+
+      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent };
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     }
   };
 
 
-  console.log(newData)
-
-
-  let weatherOtherDestinations = getWeatherOtherDestinations(daily_weather, month, destination);
-
   useEffect(() => {
-    getData(destination)
+    let isMounted = true;
 
-    if (destination) {
-      const filteredDestinations = {
-        destination: destination,
-        month: month,
-        daily_weather: newData?.dailyWeather,
-        destination_info: destination_info.filter(d => d.destination === destination),
-        faqs: faqs.filter(d => d.destination === destination),
-        monthly_faqs: monthly_faqs.filter(d => d.destination === destination),
-        monthly_weather_description: monthly_weather_description.filter(d => d.destination === destination),
-        weatherOtherDestinations
-      };
-      setFilteredData(filteredDestinations);
-    }
+    const fetchData = async () => {
+      const data = await getData(destination);
+
+      let weatherOtherDestinations = getWeatherOtherDestinations(data?.dailyWeather, month, destination);
+
+      if (isMounted && destination) {
+        const filteredDestinations = {
+          destination: destination,
+          month: month,
+          daily_weather: data?.dailyWeather,
+          destination_info: data?.destinationInfo,
+          faqs: data?.faqs,
+          monthly_faqs: data?.monthlyFaqs,
+          monthly_weather_description: data?.monthlyContent,
+          weatherOtherDestinations
+        };
+        setFilteredData(filteredDestinations);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false; // Cleanup function to mark component as unmounted
+    };
   }, [destination]);
 
   useEffect(() => {
@@ -223,14 +261,12 @@ const MainContainer = () => {
       {destination ? (
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            {/* ${allowOverFlow ? 'overflow-y-auto xl:h-[150vh]' : ''} */}
             <div className={`w-[100%] xl:w-[70%]  ${allowOverFlow ? 'overflow-y-auto xl:h-[300vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
               {month ? (
                 <MonthlyWeatherDisplay data={filteredData} />
               ) : (
                 <WeatherDisplay data={filteredData} />
               )}
-
             </div>
             <div className="w-[100%] xl:w-[30%]">
               <SearchForm destination={destination} destinations={destinations} />
@@ -248,3 +284,4 @@ const MainContainer = () => {
 };
 
 export default MainContainer;
+
