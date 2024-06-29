@@ -30,7 +30,7 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
   const targetCountryCode = getCountryCodeForDestination(targetDestination);
 
   // Filter weather data for other destinations in the same country as the target destination
-  const filteredDestinations = destinations.filter(d => d.countryCode === targetCountryCode && d.destination !== targetDestination);
+  const filteredDestinations = destinations?.filter(d => d.countryCode === targetCountryCode && d.destination !== targetDestination);
 
   // Aggregate data by destination
   const destinationData = {};
@@ -58,7 +58,7 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
   });
 
   // Add data for each filtered destination
-  filteredDestinations.forEach(dest => {
+  filteredDestinations?.forEach(dest => {
     destinationData[dest.destination] = {
       tempSum: 0,
       waterTempSum: 0,
@@ -67,7 +67,7 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
       count: 0
     };
 
-    filteredWeather.forEach(x => {
+    filteredWeather?.forEach(x => {
       if (x.destination === dest.destination) {
         destinationData[dest.destination].tempSum += x.temperature;
         destinationData[dest.destination].waterTempSum += x.water_temperature;
