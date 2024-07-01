@@ -5,6 +5,7 @@ import { destinations } from '../utils/weatherdata';
 import MoreInfo from './MoreInfo';
 import { useParams } from 'react-router-dom';
 import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
+import WhereToGoDisplay from './WhereToGoDisplay';
 
 const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
@@ -116,7 +117,7 @@ const MainContainer = () => {
   });
 
 
-  const { destination, month } = useParams(); // Destructure destination from useParams
+  const { destination, monthName, month } = useParams(); // Destructure destination from useParams
 
   const getData = async (destination) => {
     try {
@@ -190,7 +191,7 @@ const MainContainer = () => {
         }
       })
 
-      const monthlyContent =  data?.data?.monthContent?.map(x => {
+      const monthlyContent = data?.data?.monthContent?.map(x => {
         return {
           destination: destination,
           month: getMonth(x.month)?.name,
@@ -242,7 +243,7 @@ const MainContainer = () => {
       const windowHeight = window.innerHeight;
       setWindowHeight(windowHeight);
 
-      if (scrollHeight > windowHeight / 2) {
+      if (scrollHeight > 150) {
         setAllowOverFlow(true);
       } else {
         setAllowOverFlow(false);
@@ -261,11 +262,11 @@ const MainContainer = () => {
       {destination ? (
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className={`w-[100%] xl:w-[70%]  ${allowOverFlow ? 'overflow-y-auto xl:h-[300vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
-              {month ? (
-                <MonthlyWeatherDisplay data={filteredData} />
+            <div className='w-[100%] xl:w-[70%]'>
+              {month && !monthName ? (
+                <MonthlyWeatherDisplay data={filteredData} allowOverFlow={allowOverFlow}/>
               ) : (
-                <WeatherDisplay data={filteredData} />
+                <WeatherDisplay data={filteredData} allowOverFlow={allowOverFlow}/>
               )}
             </div>
             <div className="w-[100%] xl:w-[30%]">
@@ -276,11 +277,21 @@ const MainContainer = () => {
             <MoreInfo />
           </div>
         </>
+      ) : monthName ? (
+        <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className={`w-[100%] xl:w-[70%] `}>
+            <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow}/>
+          </div>
+          <div className="w-[100%] xl:w-[30%]">
+              <SearchForm destination={destination} destinations={destinations} />
+            </div>
+        </div>
       ) : (
         <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
       )}
     </div>
   );
+
 };
 
 export default MainContainer;
