@@ -129,7 +129,19 @@ const MainContainer = () => {
       if (!destination_id || destination_id === "undefined") {
         return;
       }
-      const response2 = await fetch(`http://192.168.100.39:3000/api/destination/${destination_id}?startDate=2023-07-06&endDate=2024-07-05`);
+      // Calculate endDate (day after tomorrow)
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate());
+      const endDateString = endDate.toISOString().split('T')[0];
+
+      // Calculate startDate (day after the day after tomorrow of the previous year)
+      const startDate = new Date();
+      startDate.setFullYear(startDate.getFullYear() - 1);
+      startDate.setDate(startDate.getDate() + 1);
+      const startDateString = startDate.toISOString().split('T')[0];
+
+      const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/destination/${destination_id}?startDate=${startDateString}&endDate=${endDateString}`);
+
       if (!response2.ok) {
         throw new Error('Network response was not ok ' + response2.statusText);
       }
@@ -154,12 +166,20 @@ const MainContainer = () => {
           condition_hours = x.wspd; // Assuming wind speed can represent windy hours, adjust if necessary
         }
 
+        // Adjust the date to the current year if it is from the previous year
+        const date = new Date(x.date);
+        const currentDate = new Date();
+
+        if (date.getFullYear() < currentDate.getFullYear()) {
+          date.setFullYear(currentDate.getFullYear());
+        }
+
         return {
           destination: destination, // Static destination, modify as necessary
-          date: new Date(x.date).toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
+          date: date.toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
           temperature: x.tavg, // Using average temperature
           water_temperature: x.tmin, // Static value, replace with actual if available
-          humidity: x.prcp, // Assuming `humid` key for humidity, replace if incorrect
+          humidity: x.prcp, // Assuming `prcp` key for humidity, replace if incorrect
           condition: condition,
           condition_hours: condition_hours
         };
@@ -293,7 +313,7 @@ const MainContainer = () => {
             <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
           </div>
           <div className="w-[100%] xl:w-[30%]">
-           
+
           </div>
 
         </div>
