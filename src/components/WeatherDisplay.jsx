@@ -124,7 +124,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
 
     const warmestMonths = getWarmestMonths(data?.daily_weather);
 
-    const destination_info = data?.destination_info[0];
+    const destination_info = data?.destination_info?[0] : {};
 
     // Example usage:
     const weatherStats = getWeatherStatistics(data?.daily_weather);
@@ -499,13 +499,13 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className='font-[900] text-[30px]'>{data.destination} weather</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
-                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className='px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</Text>
+                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className='px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px]'>WEATHER</Text>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Text>
+                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px] uppercase'>{data.destination}</Text>
                     </Box>
                 </Box>
                 <Box className="">
@@ -582,7 +582,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
 
                 <Box className="flex flex-col justify-center items-center md:items-start md:flex-row gap-[20px]">
                     <Box className="flex flex-row flex-nowrap ">
-                        <Text className='text-nowrap text-[18px] font-[800] '>Go to:</Text>
+                        <Text className='text-nowrap text-[18px] font-[700] '>Go to:</Text>
                     </Box>
                     <Box className="flex flex-row flex-wrap justify-center items-center md:items-start cursor-pointer gap-[10px]">
                         <a

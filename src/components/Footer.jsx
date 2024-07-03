@@ -33,49 +33,49 @@ const Footer = () => {
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.twitter}</span>
-                    <span className='text-[18px] font-[800]'>Twitter</span>
+                    <span className='text-[18px] font-[700]'>Twitter</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.facebook}</span>
-                    <span className='text-[18px] font-[800]'>Facebook</span>
+                    <span className='text-[18px] font-[700]'>Facebook</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.pininterest}</span>
-                    <span className='text-[18px] font-[800]'>Pinterest</span>
+                    <span className='text-[18px] font-[700]'>Pinterest</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.youtube}</span>
-                    <span className='text-[18px] font-[800]'>Youtube</span>
+                    <span className='text-[18px] font-[700]'>Youtube</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.insta}</span>
-                    <span className='text-[18px] font-[800]'>Instagram</span>
+                    <span className='text-[18px] font-[700]'>Instagram</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.tumblr}</span>
-                    <span className='text-[18px] font-[800]'>Tumblr</span>
+                    <span className='text-[18px] font-[700]'>Tumblr</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.rss}</span>
-                    <span className='text-[18px] font-[800]'>Rss</span>
+                    <span className='text-[18px] font-[700]'>Rss</span>
                 </Link>
                 <Link to=""
                 className='flex flex-row justify-center items-center gap-[5px] text-darkBlue-2 '
                 >
                     <span>{icons.tiktok}</span>
-                    <span className='text-[18px] font-[800]'>TikTok</span>
+                    <span className='text-[18px] font-[700]'>TikTok</span>
                 </Link>
             </div>
         </div>
@@ -87,7 +87,7 @@ const Footer = () => {
             ))}
         </div>
         <div className="flex flex-col gap-[20px]">
-            <p className='text-darkBlue-2 font-[800] text-[17px] '>We are a partner</p>
+            <p className='text-darkBlue-2 font-[700] text-[17px] '>We are a partner</p>
             <p className='text-darkBlue-2 font-[600]'>All links to holiday offers that we include in articles, entries, rankings and lists lead to the website of our partner Wakacje.pl. Ninja Tourist Service is not an organizer of trips or tourist events.</p>
             <p className='italic'>If you click on links on TurystycznyNinja or use them to complete a product purchase, we may receive money from the seller. However, this does not affect which offers are published. The information and prices posted on the website do not constitute a commercial offer within the meaning of the provisions of the Civil Code.</p>
         </div>

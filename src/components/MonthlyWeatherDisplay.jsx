@@ -135,7 +135,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
     dayAfterTomorrowDate.setDate(dayAfterTomorrowDate.getDate() + 2);
 
 
-    const destination_info = data?.destination_info[0];
+    const destination_info = data?.destination_info?[0] : {};
 
     const month_weather_description = data?.monthly_weather_description?.find(
         x => x?.month === data?.month

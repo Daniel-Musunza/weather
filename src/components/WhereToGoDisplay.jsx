@@ -6,7 +6,7 @@ import WeatherRegions from './WeatherRegions';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import MonthTemp from './MonthTemp';
-import { Card, Text, Button, Box } from '@mantine/core';
+import { Card, Text, Button, Box, Title } from '@mantine/core';
 import SpecificMonthTemp from './SpecificMonthTemp';
 import MonthWeatherRecords from './MonthWeatherRecords';
 
@@ -134,16 +134,10 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
     const dayAfterTomorrowDate = new Date();
     dayAfterTomorrowDate.setDate(dayAfterTomorrowDate.getDate() + 2);
 
-    const { destination, monthName, month } = useParams();
+    const { destination, monthName, id } = useParams();
 
-    const destination_info = data?.destination_info[0];
+    const destination_info = data?.destination_info?[0] : {};
 
-    const month_weather_description = data?.monthly_weather_description?.find(
-        x => x?.month === data?.month
-    )?.weather_description ?? '';
-
-    // Example usage:
-    const weatherStats = getWeatherStatistics(data?.daily_weather, data?.month);
 
     const months = [
         { name: 'January', id: 1 }, { name: 'February', id: 2 }, { name: 'March', id: 3 },
@@ -154,9 +148,6 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
 
     const currentMonth = months.find(m => m.name === data.month);
 
-
-    const previousMonth = months.find(m => m.id === currentMonth?.id - 1);
-    const nextMonth = months.find(m => m.id === currentMonth?.id + 1)
 
     let averageTemp = [];
 
@@ -245,10 +236,7 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 
-    const handleMonthNavigation = (month) => {
-        navigate(`/${data.destination}/${month}`);
-        window.location.reload();
-    };
+
 
     const weatherOtherDestinations = data.weatherOtherDestinations;
 
@@ -256,57 +244,177 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
         <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
-                    <h1 className=' font-[900] text-[30px]'>Where to go on holiday in {month} 2024?</h1>
+                    <h1 className=' font-[900] text-[30px]'>Heading?</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
-                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WHERE TO GO</div>
+                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px]'>WHERE TO GO</div>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>MONTH</div>
+                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{month}</Text>
-                    </Box>
-                </Box>
-
-                <Box className="flex flex-col  md:items-start md:flex-row gap-[20px]">
-                    <Box className="flex flex-row flex-nowrap ">
-                        <Text className='text-nowrap text-[18px] font-[800]'>Go to:</Text>
-                    </Box>
-                    <Box className="flex flex-row flex-wrap justify-center items-center md:items-start cursor-pointer gap-[10px]">
-                        <a
-                            className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                            onClick={() => handleNavigation('weather-in-regions-and-cities')}
-                        >
-                            Weather in regions and cities
-                        </a>
-                        <a
-                            className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                            onClick={() => handleNavigation('historic-weather')}
-                        >
-                            Historic weather
-                        </a>
-                        <a
-                            className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                            onClick={() => handleNavigation('weather-records')}
-                        >
-                            Weather records
-                        </a>
-                        <a
-                            className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                            onClick={() => handleNavigation('faq')}
-                        >
-                            FAQ
-                        </a>
+                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px] uppercase'>June</Text>
                     </Box>
                 </Box>
                 <Box className="flex flex-col" >
-                    {/* <ImageView destination={data?.destination} /> */}
+                    <div className="w-full flex justify-center flex-col">
+                        <img
+                            className='rounded-lg'
+                            src=" https://turystycznyninja.pl/wp-content/uploads/2023/12/Gdzie-na-wakacje-w-maju-shutterstock.com-Netfalls-Remy-Musser.jpg"
+                            alt=""
+                        />
+                        <Text className='text-[12px] align-middle'> Where to go on vacation in May 2024? / Netfalls Remy Musser / shutterstock.com</Text>
+                    </div>
+                    <div className='mt-[20px]'>
+                        May is the time when spring begins to bloom in our climate, while in many places in the world it is the perfect time for sunbathing, sea bathing and active recreation in a hot climate. A holiday in May is a great idea for people who do not like to travel during the peak tourist season. The choice of places to go in May to stay warm is really big. So if you want to visit many places, or relax in a hotel with a sea view, be sure to check out our suggestions.
+                    </div>
+
+                </Box>
+                <Box className="flex flex-col border-dashed border-[black] border-[2px] w-full p-2 rounded-lg gap-2">
+                    <Text className='text-nowrap text-[18px] font-[700] ml-[60px]'>Contents: </Text>
+                    <div className="flex flex-col w-full text-[16px] ml-[30px]">
+                        <ol className='flex flex-col gap-2'>
+                            <li onClick={() => handleNavigation('weather-in-regions-and-cities')} className='flex hover:text-[#0073ff]  '><span className="text-[#0073ff] mx-2 " >1. </span> <Link to="">Where to go on holiday in May? Greece</Link></li>
+                            <li className='flex hover:text-[#0073ff] '><span className="text-[#0073ff] mx-2">2. </span> <Link to="">Where to go on holiday in May? Cyprus</Link></li>
+                        </ol>
+                    </div>
+
+                </Box>
+
+                <Box className="flex flex-col" >
+                    <Text className='text-nowrap text-[18px] font-[700] p-2'>Where to go on holiday in May? Greece </Text>
+                    <Box className='w-full bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]'>
+                        <Text className='text-nowrap text-[18px] font-[600]'>Greece </Text>
+                        <div className="w-full flex justify-center flex-col">
+                            <img
+                                className='rounded-lg'
+                                src=" https://turystycznyninja.pl/wp-content/uploads/2023/12/Gdzie-na-wakacje-w-maju-shutterstock.com-Netfalls-Remy-Musser.jpg"
+                                alt=""
+                            />
+                            <Text className='text-[12px]'> weather in may</Text>
+                        </div>
+                        <div className='mt-[20px]'>
+                            <Text>
+                                When asked where to go on holiday in May, one of the best destinations seems to be Greece. In May, we can count on excellent weather conditions here - it is almost summer here, and the air temperature remains at 25 degrees Celsius. We can choose from both continental Greece with many places worth visiting, as well as Greek islands, which attract tourists from all over the world practically all year round. If you are wondering where to go abroad in May, it is a good idea to consider one of the Greek islands. We can choose from beautiful Crete, rich in monuments, Rhodes full of natural wealth, Mykonos with beautiful Greek beaches , Santorini with a holiday atmosphere and charming towns located right by the sea and with stunning blue roofs. It is worth adding here that holidays in Greece in May are relatively cheap compared to holidays in more distant and exotic places in the world. Last minute holidays in Greece are particularly worth considering . Before leaving, it is worth checking what is worth bringing from Greece . It is a country that guarantees great weather conditions, beautiful views, perfect for a week's vacation.
+                            </Text>
+                        </div>
+                        <div className='mt-[20px]'>
+                            <Box className='flex flex-wrap flex-row gap-[20px] justify-center'>
+                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+
+                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                        <Box className="flex flex-row justify-between">
+                                            <Box className="flex items-center ">
+                                                {/* Change the icon source dynamically based on weather condition */}
+                                                <img
+                                                    src="../../images/icons/thermometer-temperature.svg"
+                                                    alt="Air temperature"
+                                                    className="h-[20px] w-[20px]"
+                                                />
+
+                                            </Box>
+                                            <Box className="">
+                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {averageTemp[0]?.temp}
+                                                    <span className="align-super text-[10px]">°C</span>
+                                                </Text>
+                                            </Box>
+                                        </Box>
+
+                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Air temperature</Text>
+                                    </Box>
+
+                                </Box>
+                                {/* The day after tomorrow's weather */}
+                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+
+                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                        <Box className="flex flex-row justify-between">
+                                            <Box className="flex flex-col items-center gap-[15px]">
+                                                {/* Change the icon source dynamically based on weather condition */}
+                                                <img
+                                                    src="../../images/icons/clouds.svg"
+                                                    alt="Change of precipitation"
+                                                    className="h-[20px] w-[20px]"
+                                                />
+
+                                            </Box>
+                                            <Box className="">
+                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {averageHumidity[0]?.humid}
+                                                    <span className="align-super text-[10px]">%</span>
+                                                </Text>
+                                            </Box>
+                                        </Box>
+                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Change of precipitation</Text>
+                                    </Box>
+                                </Box>
+                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+
+                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                        <Box className="flex flex-row justify-between">
+                                            <Box className="flex flex-col items-center gap-[15px]">
+                                                {/* Change the icon source dynamically based on weather condition */}
+                                                <img
+                                                    src="../../images/icons/water.svg"
+                                                    alt="Temperature of water"
+                                                    className="h-[20px] w-[20px]"
+                                                />
+
+                                            </Box>
+                                            <Box className="">
+                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {averageWaterTemp[0]?.temp}
+                                                    <span className="align-super text-[10px]">°C</span>
+                                                </Text>
+                                            </Box>
+                                        </Box>
+                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Temperature of water</Text>
+                                    </Box>
+                                </Box>
+                                {/* The day after tomorrow's weather */}
+                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+
+                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                        <Box className="flex flex-row justify-between">
+                                            <Box className="flex flex-col items-center gap-[15px]">
+                                                {/* Change the icon source dynamically based on weather condition */}
+                                                <img
+                                                    src="../../images/icons/sun-day-light-bright.svg"
+                                                    alt="Sunny Hours"
+                                                    className="h-[20px] w-[20px]"
+                                                />
+                                            </Box>
+                                            <Box className="">
+                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {averageSunnyHours[0]?.hrs}
+                                                    <span className="align-super text-[10px]">hrs</span>
+                                                </Text>
+                                            </Box>
+                                        </Box>
+                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Sunny Hours</Text>
+                                    </Box>
+                                </Box>
+                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+
+                                    <Link to={`/${data.destination}/${data?.month}`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
+
+                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
+                                    </Link>
+                                </Box>
+                            </Box>
+                        </div>
+                        <div className="mt-[20px]">
+                            <ImageView destination={data?.destination} />
+                        </div>
+
+                    </Box>
+
                 </Box>
 
             </Box>

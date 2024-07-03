@@ -62,7 +62,24 @@ const SearchForm = ({ destination, destinations }) => {
         <div className="flex flex-col sticky  ">
             {isModalOpen && (<RoomsModal isOpen={isModalOpen} onClose={closeModal} rooms={rooms} setRooms={setRooms} />)}
             <div className="flex flex-col gap-[40px] w-[100%]">
+                <p>Check the weather for another destination</p>
+                <select
+                    className="w-full pl-3 pr-10 py-2 border-[2px] border-[#7286D3] focus:outline-none rounded-[10px]"
+                    value={selectDestination}
+                    onChange={(e) => {
+                        e.preventDefault();
+                        setSelectDestination(e.target.value);
+                        navigate(`/${e.target.value}`)
+                    }}
+                >
+                    <option value="">Name of Destination...</option>
+                    {destinations?.map((dest, index) => (
+                        <option key={index} value={dest.destination}>
 
+                            {dest.destination}
+                        </option>
+                    ))}
+                </select>
                 <div style={{ backgroundImage: 'linear-gradient(90deg, rgb(116, 235, 213), rgb(159, 172, 230))' }}
                     className='p-[20px] flex flex-col gap-[40px]'
                 >
@@ -170,26 +187,6 @@ const SearchForm = ({ destination, destinations }) => {
                         </a>
                     </div>
                 </div>
-
-
-                <p>Check the weather for another destination</p>
-                <select
-                    className="w-full pl-3 pr-10 py-2 border-[2px] border-[#7286D3] focus:outline-none rounded-[10px]"
-                    value={selectDestination}
-                    onChange={(e) => {
-                        e.preventDefault();
-                        setSelectDestination(e.target.value);
-                        navigate(`/${e.target.value}`)
-                    }}
-                >
-                    <option value="">Name of Destination...</option>
-                    {destinations?.map((dest, index) => (
-                        <option key={index} value={dest.destination}>
-
-                            {dest.destination}
-                        </option>
-                    ))}
-                </select>
 
                 <div className="flex flex-col gap-[20px]">
                     {destinations?.slice(0, 10)

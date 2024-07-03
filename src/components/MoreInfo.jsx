@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link, useNavigate } from 'react-router-dom'
 
 const MoreInfo = () => {
 
@@ -138,7 +138,7 @@ const MoreInfo = () => {
     <div className="flex flex-col lg:flex-row justify-between gap-[40px] mt-[80px] ">
         <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-[20px]">
-                <h1 className='text-[22px] font-[800] text-darkBlue-2'>Where to go on holiday:</h1>
+                <h1 className='text-[22px] font-[700] text-darkBlue-2'>Where to go on holiday:</h1>
             </div>
             <div className="flex flex-col gap-[20px]">
                 {holidaysData.map((obj) => (
@@ -147,8 +147,8 @@ const MoreInfo = () => {
                         className='h-[100px] w-[100px] rounded-[8px] '
                         />
                         <div className="flex flex-col gap-[3px] ">
-                            <h2 className='text-[15px] font-[800] text-darkBlue-2 '>{obj.title}</h2>
-                            <h2 className='text-[15px] font-[800] text-darkBlue-2 '>{obj.hint}</h2>
+                            <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.title}</h2>
+                            <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.hint}</h2>
                             <p className='text-darkBlue-2 font-[400]' >{obj.text}</p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@ const MoreInfo = () => {
         </div>
         <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-[20px]">
-                <h1 className='text-[22px] font-[800] text-darkBlue-2'>Weather:</h1>
+                <h1 className='text-[22px] font-[700] text-darkBlue-2'>Weather:</h1>
             </div>
             <div className="flex flex-col gap-[20px]">
                 {weatherData.map((obj) => (
@@ -166,7 +166,7 @@ const MoreInfo = () => {
                         className='h-[100px] w-[100px] rounded-[8px] '
                         />
                         <div className="flex flex-col gap-[3px] ">
-                            <h2 className='text-[15px] font-[800] text-darkBlue-2 '>{obj.title}</h2>
+                            <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.title}</h2>
                             <p className='text-darkBlue-2 font-[400]' >{obj.text}</p>
                         </div>
                     </div>
@@ -175,19 +175,19 @@ const MoreInfo = () => {
         </div>
         <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-[20px]">
-                <h1 className='text-[22px] font-[800] text-darkBlue-2'>The news:</h1>
+                <h1 className='text-[22px] font-[700] text-darkBlue-2'>The news:</h1>
             </div>
             <div className="flex flex-col gap-[20px]">
                 {newsData.map((obj) => (
-                    <div className="flex flex-row gap-[20px]">
+                    <Link to={`/where-to-go/month/${obj.id}`} className="flex flex-row gap-[20px]">
                         <img src={obj.image} alt=""
                         className='h-[100px] w-[100px] rounded-[8px] '
                         />
                         <div className="flex flex-col gap-[3px] ">
-                            <h2 className='text-[15px] font-[800] text-darkBlue-2 '>{obj.title}</h2>
+                            <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.title}</h2>
                             <p className='text-darkBlue-2 font-[400]' >{obj.text}</p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

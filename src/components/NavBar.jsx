@@ -101,8 +101,6 @@ const NavBar = () => {
             <div className="padding-x hidden xl:flex flex-row items-center text-[14px] gap-[20px] h-[40px]">
         <Link to="" className='font-[600]'>BEACHES</Link>
          <Link to="" className='font-[600]'>WHERE TO GO ON VACATION</Link>
-         <Link to="" className='font-[600] '>FLIGHTS</Link>
-         <Link to="" className='font-[600]'>PRICES</Link>
          <Link to="" className='font-[600]'>WARM COUNTRIES</Link>
          <Link to="" className='font-[600] '>OPINIONS</Link>
          <Link to="" className='font-[600] '>ATTRACTIONS</Link>

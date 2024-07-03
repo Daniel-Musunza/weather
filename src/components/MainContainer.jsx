@@ -6,6 +6,7 @@ import MoreInfo from './MoreInfo';
 import { useParams } from 'react-router-dom';
 import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
 import WhereToGoDisplay from './WhereToGoDisplay';
+import NewsDisplay from './NewsDisplay';
 
 const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
@@ -117,7 +118,7 @@ const MainContainer = () => {
   });
 
 
-  const { destination, monthName, month } = useParams(); // Destructure destination from useParams
+  const { destination, monthName, month, news } = useParams(); // Destructure destination from useParams
 
   const getData = async (destination) => {
     try {
@@ -128,8 +129,7 @@ const MainContainer = () => {
       if (!destination_id || destination_id === "undefined") {
         return;
       }
-
-      const response2 = await fetch(`http://192.168.100.39:3000/api/destination/${destination_id}?startDate=2024-01-01&endDate=2024-12-10`);
+      const response2 = await fetch(`http://192.168.100.39:3000/api/destination/${destination_id}?startDate=2023-07-06&endDate=2024-07-05`);
       if (!response2.ok) {
         throw new Error('Network response was not ok ' + response2.statusText);
       }
@@ -264,9 +264,9 @@ const MainContainer = () => {
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className='w-[100%] xl:w-[70%]'>
               {month && !monthName ? (
-                <MonthlyWeatherDisplay data={filteredData} allowOverFlow={allowOverFlow}/>
+                <MonthlyWeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
               ) : (
-                <WeatherDisplay data={filteredData} allowOverFlow={allowOverFlow}/>
+                <WeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
               )}
             </div>
             <div className="w-[100%] xl:w-[30%]">
@@ -279,12 +279,23 @@ const MainContainer = () => {
         </>
       ) : monthName ? (
         <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-          <div className={`w-[100%] xl:w-[70%] `}>
-            <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow}/>
+          <div className={`w-[100%] xl:w-[70%]`}>
+            <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow} />
           </div>
           <div className="w-[100%] xl:w-[30%]">
-              <SearchForm destination={destination} destinations={destinations} />
-            </div>
+            <SearchForm destination={destination} destinations={destinations} />
+          </div>
+
+        </div>
+      ) : news ? (
+        <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className={`w-[100%] xl:w-[70%]`}>
+            <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+          </div>
+          <div className="w-[100%] xl:w-[30%]">
+           
+          </div>
+
         </div>
       ) : (
         <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
