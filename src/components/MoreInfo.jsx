@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 const MoreInfo = () => {
     const navigate = useNavigate();
     const [holidayblog, setHolidayBlog] = useState([]);
+    const [newsblog, setNewsBlog] = useState([]);
 
     useEffect(() => {
         let isMounted = true;
@@ -10,17 +11,16 @@ const MoreInfo = () => {
         const fetchData = async () => {
 
             const response1 = await fetch(`https://travel-blog-drab.vercel.app/api/holiday-blog`);
-
+            const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/news`);
             if (!response1.ok) {
                 throw new Error('Network response was not ok ' + response1.statusText);
             }
 
             const holidayBlog = await response1.json();
-
-            console.log(holidayBlog)
-
+            const newsBlog = await response2.json();
             if (isMounted) {
                 setHolidayBlog(holidayBlog.data)
+                setNewsBlog(newsBlog.data)
             }
         };
 
@@ -30,9 +30,9 @@ const MoreInfo = () => {
         };
     }, []);
 
-
     const holidaysData = holidayblog?.map(x => {
         return {
+            id: x._id,
             title: x.heading,
             hint: " WHERE TO GO ON VACATION",
             text: "Where to go on holiday in March? The 10 warmest holiday destinations in winter",
@@ -44,87 +44,34 @@ const MoreInfo = () => {
 
     const weatherData = [
         {
+            destination: "Antalya",
             title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
-        {
-            title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
-        {
-            title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
-        {
-            title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
-        {
-            title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
-        {
-            title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
-        {
-            title: "ATTRACTIONS . WEATHER",
-            text: "Mauritius weather. When to go to Mauritius?",
-            image: "../../images/photos/Mauritius-–-pogoda.-Kiedy-jechac-na-Mauritius-shutterstock.com-Myroslava-Bozhko-150x150.webp"
-        },
+            text: "When to go to Antalya? What to take to Antalya? What are the prices in Antalya? – Travel Guide",
+            image: "https://turystycznyninja.pl/wp-content/uploads/2019/12/Kiedy-jechac-na-Sri-Lanke-shutterstock.com-Anton-Gvozdikov-150x150.jpg"
+        }
     ]
 
-    const newsData = [
-        {
+    const newsData = newsblog?.map(x => {
+        return {
+            id: x._id,
             title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-        {
-            title: "THE NEWS",
-            text: "Greece and Thassos on lasta. Pools, beach, beautiful views and lots of sun. From PLN 1,179/person.",
-            image: "../../images/photos/1652120053-1200-800-150x150.webp"
-        },
-    ]
+            text: x.heading,
+            image: x.image,
+            month: x.month
 
-    const handleNavigate = (number) => {
-        navigate(`/where-to-go/month/${number}`)
+        }
+    });
+
+    const handleHolidayNavigate = (month, id) => {
+        navigate(`/where-to-go/month${month}/${id}`)
+    }
+
+    const handleWeatherNavigate = (destination) => {
+        navigate(`/${destination}`)
+    }
+
+    const handleNewsNavigate = (id) => {
+        navigate(`/news/news/${id}`)
     }
 
     return (
@@ -135,7 +82,7 @@ const MoreInfo = () => {
                 </div>
                 <div className="flex flex-col gap-[20px]">
                     {holidaysData.map((obj) => (
-                        <div onClick={() => handleNavigate(obj.month)} className="flex flex-row gap-[20px] cursor-pointer" key={obj.id}>
+                        <div onClick={() => handleHolidayNavigate(obj.month, obj.id)} className="flex flex-row gap-[20px] cursor-pointer" key={obj.id}>
                             <img src={obj.image} alt={obj.title} className='h-[100px] w-[100px] rounded-[8px]' />
                             <div className="flex flex-col gap-[3px]">
                                 <h2 className='text-[15px] font-[700] text-darkBlue-2'>{obj.title}</h2>
@@ -152,8 +99,10 @@ const MoreInfo = () => {
                     <h1 className='text-[22px] font-[700] text-darkBlue-2'>Weather:</h1>
                 </div>
                 <div className="flex flex-col gap-[20px]">
-                    {weatherData.map((obj) => (
-                        <div className="flex flex-row gap-[20px]">
+                    {weatherData.map((obj, index) => (
+                       
+                        <div onClick={() => handleWeatherNavigate(obj.destination)} className="flex flex-row gap-[20px] cursor-pointer" key={index}>
+                          
                             <img src={obj.image} alt=""
                                 className='h-[100px] w-[100px] rounded-[8px] '
                             />
@@ -170,8 +119,10 @@ const MoreInfo = () => {
                     <h1 className='text-[22px] font-[700] text-darkBlue-2'>The news:</h1>
                 </div>
                 <div className="flex flex-col gap-[20px]">
-                    {newsData.map((obj) => (
-                        <Link to={`/where-to-go/month/${obj.id}`} className="flex flex-row gap-[20px]">
+                    {newsData.map((obj, index) => (
+
+                        <div onClick={() => handleNewsNavigate(obj.id)} className="flex flex-row gap-[20px] cursor-pointer" key={index}>
+                           
                             <img src={obj.image} alt=""
                                 className='h-[100px] w-[100px] rounded-[8px] '
                             />
@@ -179,7 +130,7 @@ const MoreInfo = () => {
                                 <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.title}</h2>
                                 <p className='text-darkBlue-2 font-[400]' >{obj.text}</p>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </div>

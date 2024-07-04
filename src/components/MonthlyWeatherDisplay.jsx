@@ -249,7 +249,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
         window.location.reload();
     };
 
-    const weatherOtherDestinations = data.weatherOtherDestinations;
+    const weatherOtherDestinations = data?.weatherOtherDestinations;
 
     return (
         <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
