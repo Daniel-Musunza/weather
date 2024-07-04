@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
 import WhereToGoDisplay from './WhereToGoDisplay';
 import NewsDisplay from './NewsDisplay';
+import NewsAds from './NewsAds';
 
 const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
@@ -114,7 +115,8 @@ const MainContainer = () => {
     destination_info: [],
     faqs: [],
     monthly_faqs: [],
-    monthly_weather_description: []
+    monthly_weather_description: [],
+
   });
 
 
@@ -220,7 +222,7 @@ const MainContainer = () => {
         }
       })
 
-      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent };
+      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent};
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     }
@@ -244,7 +246,7 @@ const MainContainer = () => {
           faqs: data?.faqs,
           monthly_faqs: data?.monthlyFaqs,
           monthly_weather_description: data?.monthlyContent,
-          weatherOtherDestinations
+          weatherOtherDestinations,
         };
         setFilteredData(filteredDestinations);
       }
@@ -294,29 +296,38 @@ const MainContainer = () => {
             </div>
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
+            <MoreInfo/>
           </div>
         </>
       ) : monthName ? (
-        <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-          <div className={`w-[100%] xl:w-[70%]`}>
-            <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+        <>
+          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={`w-[100%] xl:w-[70%]`}>
+              <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+            </div>
+            <div className="w-[100%] xl:w-[30%]">
+              <SearchForm destination={destination} destinations={destinations} />
+            </div>
           </div>
-          <div className="w-[100%] xl:w-[30%]">
-            <SearchForm destination={destination} destinations={destinations} />
+          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+            <MoreInfo />
           </div>
-
-        </div>
+        </>
       ) : news ? (
-        <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-          <div className={`w-[100%] xl:w-[70%]`}>
-            <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
-          </div>
-          <div className="w-[100%] xl:w-[30%]">
+        <>
+          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={`w-[100%] xl:w-[70%]`}>
+              <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+            </div>
+            <div className="w-[100%] xl:w-[30%]">
+              <NewsAds />
+            </div>
 
           </div>
-
-        </div>
+          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+            <MoreInfo />
+          </div>
+        </>
       ) : (
         <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
       )}

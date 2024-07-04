@@ -303,8 +303,8 @@ const NewsDisplay = ({ data, allowOverFlow }) => {
 
                 <ImageView destination={data?.destination} />
                 <div className="flex flex-col text-[20px]">
-                    <div className='w-full py-[15px] px-[10px] flex justify-between'>
-                        <div className="relative bg-cover bg-center h-[250px] w-full md:w-[48%] flex flex-col justify-end rounded-xl bg-[url('https://turystycznyninja.pl/wp-content/uploads/2024/07/novel-centre-point-1521261051-1200-800-900x600.jpg')]">
+                    <div className='w-full py-[15px] px-[10px] flex flex-wrap justify-between gap-4'>
+                        <div className="relative py-2 bg-cover bg-center h-[250px] w-full md:w-[48%] flex flex-col justify-end rounded-xl bg-[url('https://turystycznyninja.pl/wp-content/uploads/2024/07/novel-centre-point-1521261051-1200-800-900x600.jpg')]">
                             <button
                                 className='absolute top-2 text-center left-2 bg-[#1262af] px-[20px] py-[5px] text-white text-[13px] rounded-[8px] w-[80px]'
                             >
@@ -317,7 +317,7 @@ const NewsDisplay = ({ data, allowOverFlow }) => {
                                Total luxury for a holiday in Famagusta, Cyprus. HB option from PLN 1,819/person.
                             </Text>
                         </div>
-                        <div className="relative bg-cover bg-center h-[250px] rounded-xl w-full md:w-[48%] flex flex-col justify-end bg-[url('https://turystycznyninja.pl/wp-content/uploads/2024/07/palm-beach-basen-1074170714-1200-800-900x600.jpg')]">
+                        <div className="relative  py-2 bg-cover bg-center h-[250px] rounded-xl w-full md:w-[48%] flex flex-col justify-end bg-[url('https://turystycznyninja.pl/wp-content/uploads/2024/07/palm-beach-basen-1074170714-1200-800-900x600.jpg')]">
                             <button
                                 className='absolute top-2 text-center right-2 bg-[#1262af] px-[20px] py-[5px] text-white text-[13px] rounded-[8px] w-[80px]'
                             >
@@ -335,12 +335,8 @@ const NewsDisplay = ({ data, allowOverFlow }) => {
                     <Text className='text-[30px] font-[800] py-2'>Featured Posts:</Text>
 
                     <div className='w-full py-[15px] flex flex-wrap justify-between'>
-                        <div className="flex flex-col w-full md:w-[48%] justify-center">
-                            <button
-                                className='absolute top-2 left-2 bg-[#1262af] px-[20px] py-[5px] text-white text-[13px] rounded-[8px] w-[100px] mb-2'
-                            >
-                                The News
-                            </button>
+                        <div className="flex flex-col  py-2 w-full md:w-[48%] justify-center">
+                       
                             <img
                                 src="https://turystycznyninja.pl/wp-content/uploads/2024/05/chrysoula-studios-obiekt-basen-788841909-1200-800.jpg"
                                 alt="All Inclusive on the Greek island of Lesbos"
@@ -355,12 +351,8 @@ const NewsDisplay = ({ data, allowOverFlow }) => {
                             </Text>
                         </div>
 
-                        <div className="flex flex-col w-full md:w-[48%]">
-                            <button
-                                className='absolute top-2 text-center bg-[#1262af] px-[20px] py-[5px] text-white text-[13px] rounded-[8px] w-[100px] mb-2'
-                            >
-                                The News
-                            </button>
+                        <div className="flex flex-col py-2 w-full md:w-[48%]">
+                           
                             <img
                                 src="https://turystycznyninja.pl/wp-content/uploads/2023/10/neptune-village-beach-resort-spa-basen-plaza-1493694542-830-550.jpg"
                                 alt="Neptune Village – a Kenyan option for a cheap stay"

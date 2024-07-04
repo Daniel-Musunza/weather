@@ -246,19 +246,19 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className=' font-[900] text-[30px]'>Heading?</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
-                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px]'>WHERE TO GO</div>
+                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white  text-[11px] md:text-[13px] font-[700] rounded-[8px]'>WHERE TO GO</div>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
+                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[700] rounded-[8px] uppercase'>June</Text>
+                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>June</Text>
                     </Box>
                 </Box>
                 <Box className="flex flex-col" >
