@@ -222,7 +222,7 @@ const MainContainer = () => {
         }
       })
 
-      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent};
+      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent };
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     }
@@ -263,21 +263,21 @@ const MainContainer = () => {
     const handleScroll = () => {
       const scrollHeight = window.scrollY;
       const windowHeight = window.innerHeight;
-      setWindowHeight(windowHeight);
-
-      if (scrollHeight > 150) {
+      if (scrollHeight > windowHeight / 3 && scrollHeight < windowHeight * 6) {
         setAllowOverFlow(true);
       } else {
         setAllowOverFlow(false);
       }
     };
-
+  
     window.addEventListener('scroll', handleScroll);
-
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  
+  // ${allowOverFlow ? 'fixed top-2 right-[20px]' : 'relative'}
 
   return (
     <div>
@@ -291,12 +291,13 @@ const MainContainer = () => {
                 <WeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
               )}
             </div>
-            <div className="w-[100%] xl:w-[30%]">
+            <div className={`w-[100%] xl:w-[30%] `}>
               <SearchForm destination={destination} destinations={destinations} />
             </div>
+
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo/>
+            <MoreInfo />
           </div>
         </>
       ) : monthName ? (
@@ -305,9 +306,10 @@ const MainContainer = () => {
             <div className={`w-[100%] xl:w-[70%]`}>
               <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow} />
             </div>
-            <div className="w-[100%] xl:w-[30%]">
+            <div className={`w-[100%] xl:w-[30%] `}>
               <SearchForm destination={destination} destinations={destinations} />
             </div>
+
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo />
@@ -319,7 +321,7 @@ const MainContainer = () => {
             <div className={`w-[100%] xl:w-[70%]`}>
               <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
             </div>
-            <div className="w-[100%] xl:w-[30%]">
+            <div className={`w-[100%] xl:w-[30%] ${allowOverFlow ? 'fixed top-2 right-[20px]' : 'relative'}`}>
               <NewsAds />
             </div>
 

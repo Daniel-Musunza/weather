@@ -30,26 +30,39 @@ const MoreInfo = () => {
         };
     }, []);
 
-    const holidaysData = holidayblog?.map(x => {
-        return {
-            id: x._id,
-            title: x.heading,
-            hint: " WHERE TO GO ON VACATION",
-            text: "Where to go on holiday in March? The 10 warmest holiday destinations in winter",
-            image: x.coverImage,
-            month: x.month
-
-        }
-    });
-
-    const weatherData = [
-        {
-            destination: "Antalya",
-            title: "ATTRACTIONS . WEATHER",
-            text: "When to go to Antalya? What to take to Antalya? What are the prices in Antalya? – Travel Guide",
-            image: "https://turystycznyninja.pl/wp-content/uploads/2019/12/Kiedy-jechac-na-Sri-Lanke-shutterstock.com-Anton-Gvozdikov-150x150.jpg"
-        }
+    const destiationCategory = [
+        { name: "BEACHES" },
+        { name: "WHERE TO GO ON VACATION" },
+        { name: "WARM COUNTRIES" },
+        { name: "WEATHER" },
+        { name: "ATTRACTIONS" }
     ]
+
+    const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION")
+        .map(x => {
+            return {
+                id: x._id,
+                title: "WARM DESTINATIONS -",
+                hint: "WHERE TO GO ON VACATION",
+                text: x.overViewHeading,
+                image: x.coverImage,
+                month: x.month
+
+            }
+        });
+
+    const weatherData = holidayblog?.filter(x => x.category === "WEATHER")
+        .map(x => {
+            return {
+                id: x._id,
+                title: "WEATHER",
+                text: x.overViewHeading,
+                image: x.coverImage,
+                month: x.month,
+                destination: x.destination,
+                category: x.category
+            }
+        });
 
     const newsData = newsblog?.map(x => {
         return {
@@ -63,15 +76,15 @@ const MoreInfo = () => {
     });
 
     const handleHolidayNavigate = (month, id) => {
-        navigate(`/where-to-go/month${month}/${id}`)
+        navigate(`/where-to-go/month${month}/${id}#top`)
     }
 
     const handleWeatherNavigate = (destination) => {
-        navigate(`/${destination}`)
+        navigate(`/${destination}#top`)
     }
 
     const handleNewsNavigate = (id) => {
-        navigate(`/news/news/${id}`)
+        navigate(`/news/news/${id}#top`)
     }
 
     return (
@@ -100,14 +113,14 @@ const MoreInfo = () => {
                 </div>
                 <div className="flex flex-col gap-[20px]">
                     {weatherData.map((obj, index) => (
-                       
+
                         <div onClick={() => handleWeatherNavigate(obj.destination)} className="flex flex-row gap-[20px] cursor-pointer" key={index}>
-                          
+
                             <img src={obj.image} alt=""
                                 className='h-[100px] w-[100px] rounded-[8px] '
                             />
                             <div className="flex flex-col gap-[3px] ">
-                                <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.title}</h2>
+                                <h2 className='text-[15px] font-[700] text-darkBlue-2 '>{obj.title} - </h2>
                                 <p className='text-darkBlue-2 font-[400]' >{obj.text}</p>
                             </div>
                         </div>
@@ -122,7 +135,7 @@ const MoreInfo = () => {
                     {newsData.map((obj, index) => (
 
                         <div onClick={() => handleNewsNavigate(obj.id)} className="flex flex-row gap-[20px] cursor-pointer" key={index}>
-                           
+
                             <img src={obj.image} alt=""
                                 className='h-[100px] w-[100px] rounded-[8px] '
                             />

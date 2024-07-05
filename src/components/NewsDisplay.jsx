@@ -239,9 +239,10 @@ const NewsDisplay = ({ data, allowOverFlow }) => {
 
 
     const weatherOtherDestinations = data.weatherOtherDestinations;
-
+    // className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
     return (
         <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+
             <Box className="flex flex-col gap-[40px]" >
 
                 <Box className="flex flex-col" >

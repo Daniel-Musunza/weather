@@ -59,7 +59,7 @@ const SearchForm = ({ destination, destinations }) => {
     // https://www.itravelholidays.co.uk/hotels?destinationIds=968&destinationIds=0&selected=2024-07-24T14%3A33%3A42.802Z&departureAirports=0&nights=7&range=3&adultsRoom1=2&childrenRoom1=1&whereto=Dubai%2C+United+Arab+Emirates&searchtype=hotel&sessionId=W8LNO7VL5&childrenRoom1=0
 
     return (
-        <div className="flex flex-col sticky  ">
+        <div className="flex flex-col sticky w-full md:w-[350px]">
             {isModalOpen && (<RoomsModal isOpen={isModalOpen} onClose={closeModal} rooms={rooms} setRooms={setRooms} />)}
             <div className="flex flex-col gap-[40px] w-[100%]">
                 <p>Check the weather for another destination</p>

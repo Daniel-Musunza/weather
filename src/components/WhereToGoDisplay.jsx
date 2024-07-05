@@ -241,8 +241,9 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
     const weatherOtherDestinations = data.weatherOtherDestinations;
 
     return (
-        <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
-            <Box className="flex flex-col gap-[40px]  " >
+        <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
+>
+            <Box className="flex flex-col gap-[40px]  " id="top">
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className=' font-[900] text-[30px]'>Heading?</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
@@ -402,7 +403,7 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
                                 </Box>
                                 <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
 
-                                    <Link to={`/${data.destination}/${data?.month}`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
+                                    <Link to={`/${data.destination}/${data?.month}#top`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
 
                                         <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
                                     </Link>

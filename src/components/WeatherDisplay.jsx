@@ -495,7 +495,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
 
     return (
         <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
-            <Box className="flex flex-col gap-[40px]  " >
+            <Box className="flex flex-col gap-[40px]" >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className='font-[900] text-[30px]'>{data.destination} weather</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
@@ -509,7 +509,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                     </Box>
                 </Box>
                 <Box className="">
-                    <h2 className='text-[20px] font-[600]'>Current weather in {data.destination}</h2>
+                    <h2 className='text-[20px] font-[600]'>Current weather in {data?.destination}</h2>
                 </Box>
 
                 <Box className="flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
@@ -817,7 +817,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                                         </Box>
                                     </td>
                                 </tr>
-                                <tr className='py-[10px] md:py-[30px] px-[20px]'>
+                                {/* <tr className='py-[10px] md:py-[30px] px-[20px]'>
                                     <td className='py-[10px] md:py-[30px] px-[20px]'>
                                         <Box className="flex flex-col gap-[5px] justify-start w-[150px]">
                                             <img src="../../images/icons/sun-day-light-bright.svg" alt=""
@@ -843,7 +843,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                                             </Box>
                                         </Box>
                                     </td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                     </Box>
@@ -852,7 +852,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                     <h2 className='font-[600] text-darkBlue-2 text-[20px]'>Check weather details for a specific month:</h2>
                     <Box className="grid grid-cols-2 gap-[20px] sm:flex sm:flex-wrap sm:gap-[10px] sm:justify-center sm:items-center">
                         {months.map((x, index) => (
-                            <Link to={`/${data.destination}/${x.name}`}>
+                            <Link to={`/${data.destination}/${x.name}#top`}>
                                 <Text key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue cursor-pointer">
                                     {x.name}
                                 </Text>
