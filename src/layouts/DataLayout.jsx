@@ -275,7 +275,7 @@ const DataLayout = ({props}) => {
 
   return (
     <Fragment>
-    	{props.children}
+    	{/* {props.children} */}
         <Outlet/>
     </Fragment>
   );
