@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { destinations } from '../utils/weatherdata';
 const MoreInfo = () => {
     const navigate = useNavigate();
     const [holidayblog, setHolidayBlog] = useState([]);
@@ -79,8 +80,10 @@ const MoreInfo = () => {
         navigate(`/where-to-go/month${month}/${id}#top`)
     }
 
-    const handleWeatherNavigate = (destination) => {
-        navigate(`/${destination}#top`)
+    const handleWeatherNavigate = async (destination) => {
+        const name =  await destinations?.find((x)=> x.id===destination).destination;
+
+        navigate(`/${name}#top`)
     }
 
     const handleNewsNavigate = (id) => {

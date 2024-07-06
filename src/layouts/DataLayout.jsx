@@ -1,13 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import WeatherDisplay from './WeatherDisplay';
-import SearchForm from './SearchForm';
+import React, { useState, useEffect, Fragment } from 'react';
 import { destinations } from '../utils/weatherdata';
-import MoreInfo from './MoreInfo';
-import { useParams } from 'react-router-dom';
-import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
-import WhereToGoDisplay from './WhereToGoDisplay';
-import NewsDisplay from './NewsDisplay';
-import NewsAds from './NewsAds';
+import { Outlet, useParams } from 'react-router-dom';
 
 const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
@@ -103,11 +96,12 @@ const months = [
   { name: 'July', id: 7 }, { name: 'August', id: 8 }, { name: 'September', id: 9 },
   { name: 'October', id: 10 }, { name: 'November', id: 11 }, { name: 'December', id: 12 }
 ];
+
 const getMonth = (number) => {
   return months.find(m => m.id == number)
 }
 
-const MainContainer = () => {
+const DataLayout = ({props}) => {
   const [windowHeight, setWindowHeight] = useState(0);
   const [allowOverFlow, setAllowOverFlow] = useState(false);
   const [filteredData, setFilteredData] = useState({
@@ -280,63 +274,13 @@ const MainContainer = () => {
   // ${allowOverFlow ? 'fixed top-2 right-[20px]' : 'relative'}
 
   return (
-    <div>
-      {destination ? (
-        <>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className='w-[100%] xl:w-[70%]'>
-              {month && !monthName ? (
-                <MonthlyWeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
-              ) : (
-                <WeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
-              )}
-            </div>
-            <div className={`w-[100%] xl:w-[30%] `}>
-              <SearchForm destination={destination} destinations={destinations} />
-            </div>
-
-          </div>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
-          </div>
-        </>
-      ) : monthName ? (
-        <>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className={`w-[100%] xl:w-[70%]`}>
-              <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow} />
-            </div>
-            <div className={`w-[100%] xl:w-[30%] `}>
-              <SearchForm destination={destination} destinations={destinations} />
-            </div>
-
-          </div>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
-          </div>
-        </>
-      ) : news ? (
-        <>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className={`w-[100%] xl:w-[70%]`}>
-              <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
-            </div>
-            <div className={`w-[100%] xl:w-[30%]`}>
-              <NewsAds />
-            </div>
-
-          </div>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
-          </div>
-        </>
-      ) : (
-        <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
-      )}
-    </div>
+    <Fragment>
+    	{props.children}
+        <Outlet/>
+    </Fragment>
   );
 
 };
 
-export default MainContainer;
+export default DataLayout;
 

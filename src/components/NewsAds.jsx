@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 const NewsAds = () => {
 
     return (
-        <div className="flex flex-col sticky  ">
+        <div className="flex flex-col sticky w-full md:w-[350px]">
             <div className="flex flex-col gap-[40px] w-[100%]">
                 <div className="flex flex-col  py-2 w-full justify-center">
 
