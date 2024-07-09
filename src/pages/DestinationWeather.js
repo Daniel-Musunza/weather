@@ -8,13 +8,12 @@ import BottomTabs from '../components/ButtomTabs'
 import MoreInfo from '../components/MoreInfo'
 import Footer from '../components/Footer'
 import MainContainer from '../components/MainContainer'
-import DataLayout from '../layouts/DataLayout'
 
 const DestinationWeather = () => {
   return (
     <>
       <NavBar />
-      <div className="mb-[100px]" id="top">
+      <div className="mb-[100px]" >
         <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row py-[30px]" style={{ backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)` }}>
           <SearchBar />
         </div>

@@ -720,7 +720,9 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                                     );
                                 })}
                         </Box>
-                        <Text className='text-darkBlue-2 text-[15px]'>{destination_info?.weather_description}</Text>
+                        
+                        <Text className='text-darkBlue-2 text-[15px]'>{data?.destination_info[0]?.weather_description
+                        }</Text>
                     </Box>
                 </Box>
                 {/* table */}
@@ -852,7 +854,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                     <h2 className='font-[600] text-darkBlue-2 text-[20px]'>Check weather details for a specific month:</h2>
                     <Box className="grid grid-cols-2 gap-[20px] sm:flex sm:flex-wrap sm:gap-[10px] sm:justify-center sm:items-center">
                         {months.map((x, index) => (
-                            <Link to={`/${data.destination}/${x.name}#top`}>
+                            <Link to={`/${data.destination}/${x.name}`}>
                                 <Text key={index} className="w-[100%]  sm:w-auto flex flex-row justify-center items-center px-[15px] sm1:px-[25px] py-[6px] rounded-[20px] border-[1px] border-darkBlue text-[14px] font-[600] text-darkBlue cursor-pointer">
                                     {x.name}
                                 </Text>
@@ -862,7 +864,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                 </Box>
                 <ImageView destination={data?.destination} />
                 <MonthTemp daily_weather={data?.daily_weather} destination={data?.destination} />
-                <WeatherRecords destination_info={destination_info} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
+                <WeatherRecords destination_info={data?.destination_info[0]} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
                 <WeatherRegions destination={data?.destination} weatherOtherDestinations={data?.weatherOtherDestinations} />
             </Box>
         </div>

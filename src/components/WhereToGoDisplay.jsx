@@ -9,6 +9,7 @@ import MonthTemp from './MonthTemp';
 import { Card, Text, Button, Box, Title } from '@mantine/core';
 import SpecificMonthTemp from './SpecificMonthTemp';
 import MonthWeatherRecords from './MonthWeatherRecords';
+import { destinations } from '../utils/weatherdata';
 
 const getCurrentTime = () => {
     const now = new Date();
@@ -127,7 +128,7 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
     };
 };
 
-const WhereToGoDisplay = ({ data, allowOverFlow }) => {
+const WhereToGoDisplay = ({ data, allowOverFlow, holidaysData }) => {
     const navigate = useNavigate();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -136,8 +137,7 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
 
     const { destination, monthName, id } = useParams();
 
-    const destination_info = data?.destination_info?[0] : {};
-
+    const destination_info = data?.destination_info ? [0] : {};
 
     const months = [
         { name: 'January', id: 1 }, { name: 'February', id: 2 }, { name: 'March', id: 3 },
@@ -146,72 +146,80 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
         { name: 'October', id: 10 }, { name: 'November', id: 11 }, { name: 'December', id: 12 }
     ];
 
-    const currentMonth = months.find(m => m.name === data.month);
+    const getMonth = () => {
+        return months.find(m => m.id == monthName)?.name
+    }
 
-
-    let averageTemp = [];
-
-    let averageWaterTemp = [];
-
-    let averageHumidity = [];
-
-    let averageSunnyHours = [];
-
-    // Function to parse date in "DD/MM/YYYY" format and return the month in 'short' format
     const parseDateToMonth = (dateString) => {
         const [day, month, year] = dateString.split('/').map(Number);
         const date = new Date(year, month - 1, day);
         if (!isNaN(date)) {
-            return date.toLocaleString('default', { month: 'long' });
+            return month;
         }
         return null;
     };
 
-    // Step 1: Group data by month and calculate the sum of temperatures and the count of days for each month
-    const monthData = data?.daily_weather?.reduce((acc, x) => {
-        const month = parseDateToMonth(x.date);
+    const getDestination = (number) => {
+        return destinations?.find((x) => x.id === number).destination;
+    }
+
+    const getAverageWeather = async (destination) => {
+        const destinationName = await getDestination(destination);
+        let averageTemp = [];
+        let averageWaterTemp = [];
+        let averageHumidity = [];
+        let averageSunnyHours = [];
+
+        const monthData = await data?.daily_weather?.filter(x => x.destination === destinationName)
+            .reduce((acc, x) => {
+                const month = parseDateToMonth(x.date);
 
 
-        if (month === data?.month) {
-            if (!acc[month]) {
-                acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
-            }
 
-            acc[month].tempSum += x.temperature;
-            acc[month].waterTempSum += x.water_temperature;
-            acc[month].humidSum += x.humidity;
-            if (x.condition === "Sunny") {
-                acc[month].sunnyHrsSum += x.condition_hours;
-            }
-            acc[month].count += 1;
+                if (`${month}` === monthName) {
+                    if (!acc[month]) {
+                        acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
+                    }
+                    acc[month].tempSum += x.temperature;
+                    acc[month].waterTempSum += x.water_temperature;
+                    acc[month].humidSum += x.humidity;
+                    if (x.condition === "Sunny") {
+                        acc[month].sunnyHrsSum += x.condition_hours;
+                    }
+                    acc[month].count += 1;
+                }
+
+             
+
+                return acc;
+            }, {});
+
+        if (data?.daily_weather?.length > 0) {
+            averageTemp = Object.keys(monthData).map(month => ({
+                month: month,
+                temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
+            }));
+
+            averageWaterTemp = Object.keys(monthData).map(month => ({
+                month: month,
+                temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
+            }));
+
+            averageHumidity = Object.keys(monthData).map(month => ({
+                month: month,
+                humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
+            }));
+
+            averageSunnyHours = Object.keys(monthData).map(month => ({
+                month: month,
+                hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
+            }));
         }
 
-        return acc;
-    }, {});
+        console.log({ averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours })
+        return { averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours };
+    };
 
-    // Step 2: Calculate the average temperature for each month and format the result
-    if (data?.daily_weather?.length > 0) {
-        // Step 2: Calculate the average temperature for each month and format the result
-        averageTemp = Object.keys(monthData).map(month => ({
-            month: month,
-            temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
-        }));
-
-        averageWaterTemp = Object.keys(monthData).map(month => ({
-            month: month,
-            temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
-        }));
-
-        averageHumidity = Object.keys(monthData).map(month => ({
-            month: month,
-            humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
-        }));
-
-        averageSunnyHours = Object.keys(monthData).map(month => ({
-            month: month,
-            hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
-        }));
-    }
 
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {
@@ -232,20 +240,22 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
     }, []);
 
     const handleNavigation = (sectionId) => {
-        navigate(`/${data.destination}/${data?.month}#${sectionId}`);
+        navigate(`/where-to-go/${monthName}/${id}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 
-
-
     const weatherOtherDestinations = data.weatherOtherDestinations;
+
+    const currentHoliday = holidaysData?.find((x) => x.id === id)
+
+    
 
     return (
         <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
->
-            <Box className="flex flex-col gap-[40px]  " id="top">
+        >
+            <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
-                    <h1 className=' font-[900] text-[30px]'>Heading?</h1>
+                    <h1 className=' font-[900] text-[30px]'>{currentHoliday?.text}?</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
                         <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white  text-[11px] md:text-[13px] font-[700] rounded-[8px]'>WHERE TO GO</div>
                         <span>
@@ -259,20 +269,20 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>June</Text>
+                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>{getMonth()}</Text>
                     </Box>
                 </Box>
                 <Box className="flex flex-col" >
                     <div className="w-full flex justify-center flex-col">
                         <img
                             className='rounded-lg'
-                            src=" https://turystycznyninja.pl/wp-content/uploads/2023/12/Gdzie-na-wakacje-w-maju-shutterstock.com-Netfalls-Remy-Musser.jpg"
+                            src={currentHoliday?.image}
                             alt=""
                         />
-                        <Text className='text-[12px] align-middle'> Where to go on vacation in May 2024? / Netfalls Remy Musser / shutterstock.com</Text>
+                        <Text className='text-[12px]  text-center'> {currentHoliday?.text}</Text>
                     </div>
                     <div className='mt-[20px]'>
-                        May is the time when spring begins to bloom in our climate, while in many places in the world it is the perfect time for sunbathing, sea bathing and active recreation in a hot climate. A holiday in May is a great idea for people who do not like to travel during the peak tourist season. The choice of places to go in May to stay warm is really big. So if you want to visit many places, or relax in a hotel with a sea view, be sure to check out our suggestions.
+                        {currentHoliday?.description}
                     </div>
 
                 </Box>
@@ -280,144 +290,143 @@ const WhereToGoDisplay = ({ data, allowOverFlow }) => {
                     <Text className='text-nowrap text-[18px] font-[700] ml-[60px]'>Contents: </Text>
                     <div className="flex flex-col w-full text-[16px] ml-[30px]">
                         <ol className='flex flex-col gap-2'>
-                            <li onClick={() => handleNavigation('weather-in-regions-and-cities')} className='flex hover:text-[#0073ff]  '><span className="text-[#0073ff] mx-2 " >1. </span> <Link to="">Where to go on holiday in May? Greece</Link></li>
-                            <li className='flex hover:text-[#0073ff] '><span className="text-[#0073ff] mx-2">2. </span> <Link to="">Where to go on holiday in May? Cyprus</Link></li>
+
+                            {currentHoliday?.content.map((x, index) => (
+                                <li key={index} onClick={() => handleNavigation(`${x.destination}`)} className='flex hover:text-[#0073ff]  '><span className="text-[#0073ff] mx-2 " >{index + 1}. </span> <Link to="">{x.text}</Link></li>
+                            ))}
                         </ol>
                     </div>
 
                 </Box>
+                {currentHoliday?.content.map((x, index) => (
+                    <Box className="flex flex-col" id={`${x.destination}`} key={index}>
+                        <Text className='text-nowrap text-[18px] font-[700] p-2'>{x.subHeading} </Text>
+                        <Box className='w-full bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md'>
+                            <Text className='text-nowrap text-[18px] font-[600]'>{getDestination(x.destination)}</Text>
+                            <div className="w-full flex justify-center flex-col">
+                                <img
+                                    className='rounded-lg'
+                                    src={x.image}
+                                    alt=""
+                                />
+                                <Text className='text-[12px] text-center'> weather in {getMonth()}</Text>
+                            </div>
+                            <div className='mt-[20px]'>
+                                <Text>{x.weatherInfo} </Text>
+                            </div>
 
-                <Box className="flex flex-col" >
-                    <Text className='text-nowrap text-[18px] font-[700] p-2'>Where to go on holiday in May? Greece </Text>
-                    <Box className='w-full bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]'>
-                        <Text className='text-nowrap text-[18px] font-[600]'>Greece </Text>
-                        <div className="w-full flex justify-center flex-col">
-                            <img
-                                className='rounded-lg'
-                                src=" https://turystycznyninja.pl/wp-content/uploads/2023/12/Gdzie-na-wakacje-w-maju-shutterstock.com-Netfalls-Remy-Musser.jpg"
-                                alt=""
-                            />
-                            <Text className='text-[12px]'> weather in may</Text>
-                        </div>
-                        <div className='mt-[20px]'>
-                            <Text>
-                                When asked where to go on holiday in May, one of the best destinations seems to be Greece. In May, we can count on excellent weather conditions here - it is almost summer here, and the air temperature remains at 25 degrees Celsius. We can choose from both continental Greece with many places worth visiting, as well as Greek islands, which attract tourists from all over the world practically all year round. If you are wondering where to go abroad in May, it is a good idea to consider one of the Greek islands. We can choose from beautiful Crete, rich in monuments, Rhodes full of natural wealth, Mykonos with beautiful Greek beaches , Santorini with a holiday atmosphere and charming towns located right by the sea and with stunning blue roofs. It is worth adding here that holidays in Greece in May are relatively cheap compared to holidays in more distant and exotic places in the world. Last minute holidays in Greece are particularly worth considering . Before leaving, it is worth checking what is worth bringing from Greece . It is a country that guarantees great weather conditions, beautiful views, perfect for a week's vacation.
-                            </Text>
-                        </div>
-                        <div className='mt-[20px]'>
-                            <Box className='flex flex-wrap flex-row gap-[20px] justify-center'>
-                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                            <div className='mt-[20px]'>
+                                <Box className='flex flex-wrap flex-row gap-[20px] justify-center'>
+                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
 
-                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                        <Box className="flex flex-row justify-between">
-                                            <Box className="flex items-center ">
-                                                {/* Change the icon source dynamically based on weather condition */}
-                                                <img
-                                                    src="../../images/icons/thermometer-temperature.svg"
-                                                    alt="Air temperature"
-                                                    className="h-[20px] w-[20px]"
-                                                />
+                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                            <Box className="flex flex-row justify-between">
+                                                <Box className="flex items-center ">
+                                                    {/* Change the icon source dynamically based on weather condition */}
+                                                    <img
+                                                        src="../../images/icons/thermometer-temperature.svg"
+                                                        alt="Air temperature"
+                                                        className="h-[20px] w-[20px]"
+                                                    />
 
-                                            </Box>
-                                            <Box className="">
-                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {averageTemp[0]?.temp}
+                                                </Box>
+                                                <Box className="">
+                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {Array.isArray(getAverageWeather(x.destination)?.averageTemp) && getAverageWeather(x.destination)?.averageTemp[0]?.temp || 'N/A'}
                                                     <span className="align-super text-[10px]">°C</span>
-                                                </Text>
+                                                    </Text>
+                                                </Box>
                                             </Box>
+
+                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Air temperature</Text>
                                         </Box>
 
-                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Air temperature</Text>
                                     </Box>
+                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
 
-                                </Box>
-                                {/* The day after tomorrow's weather */}
-                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                            <Box className="flex flex-row justify-between">
+                                                <Box className="flex flex-col items-center gap-[15px]">
+                                                    <img
+                                                        src="../../images/icons/clouds.svg"
+                                                        alt="Change of precipitation"
+                                                        className="h-[20px] w-[20px]"
+                                                    />
 
-                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                        <Box className="flex flex-row justify-between">
-                                            <Box className="flex flex-col items-center gap-[15px]">
-                                                {/* Change the icon source dynamically based on weather condition */}
-                                                <img
-                                                    src="../../images/icons/clouds.svg"
-                                                    alt="Change of precipitation"
-                                                    className="h-[20px] w-[20px]"
-                                                />
+                                                </Box>
+                                                <Box className="">
+                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {Array.isArray(getAverageWeather(x.destination)?.averageHumidity) && getAverageWeather(x.destination)?.averageHumidity[0]?.humid || 'N/A'}
 
+                                                        <span className="align-super text-[10px]">%</span>
+                                                    </Text>
+                                                </Box>
                                             </Box>
-                                            <Box className="">
-                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {averageHumidity[0]?.humid}
-                                                    <span className="align-super text-[10px]">%</span>
-                                                </Text>
-                                            </Box>
+                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Change of precipitation</Text>
                                         </Box>
-                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Change of precipitation</Text>
                                     </Box>
-                                </Box>
-                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
 
-                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                        <Box className="flex flex-row justify-between">
-                                            <Box className="flex flex-col items-center gap-[15px]">
-                                                {/* Change the icon source dynamically based on weather condition */}
-                                                <img
-                                                    src="../../images/icons/water.svg"
-                                                    alt="Temperature of water"
-                                                    className="h-[20px] w-[20px]"
-                                                />
+                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                            <Box className="flex flex-row justify-between">
+                                                <Box className="flex flex-col items-center gap-[15px]">
+                                                    <img
+                                                        src="../../images/icons/water.svg"
+                                                        alt="Temperature of water"
+                                                        className="h-[20px] w-[20px]"
+                                                    />
 
+                                                </Box>
+                                                <Box className="">
+                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {Array.isArray(getAverageWeather(x.destination)?.averageWaterTemp) && getAverageWeather(x.destination)?.averageWaterTemp[0]?.temp || 'N/A'}
+
+                                                        <span className="align-super text-[10px]">°C</span>
+                                                    </Text>
+                                                </Box>
                                             </Box>
-                                            <Box className="">
-                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {averageWaterTemp[0]?.temp}
-                                                    <span className="align-super text-[10px]">°C</span>
-                                                </Text>
-                                            </Box>
+                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Temperature of water</Text>
                                         </Box>
-                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Temperature of water</Text>
                                     </Box>
-                                </Box>
-                                {/* The day after tomorrow's weather */}
-                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
 
-                                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                        <Box className="flex flex-row justify-between">
-                                            <Box className="flex flex-col items-center gap-[15px]">
-                                                {/* Change the icon source dynamically based on weather condition */}
-                                                <img
-                                                    src="../../images/icons/sun-day-light-bright.svg"
-                                                    alt="Sunny Hours"
-                                                    className="h-[20px] w-[20px]"
-                                                />
+                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                                            <Box className="flex flex-row justify-between">
+                                                <Box className="flex flex-col items-center gap-[15px]">
+                                                    <img
+                                                        src="../../images/icons/sun-day-light-bright.svg"
+                                                        alt="Sunny Hours"
+                                                        className="h-[20px] w-[20px]"
+                                                    />
+                                                </Box>
+                                                <Box className="">
+                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                                    {Array.isArray(getAverageWeather(x.destination)?.averageSunnyHours) && getAverageWeather(x.destination)?.averageSunnyHours[0]?.hrs|| 'N/A'}
+
+                                                        <span className="align-super text-[10px]">hrs</span>
+                                                    </Text>
+                                                </Box>
                                             </Box>
-                                            <Box className="">
-                                                <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {averageSunnyHours[0]?.hrs}
-                                                    <span className="align-super text-[10px]">hrs</span>
-                                                </Text>
-                                            </Box>
+                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Sunny Hours</Text>
                                         </Box>
-                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Sunny Hours</Text>
+                                    </Box>
+                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+
+                                        <Link to={`/${getDestination(x.destination)}/${getMonth()}`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
+
+                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
+                                        </Link>
                                     </Box>
                                 </Box>
-                                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                            </div>
+                            <div className="mt-[20px]">
+                                <ImageView destination={data?.destination} />
+                            </div>
 
-                                    <Link to={`/${data.destination}/${data?.month}#top`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
-
-                                        <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
-                                    </Link>
-                                </Box>
-                            </Box>
-                        </div>
-                        <div className="mt-[20px]">
-                            <ImageView destination={data?.destination} />
-                        </div>
+                        </Box>
 
                     </Box>
-
-                </Box>
-
+                ))}
             </Box>
         </div>
     )

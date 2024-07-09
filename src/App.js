@@ -13,8 +13,8 @@ function App() {
         <Routes>
           <Route path="/:destination?" element={<DestinationWeather />} />
           <Route path="/:destination?/:month?" element={<MonthlyWeather />} />
-          <Route path="/where-to-go/:monthName?/:id?" element={<WhereToGo />} />
-          <Route path="/news/:news?/:id?" element={<News />} />
+          <Route path="/where-to-go/:monthName/:id" element={<WhereToGo />} />
+          <Route path="/news/:news/:id" element={<News />} />
         </Routes>
     </Router>
   );

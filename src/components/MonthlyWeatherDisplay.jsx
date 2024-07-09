@@ -245,7 +245,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
     };
 
     const handleMonthNavigation = (month) => {
-        navigate(`/${data.destination}/${month}#top`);
+        navigate(`/${data.destination}/${month}`);
         window.location.reload();
     };
 
@@ -264,7 +264,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <Link style={{ backgroundColor: 'rgb(18 98 175)' }} to={`/${data.destination}#top`} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Link>
+                        <Link style={{ backgroundColor: 'rgb(18 98 175)' }} to={`/${data.destination}`} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Link>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
@@ -436,7 +436,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
                                     ))}
                                 <Link
                                     className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px]  text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                                    to={`/${data.destination}#top`}
+                                    to={`/${data.destination}`}
                                 >
                                     <Text className='text-center'> Check the current and year-round weather</Text>
 

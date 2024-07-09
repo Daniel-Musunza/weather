@@ -97,12 +97,14 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
 
   return result;
 };
+
 const months = [
   { name: 'January', id: 1 }, { name: 'February', id: 2 }, { name: 'March', id: 3 },
   { name: 'April', id: 4 }, { name: 'May', id: 5 }, { name: 'June', id: 6 },
   { name: 'July', id: 7 }, { name: 'August', id: 8 }, { name: 'September', id: 9 },
   { name: 'October', id: 10 }, { name: 'November', id: 11 }, { name: 'December', id: 12 }
 ];
+
 const getMonth = (number) => {
   return months.find(m => m.id == number)
 }
@@ -118,10 +120,11 @@ const MainContainer = () => {
     monthly_weather_description: [],
 
   });
-
+  const [holidayblog, setHolidayBlog] = useState([]);
+  const [newsblog, setNewsBlog] = useState([]);
 
   const { destination, monthName, month, news } = useParams(); // Destructure destination from useParams
-
+ 
   const getData = async (destination) => {
     try {
       const destinationObj = destinations?.find((x) => x.destination === destination);
@@ -144,7 +147,9 @@ const MainContainer = () => {
 
       const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/destination/${destination_id}?startDate=${startDateString}&endDate=${endDateString}`);
 
+
       if (!response2.ok) {
+
         throw new Error('Network response was not ok ' + response2.statusText);
       }
 
@@ -228,7 +233,6 @@ const MainContainer = () => {
     }
   };
 
-
   useEffect(() => {
     let isMounted = true;
 
@@ -237,7 +241,18 @@ const MainContainer = () => {
 
       let weatherOtherDestinations = getWeatherOtherDestinations(data?.dailyWeather, month, destination);
 
+      const response1 = await fetch(`https://travel-blog-drab.vercel.app/api/holiday-blog`);
+      const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/news`);
+
+      if (!response1.ok) {
+        throw new Error('Network response was not ok ' + response1.statusText);
+      }
+
+      const holidayBlog = await response1.json();
+      const newsBlog = await response2.json();
+
       if (isMounted && destination) {
+
         const filteredDestinations = {
           destination: destination,
           month: month,
@@ -248,7 +263,14 @@ const MainContainer = () => {
           monthly_weather_description: data?.monthlyContent,
           weatherOtherDestinations,
         };
+
         setFilteredData(filteredDestinations);
+
+        setHolidayBlog(holidayBlog.data)
+        setNewsBlog(newsBlog.data)
+      } else if (isMounted) {
+        setHolidayBlog(holidayBlog.data)
+        setNewsBlog(newsBlog.data)
       }
     };
 
@@ -269,19 +291,62 @@ const MainContainer = () => {
         setAllowOverFlow(false);
       }
     };
-  
+
     window.addEventListener('scroll', handleScroll);
-  
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  
+
+  const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION")
+    .map(x => {
+      return {
+        id: x._id,
+        title: "WARM DESTINATIONS -",
+        hint: "WHERE TO GO ON VACATION",
+        description: x.overViewDescription,
+        content: x.WeatherHolidayContent,
+        text: x.overViewHeading,
+        image: x.coverImage,
+        month: x.month
+
+      }
+    });
+
+  const weatherData = holidayblog?.filter(x => x.category === "WEATHER")
+    .map(x => {
+      return {
+        id: x._id,
+        title: "WEATHER",
+        text: x.overViewHeading,
+        image: x.coverImage,
+        month: x.month,
+        destination: x.destination,
+        category: x.category
+      }
+    });
+
+
+  const newsData = newsblog?.map(x => {
+    return {
+      id: x._id,
+      title: "THE NEWS",
+      text: x.heading,
+      image: x.image,
+      month: x.month,
+      info: x.info,
+      content: x.subNews
+    }
+  });
+
+
   // ${allowOverFlow ? 'fixed top-2 right-[20px]' : 'relative'}
+
 
   return (
     <div>
-      {destination ? (
+      {destination && !monthName ? (
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className='w-[100%] xl:w-[70%]'>
@@ -297,14 +362,14 @@ const MainContainer = () => {
 
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : monthName ? (
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={`w-[100%] xl:w-[70%]`}>
-              <WhereToGoDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+              <WhereToGoDisplay data={filteredData} holidaysData={holidaysData} allowOverFlow={allowOverFlow} />
             </div>
             <div className={`w-[100%] xl:w-[30%] `}>
               <SearchForm destination={destination} destinations={destinations} />
@@ -312,22 +377,21 @@ const MainContainer = () => {
 
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : news ? (
         <>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={`w-[100%] xl:w-[70%]`}>
-              <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+              <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} newsData={newsData} />
             </div>
             <div className={`w-[100%] xl:w-[30%]`}>
               <NewsAds />
             </div>
-
           </div>
           <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
-            <MoreInfo />
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : (
