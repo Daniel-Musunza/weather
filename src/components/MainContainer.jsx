@@ -8,6 +8,9 @@ import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
 import WhereToGoDisplay from './WhereToGoDisplay';
 import NewsDisplay from './NewsDisplay';
 import NewsAds from './NewsAds';
+import { Sticky } from "gestalt";
+
+import { getAllData } from '../utils/getAllData';
 
 const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
@@ -110,8 +113,7 @@ const getMonth = (number) => {
 }
 
 const MainContainer = () => {
-  const [windowHeight, setWindowHeight] = useState(0);
-  const [allowOverFlow, setAllowOverFlow] = useState(false);
+
   const [filteredData, setFilteredData] = useState({
     daily_weather: [],
     destination_info: [],
@@ -124,38 +126,18 @@ const MainContainer = () => {
   const [newsblog, setNewsBlog] = useState([]);
 
   const { destination, monthName, month, news } = useParams(); // Destructure destination from useParams
- 
+
   const getData = async (destination) => {
     try {
-      const destinationObj = destinations?.find((x) => x.destination === destination);
 
-      const destination_id = destinationObj?.id;
+      const fetchedData = await getAllData()
 
-      if (!destination_id || destination_id === "undefined") {
-        return;
-      }
-      // Calculate endDate (day after tomorrow)
-      const endDate = new Date();
-      endDate.setDate(endDate.getDate());
-      const endDateString = endDate.toISOString().split('T')[0];
+      const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
 
-      // Calculate startDate (day after the day after tomorrow of the previous year)
-      const startDate = new Date();
-      startDate.setFullYear(startDate.getFullYear() - 1);
-      startDate.setDate(startDate.getDate() + 1);
-      const startDateString = startDate.toISOString().split('T')[0];
+      const holidayBlog = fetchedData?.holidayBlog;
+      const newsBlog = fetchedData?.newsBlog;
 
-      const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/destination/${destination_id}?startDate=${startDateString}&endDate=${endDateString}`);
-
-
-      if (!response2.ok) {
-
-        throw new Error('Network response was not ok ' + response2.statusText);
-      }
-
-      const data = await response2.json();
-
-      const dailyWeather = data?.data?.weatherData.data.map((x) => {
+      const dailyWeather = data?.weatherData.data.map((x) => {
         let condition = 'Cloudy'; // Default condition
         let condition_hours = null;
 
@@ -181,6 +163,7 @@ const MainContainer = () => {
           date.setFullYear(currentDate.getFullYear());
         }
 
+
         return {
           destination: destination, // Static destination, modify as necessary
           date: date.toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
@@ -192,16 +175,15 @@ const MainContainer = () => {
         };
       });
 
-      const destinationInfo = data?.data?.destinationContent?.map(x => {
-        return {
-          destination: destination,
-          weather_description: x.weatherInfo,
-          more_information: x.destinationInfo,
-          cover_image: x.image
-        }
-      })
 
-      const faqs = data?.data?.destinationFaq?.map(x => {
+      const destinationInfo = [{
+        destination: destination,
+        weather_description: data?.content.weatherInfo,
+        more_information: data?.content.destinationInfo,
+        cover_image: data?.content.image
+      }]
+
+      const faqs = data?.faq?.map(x => {
         return {
           destination: destination,
           question: x.question,
@@ -209,7 +191,7 @@ const MainContainer = () => {
         }
       })
 
-      const monthlyFaqs = data?.data?.monthFaq?.map(x => {
+      const monthlyFaqs = data?.monthFaq?.map(x => {
         return {
           month: getMonth(x.month)?.name,
           destination: destination,
@@ -218,7 +200,7 @@ const MainContainer = () => {
         }
       })
 
-      const monthlyContent = data?.data?.monthContent?.map(x => {
+      const monthlyContent = data?.monthContent?.map(x => {
         return {
           destination: destination,
           month: getMonth(x.month)?.name,
@@ -227,7 +209,7 @@ const MainContainer = () => {
         }
       })
 
-      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent };
+      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent, newsBlog, holidayBlog };
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     }
@@ -241,16 +223,6 @@ const MainContainer = () => {
 
       let weatherOtherDestinations = getWeatherOtherDestinations(data?.dailyWeather, month, destination);
 
-      const response1 = await fetch(`https://travel-blog-drab.vercel.app/api/holiday-blog`);
-      const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/news`);
-
-      if (!response1.ok) {
-        throw new Error('Network response was not ok ' + response1.statusText);
-      }
-
-      const holidayBlog = await response1.json();
-      const newsBlog = await response2.json();
-
       if (isMounted && destination) {
 
         const filteredDestinations = {
@@ -261,16 +233,16 @@ const MainContainer = () => {
           faqs: data?.faqs,
           monthly_faqs: data?.monthlyFaqs,
           monthly_weather_description: data?.monthlyContent,
-          weatherOtherDestinations,
+          weatherOtherDestinations
         };
 
         setFilteredData(filteredDestinations);
 
-        setHolidayBlog(holidayBlog.data)
-        setNewsBlog(newsBlog.data)
+        setHolidayBlog(data?.holidayBlog.data)
+        setNewsBlog(data?.newsBlog.data)
       } else if (isMounted) {
-        setHolidayBlog(holidayBlog.data)
-        setNewsBlog(newsBlog.data)
+        setHolidayBlog(data?.holidayBlog.data)
+        setNewsBlog(data?.newsBlog.data)
       }
     };
 
@@ -281,23 +253,6 @@ const MainContainer = () => {
     };
   }, [destination]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = window.scrollY;
-      const windowHeight = window.innerHeight;
-      if (scrollHeight > windowHeight / 3 && scrollHeight < windowHeight * 6) {
-        setAllowOverFlow(true);
-      } else {
-        setAllowOverFlow(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION")
     .map(x => {
@@ -327,7 +282,6 @@ const MainContainer = () => {
       }
     });
 
-
   const newsData = newsblog?.map(x => {
     return {
       id: x._id,
@@ -340,57 +294,65 @@ const MainContainer = () => {
     }
   });
 
-
-  // ${allowOverFlow ? 'fixed top-2 right-[20px]' : 'relative'}
-
-
   return (
     <div>
       {destination && !monthName ? (
-        <>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className='w-[100%] xl:w-[70%]'>
+        <div className="">
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className='relative w-[100%] md:w-[70%]'>
               {month && !monthName ? (
-                <MonthlyWeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+                <MonthlyWeatherDisplay data={filteredData} />
               ) : (
-                <WeatherDisplay data={filteredData} allowOverFlow={allowOverFlow} />
+                <WeatherDisplay data={filteredData} />
               )}
             </div>
-            <div className={`w-[100%] xl:w-[30%] `}>
-              <SearchForm destination={destination} destinations={destinations} />
+
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <SearchForm destination={destination} destinations={destinations} />
+              </div>
+
             </div>
 
           </div>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
-        </>
+        </div>
       ) : monthName ? (
         <>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className={`w-[100%] xl:w-[70%]`}>
-              <WhereToGoDisplay data={filteredData} holidaysData={holidaysData} allowOverFlow={allowOverFlow} />
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={` relative w-[100%] xl:w-[70%]`}>
+              <WhereToGoDisplay data={filteredData} holidaysData={holidaysData} />
             </div>
-            <div className={`w-[100%] xl:w-[30%] `}>
-              <SearchForm destination={destination} destinations={destinations} />
+
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <SearchForm destination={destination} destinations={destinations} />
+              </div>
+
             </div>
 
           </div>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : news ? (
         <>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className={`w-[100%] xl:w-[70%]`}>
-              <NewsDisplay data={filteredData} allowOverFlow={allowOverFlow} newsData={newsData} />
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={`relative w-[100%] xl:w-[70%]`}>
+              <NewsDisplay data={filteredData} newsData={newsData} />
             </div>
-            <div className={`w-[100%] xl:w-[30%]`}>
-              <NewsAds />
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <NewsAds />
+              </div>
+
             </div>
+
           </div>
-          <div className="px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>

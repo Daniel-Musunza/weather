@@ -128,7 +128,7 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
     };
 };
 
-const WhereToGoDisplay = ({ data, allowOverFlow, holidaysData }) => {
+const WhereToGoDisplay = ({ data, holidaysData }) => {
     const navigate = useNavigate();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -216,7 +216,6 @@ const WhereToGoDisplay = ({ data, allowOverFlow, holidaysData }) => {
             }));
         }
 
-        console.log({ averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours })
         return { averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours };
     };
 
@@ -248,11 +247,10 @@ const WhereToGoDisplay = ({ data, allowOverFlow, holidaysData }) => {
 
     const currentHoliday = holidaysData?.find((x) => x.id === id)
 
-    
+
 
     return (
-        <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
-        >
+        <div>
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className=' font-[900] text-[30px]'>{currentHoliday?.text}?</h1>
@@ -298,6 +296,7 @@ const WhereToGoDisplay = ({ data, allowOverFlow, holidaysData }) => {
                     </div>
 
                 </Box>
+
                 {currentHoliday?.content.map((x, index) => (
                     <Box className="flex flex-col" id={`${x.destination}`} key={index}>
                         <Text className='text-nowrap text-[18px] font-[700] p-2'>{x.subHeading} </Text>
@@ -420,11 +419,10 @@ const WhereToGoDisplay = ({ data, allowOverFlow, holidaysData }) => {
                                 </Box>
                             </div>
                             <div className="mt-[20px]">
-                                <ImageView destination={data?.destination} />
+                                <ImageView destination={getDestination(x.destination)} image={x.image} />
                             </div>
 
                         </Box>
-
                     </Box>
                 ))}
             </Box>

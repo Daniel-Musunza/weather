@@ -124,7 +124,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
 
     const warmestMonths = getWarmestMonths(data?.daily_weather);
 
-    const destination_info = data?.destination_info?[0] : {};
+    const destination_info = Array.isArray(data?.destination_info) ? data?.destination_info[0] : ""
 
     // Example usage:
     const weatherStats = getWeatherStatistics(data?.daily_weather);
@@ -493,8 +493,9 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
         maintainAspectRatio: false
     };
 
+//className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
     return (
-        <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+        <div className={`relative `}>
             <Box className="flex flex-col gap-[40px]" >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className='font-[900] text-[30px]'>{data.destination} weather</h1>
@@ -620,7 +621,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                     </Box>
                 </Box>
                 <Box className="flex flex-col" >
-                    <ImageView destination={data?.destination} />
+                    <ImageView destination={data?.destination} image={destination_info?.cover_image} />
                 </Box>
                 <Box className="flex flex-col gap-[20px]" id="long-term-weather-forecast">
                     <Box className="flex flex-col">
@@ -720,9 +721,10 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                                     );
                                 })}
                         </Box>
-                        
-                        <Text className='text-darkBlue-2 text-[15px]'>{data?.destination_info[0]?.weather_description
-                        }</Text>
+                        {/* {console.log(data)} */}
+                        <Text className='text-darkBlue-2 text-[15px]'>
+                            {destination_info?.weather_description}
+                        </Text>
                     </Box>
                 </Box>
                 {/* table */}
@@ -862,9 +864,10 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                         ))}
                     </Box>
                 </Box>
-                <ImageView destination={data?.destination} />
+
+                <ImageView destination={data?.destination} image={destination_info?.cover_image} />
                 <MonthTemp daily_weather={data?.daily_weather} destination={data?.destination} />
-                <WeatherRecords destination_info={data?.destination_info[0]} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
+                <WeatherRecords destination_info={destination_info} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
                 <WeatherRegions destination={data?.destination} weatherOtherDestinations={data?.weatherOtherDestinations} />
             </Box>
         </div>

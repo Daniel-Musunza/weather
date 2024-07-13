@@ -127,7 +127,7 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
     };
 };
 
-const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
+const MonthlyWeatherDisplay = ({ data }) => {
     const navigate = useNavigate();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -135,7 +135,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
     dayAfterTomorrowDate.setDate(dayAfterTomorrowDate.getDate() + 2);
 
 
-    const destination_info = data?.destination_info?[0] : {};
+    const destination_info = Array.isArray(data?.destination_info) ? data?.destination_info[0] : ""
 
     const month_weather_description = data?.monthly_weather_description?.find(
         x => x?.month === data?.month
@@ -252,7 +252,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
     const weatherOtherDestinations = data?.weatherOtherDestinations;
 
     return (
-        <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+        <div >
 
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
@@ -482,7 +482,7 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
                     </Box>
                 </Box>
                 <Box className="flex flex-col" >
-                    <ImageView destination={data?.destination} />
+                    <ImageView destination={data?.destination} image={destination_info?.cover_image}/>
                 </Box>
 
                 <Box className="flex flex-col gap-[30px]" id="weather-in-regions-and-cities">
@@ -555,9 +555,9 @@ const MonthlyWeatherDisplay = ({ data, allowOverFlow }) => {
 
                 <SpecificMonthTemp daily_weather={data?.daily_weather} destination={data?.destination} month={data?.month} />
                 <Box className="flex flex-col" >
-                    <ImageView destination={data?.destination} />
+                    <ImageView destination={data?.destination} image={destination_info?.cover_image}/>
                 </Box>
-                <MonthWeatherRecords more_information={destination_info?.more_information} destination={data?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
+                <MonthWeatherRecords destination_info={destination_info} destination={data?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
                 <WeatherRegions destination={data?.destination} weatherOtherDestinations={weatherOtherDestinations} month={data?.month} />
             </Box>
         </div>

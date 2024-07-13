@@ -19,6 +19,8 @@
     "chart.js": "^4.4.3",
     "chartjs-plugin-datalabels": "^2.2.0",
     "countrycitystatejson": "^21.3.2702",
+    "file-saver": "^2.0.5",
+    "gestalt": "^155.1.1",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",

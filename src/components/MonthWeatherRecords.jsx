@@ -124,7 +124,8 @@ const MonthWeatherRecords = (props) => {
                     </div>
                 ))}
             </div>
-            <ImageView destination={props?.destination} />
+           
+            <ImageView destination={props?.destination} image={props?.destination_info?.cover_image}/>
         </div>
 
     )

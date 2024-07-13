@@ -25,7 +25,7 @@ const MoreInfo = ({holidaysData, weatherData, newsData}) => {
                     <h1 className='text-[22px] font-[700] text-darkBlue-2'>Where to go on holiday:</h1>
                 </div>
                 <div className="flex flex-col gap-[20px]">
-                    {holidaysData.map((obj) => (
+                    {holidaysData?.map((obj) => (
                         <div onClick={() => handleHolidayNavigate(obj.month, obj.id)} className="flex flex-row gap-[20px] cursor-pointer" key={obj.id}>
                             <img src={obj.image} alt={obj.title} className='h-[100px] w-[100px] rounded-[8px]' />
                             <div className="flex flex-col gap-[3px]">
@@ -43,7 +43,7 @@ const MoreInfo = ({holidaysData, weatherData, newsData}) => {
                     <h1 className='text-[22px] font-[700] text-darkBlue-2'>Weather:</h1>
                 </div>
                 <div className="flex flex-col gap-[20px]">
-                    {weatherData.map((obj, index) => (
+                    {weatherData?.map((obj, index) => (
 
                         <div onClick={() => handleWeatherNavigate(obj.destination)} className="flex flex-row gap-[20px] cursor-pointer" key={index}>
 
@@ -63,7 +63,7 @@ const MoreInfo = ({holidaysData, weatherData, newsData}) => {
                     <h1 className='text-[22px] font-[700] text-darkBlue-2'>The news:</h1>
                 </div>
                 <div className="flex flex-col gap-[20px]">
-                    {newsData.map((obj, index) => (
+                    {newsData?.map((obj, index) => (
 
                         <div onClick={() => handleNewsNavigate(obj.id, index)} className="flex flex-row gap-[20px] cursor-pointer" key={index}>
 

@@ -7,7 +7,7 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Card, Text, Button, Box, Title } from '@mantine/core';
 
-const NewsDisplay = ({ data, allowOverFlow, newsData }) => {
+const NewsDisplay = ({ data, newsData }) => {
     const navigate = useNavigate();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -48,9 +48,8 @@ const NewsDisplay = ({ data, allowOverFlow, newsData }) => {
         navigate(`/news/${index}/${id}`)
     }
 
-    // className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
     return (
-        <div className={`${allowOverFlow ? 'overflow-y-auto xl:h-[200vh]' : ''} `} style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+        <div>
 
             <Box className="flex flex-col gap-[40px]" >
 
@@ -113,7 +112,8 @@ const NewsDisplay = ({ data, allowOverFlow, newsData }) => {
 
                 </Box>
 
-                <ImageView destination={data?.destination} />
+                <ImageView destination="Any Destination" image={currentNews?.image} />
+
                 <div className="flex flex-col text-[20px]">
                     <div className='w-full py-[15px] px-[10px] flex flex-wrap justify-between gap-4'>
 
@@ -127,12 +127,18 @@ const NewsDisplay = ({ data, allowOverFlow, newsData }) => {
                             >
                                 Previous
                             </button>
-                            <Text
-                                className='py-2 font-bold text-white px-2'
-                                style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+                            <div
+                                style={{ backgroundColor: 'rgba(84, 83, 83, 0.492)' }}
+                                className="w-full -mb-[8px] rounded-b-xl"
                             >
-                                {previousNews?.text}
-                            </Text>
+                                <Text
+                                    className='py-2 font-bold text-white px-2'
+                                    style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+                                >
+                                    {previousNews?.text}
+                                </Text>
+                            </div>
+
                         </div>
                         <div
                             onClick={() => handleNewsNavigate(nextNews?.id, news + 1)}
@@ -144,12 +150,17 @@ const NewsDisplay = ({ data, allowOverFlow, newsData }) => {
                             >
                                 Next
                             </button>
-                            <Text
-                                className='py-2 font-bold text-white px-2'
-                                style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+                            <div
+                                style={{ backgroundColor: 'rgba(84, 83, 83, 0.492)' }}
+                                className="w-full -mb-[8px] rounded-b-xl"
                             >
-                                {nextNews?.text}
-                            </Text>
+                                <Text
+                                    className='py-2 font-bold text-white px-2'
+                                    style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+                                >
+                                    {nextNews?.text}
+                                </Text>
+                            </div>
                         </div>
                     </div>
 
@@ -180,7 +191,6 @@ const NewsDisplay = ({ data, allowOverFlow, newsData }) => {
 
                     </div>
                 </div>
-
 
             </Box>
         </div>
