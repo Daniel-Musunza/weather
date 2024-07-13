@@ -1,30 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import WeatherRecords from './WeatherRecords';
 import ImageView from './ImageView';
-import WeatherRegions from './WeatherRegions';
-import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
-import MonthTemp from './MonthTemp';
-import { Card, Text, Button, Box, Title } from '@mantine/core';
-import SpecificMonthTemp from './SpecificMonthTemp';
-import MonthWeatherRecords from './MonthWeatherRecords';
+import { Text, Box } from '@mantine/core';
 import { destinations } from '../utils/weatherdata';
 
-const getCurrentTime = () => {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-};
-
-const getCurrentDate = () => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    return `${dd}/${mm}/${yyyy}`;
-};
 
 export const getWeatherIcon = (condition) => {
     switch (condition) {
@@ -41,92 +21,216 @@ export const getWeatherIcon = (condition) => {
     }
 };
 
-const getWarmestMonths = (weatherData) => {
-    // Group data by month
-    const monthlyData = {};
-    weatherData?.forEach(data => {
-        const [day, month, year] = data?.date?.split("/");
-        const monthYear = `${month}/${year}`;
-        if (!monthlyData[monthYear]) {
-            monthlyData[monthYear] = [];
+const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) => {
+    const [averageWeatherData, setAverageWeatherData] = useState(null);
+
+    const getAverageWeather = async (destination) => {
+
+        const destinationName = destination;
+
+        const dailyweather = data?.find((x) => x.destination.name === destinationName)?.weatherData;
+
+        const dailyWeather = dailyweather?.data.map((x) => {
+            let condition = 'Cloudy'; // Default condition
+            let condition_hours = null;
+
+            if (x.prcp > 0 || x.tavg < 10) { // Assuming average temperature below 10°C indicates Rainy
+                condition = 'Rainy';
+                condition_hours = x.prcp; // Assuming prcp can represent rain hours, adjust if necessary
+            } else if (x.tsun > 0 || x.tavg > 20) { // Assuming average temperature above 20°C indicates Sunny
+                condition = 'Sunny';
+                condition_hours = x.tsun;
+            } else if (x.snow > 0) {
+                condition = 'Snowy';
+                condition_hours = x.snow; // Assuming snow can represent snow hours
+            } else if (x.wspd > 20) { // Assuming wind speed over 20 km/h is considered windy
+                condition = 'Windy';
+                condition_hours = x.wspd; // Assuming wind speed can represent windy hours, adjust if necessary
+            }
+
+            // Adjust the date to the current year if it is from the previous year
+            const date = new Date(x.date);
+            const currentDate = new Date();
+
+            if (date.getFullYear() < currentDate.getFullYear()) {
+                date.setFullYear(currentDate.getFullYear());
+            }
+
+
+            return {
+                destination: destination, // Static destination, modify as necessary
+                date: date.toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
+                temperature: x.tavg, // Using average temperature
+                water_temperature: x.tmin, // Static value, replace with actual if available
+                humidity: x.prcp, // Assuming `prcp` key for humidity, replace if incorrect
+                condition: condition,
+                condition_hours: condition_hours
+            };
+        });
+
+        let averageTemp = [];
+        let averageWaterTemp = [];
+        let averageHumidity = [];
+        let averageSunnyHours = [];
+
+        const monthData = dailyWeather?.reduce((acc, x) => {
+            const month = parseDateToMonth(x.date);
+
+            if (month == monthName) {
+                if (!acc[month]) {
+                    acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
+                }
+
+                acc[month].tempSum += x.temperature;
+                acc[month].waterTempSum += x.water_temperature;
+                acc[month].humidSum += x.humidity;
+                if (x.condition === "Sunny") {
+                    acc[month].sunnyHrsSum += x.condition_hours;
+                }
+                acc[month].count += 1;
+            }
+
+            return acc;
+        }, {});
+
+        // Step 2: Calculate the average temperature for each month and format the result
+        if (dailyWeather?.length > 0) {
+            // Step 2: Calculate the average temperature for each month and format the result
+            averageTemp = Object.keys(monthData).map(month => ({
+                month: month,
+                temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
+            }));
+
+            averageWaterTemp = Object.keys(monthData).map(month => ({
+                month: month,
+                temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
+            }));
+
+            averageHumidity = Object.keys(monthData).map(month => ({
+                month: month,
+                humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
+            }));
+
+            averageSunnyHours = Object.keys(monthData).map(month => ({
+                month: month,
+                hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
+            }));
         }
-        monthlyData[monthYear].push(data);
-    });
 
-    // Calculate average temperature and humidity for each month
-    const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => {
-        const totalTemp = monthlyData[monthYear].reduce((sum, data) => sum + data?.temperature, 0);
-        const totalHumidity = monthlyData[monthYear].reduce((sum, data) => sum + data.humidity, 0);
-        const avgTemp = totalTemp / monthlyData[monthYear].length;
-        const avgHumidity = totalHumidity / monthlyData[monthYear].length;
-        return { monthYear, avgTemp, avgHumidity };
-    });
-
-    // Sort months by average temperature in descending order
-    monthlyAvgTemp.sort((a, b) => b.avgTemp - a.avgTemp);
-
-    // Get the top 3 warmest months
-    const warmestMonths = monthlyAvgTemp.slice(0, 4);
-    return warmestMonths;
-};
-
-const getWeatherStatistics = (weatherData, payloadMonth) => {
-    if (!weatherData || weatherData.length === 0) return {};
-
-    const months = [
-        { name: 'January', value: '01' }, { name: 'February', value: '02' }, { name: 'March', value: '03' },
-        { name: 'April', value: '04' }, { name: 'May', value: '05' }, { name: 'June', value: '06' },
-        { name: 'July', value: '07' }, { name: 'August', value: '08' }, { name: 'September', value: '09' },
-        { name: 'October', value: '10' }, { name: 'November', value: '11' }, { name: 'December', value: '12' }
-    ];
-
-    const parsedMonth = months.find(m => m.name.toLowerCase() === payloadMonth.toLowerCase())?.value;
+      
+        return { averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours };
+    };
 
 
-    const filteredData = weatherData.filter(data => {
+    useEffect(() => {
 
-        const [day, month, year] = data?.date?.split("/");
+        if (destination || destination !== "undefined") {
+            const fetchData = async (destination) => {
+                const data = await getAverageWeather(destination);
+                setAverageWeatherData(data);
+            };
 
-        return month === parsedMonth;
-    });
+            fetchData(destination);
+        }
+    }, [destination]);
 
-    let highestTemp = "";
-    let lowestTemp = "";
-
-    if (filteredData.length > 1) {
-        highestTemp = filteredData.reduce((max, current) => (current?.temperature > max?.temperature ? current : max), filteredData[0]);
-        lowestTemp = filteredData.reduce((min, current) => (current?.temperature < min?.temperature ? current : min), filteredData[0]);
-
+    if (!averageWeatherData) {
+        return <div>Loading...</div>;
     }
 
-    // Find the highest and lowest temperatures in the filtered data
-
-    const monthlyData = {};
-    weatherData?.forEach(data => {
-        const [day, month, year] = data?.date?.split("/");
-        const monthYear = `${year}-${month}`;
-        if (!monthlyData[monthYear]) {
-            monthlyData[monthYear] = { totalTemp: 0, count: 0 };
-        }
-        monthlyData[monthYear].totalTemp += data?.temperature;
-        monthlyData[monthYear].count += 1;
-    });
-
-    const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => ({
-        monthYear,
-        avgTemp: monthlyData[monthYear].totalTemp / monthlyData[monthYear].count
-    }));
-
-    const warmestMonth = monthlyAvgTemp.reduce((max, current) => (current.avgTemp > max?.avgTemp ? current : max));
-    const coldestMonth = monthlyAvgTemp.reduce((min, current) => (current.avgTemp < min?.avgTemp ? current : min));
-
-    return {
-        highestTemp,
-        lowestTemp,
-        warmestMonth,
-        coldestMonth
-    };
+    return (
+        <div className='mt-[20px]'>
+            <Box className='flex flex-wrap flex-row gap-[20px] justify-center'>
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-row justify-between">
+                            <Box className="flex items-center ">
+                                <img
+                                    src="../../images/icons/thermometer-temperature.svg"
+                                    alt="Air temperature"
+                                    className="h-[20px] w-[20px]"
+                                />
+                            </Box>
+                            <Box className="">
+                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                    {Array.isArray(averageWeatherData.averageTemp) && averageWeatherData.averageTemp[0]?.temp || 'N/A'}
+                                    <span className="align-super text-[10px]">°C</span>
+                                </Text>
+                            </Box>
+                        </Box>
+                        <Text className="text-[10px] font-[600] text-darkBlue-2">Air temperature</Text>
+                    </Box>
+                </Box>
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-row justify-between">
+                            <Box className="flex flex-col items-center gap-[15px]">
+                                <img
+                                    src="../../images/icons/clouds.svg"
+                                    alt="Change of precipitation"
+                                    className="h-[20px] w-[20px]"
+                                />
+                            </Box>
+                            <Box className="">
+                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                    {Array.isArray(averageWeatherData.averageHumidity) && averageWeatherData.averageHumidity[0]?.humid || 'N/A'}
+                                    <span className="align-super text-[10px]">%</span>
+                                </Text>
+                            </Box>
+                        </Box>
+                        <Text className="text-[10px] font-[600] text-darkBlue-2">Change of precipitation</Text>
+                    </Box>
+                </Box>
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-row justify-between">
+                            <Box className="flex flex-col items-center gap-[15px]">
+                                <img
+                                    src="../../images/icons/water.svg"
+                                    alt="Temperature of water"
+                                    className="h-[20px] w-[20px]"
+                                />
+                            </Box>
+                            <Box className="">
+                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                    {Array.isArray(averageWeatherData.averageWaterTemp) && averageWeatherData.averageWaterTemp[0]?.temp || 'N/A'}
+                                    <span className="align-super text-[10px]">°C</span>
+                                </Text>
+                            </Box>
+                        </Box>
+                        <Text className="text-[10px] font-[600] text-darkBlue-2">Temperature of water</Text>
+                    </Box>
+                </Box>
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                    <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
+                        <Box className="flex flex-row justify-between">
+                            <Box className="flex flex-col items-center gap-[15px]">
+                                <img
+                                    src="../../images/icons/sun-day-light-bright.svg"
+                                    alt="Sunny Hours"
+                                    className="h-[20px] w-[20px]"
+                                />
+                            </Box>
+                            <Box className="">
+                                <Text className="text-2xl font-extrabold text-darkBlue-2">
+                                    {Array.isArray(averageWeatherData.averageSunnyHours) && averageWeatherData.averageSunnyHours[0]?.hrs || 'N/A'}
+                                    <span className="align-super text-[10px]">hrs</span>
+                                </Text>
+                            </Box>
+                        </Box>
+                        <Text className="text-[10px] font-[600] text-darkBlue-2">Sunny Hours</Text>
+                    </Box>
+                </Box>
+                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                    <Link to={`/${destination}/${monthName}`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
+                        <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
+                    </Link>
+                </Box>
+            </Box>
+        </div>
+    );
 };
+
 
 const WhereToGoDisplay = ({ data, holidaysData }) => {
     const navigate = useNavigate();
@@ -135,9 +239,9 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
     const dayAfterTomorrowDate = new Date();
     dayAfterTomorrowDate.setDate(dayAfterTomorrowDate.getDate() + 2);
 
-    const { destination, monthName, id } = useParams();
+    const { monthName, id } = useParams();
 
-    const destination_info = data?.destination_info ? [0] : {};
+    const destination_info = Array.isArray(data?.destination_info) ? data?.destination_info[0] : ""
 
     const months = [
         { name: 'January', id: 1 }, { name: 'February', id: 2 }, { name: 'March', id: 3 },
@@ -160,94 +264,16 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
     };
 
     const getDestination = (number) => {
-        return destinations?.find((x) => x.id === number).destination;
+        return destinations?.find((x) => x.id === number)?.destination;
     }
 
-    const getAverageWeather = async (destination) => {
-        const destinationName = await getDestination(destination);
-        let averageTemp = [];
-        let averageWaterTemp = [];
-        let averageHumidity = [];
-        let averageSunnyHours = [];
-
-        const monthData = await data?.daily_weather?.filter(x => x.destination === destinationName)
-            .reduce((acc, x) => {
-                const month = parseDateToMonth(x.date);
-
-
-
-                if (`${month}` === monthName) {
-                    if (!acc[month]) {
-                        acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
-                    }
-                    acc[month].tempSum += x.temperature;
-                    acc[month].waterTempSum += x.water_temperature;
-                    acc[month].humidSum += x.humidity;
-                    if (x.condition === "Sunny") {
-                        acc[month].sunnyHrsSum += x.condition_hours;
-                    }
-                    acc[month].count += 1;
-                }
-
-             
-
-                return acc;
-            }, {});
-
-        if (data?.daily_weather?.length > 0) {
-            averageTemp = Object.keys(monthData).map(month => ({
-                month: month,
-                temp: (monthData[month].tempSum / monthData[month].count).toFixed(2)
-            }));
-
-            averageWaterTemp = Object.keys(monthData).map(month => ({
-                month: month,
-                temp: (monthData[month].waterTempSum / monthData[month].count).toFixed(2)
-            }));
-
-            averageHumidity = Object.keys(monthData).map(month => ({
-                month: month,
-                humid: (monthData[month].humidSum / monthData[month].count).toFixed(0)
-            }));
-
-            averageSunnyHours = Object.keys(monthData).map(month => ({
-                month: month,
-                hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
-            }));
-        }
-
-        return { averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours };
-    };
-
-
-    const getCardsToShow = () => {
-        if (window.innerWidth >= 1024) {
-            return 4;
-        } else if (window.innerWidth >= 768) {
-            return 4;
-        } else {
-            return 5;
-        }
-    };
-
-    const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
-
-    useEffect(() => {
-        const handleResize = () => setCardsToShow(getCardsToShow());
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     const handleNavigation = (sectionId) => {
         navigate(`/where-to-go/${monthName}/${id}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 
-    const weatherOtherDestinations = data.weatherOtherDestinations;
-
     const currentHoliday = holidaysData?.find((x) => x.id === id)
-
-
 
     return (
         <div>
@@ -314,110 +340,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                                 <Text>{x.weatherInfo} </Text>
                             </div>
 
-                            <div className='mt-[20px]'>
-                                <Box className='flex flex-wrap flex-row gap-[20px] justify-center'>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
-
-                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                            <Box className="flex flex-row justify-between">
-                                                <Box className="flex items-center ">
-                                                    {/* Change the icon source dynamically based on weather condition */}
-                                                    <img
-                                                        src="../../images/icons/thermometer-temperature.svg"
-                                                        alt="Air temperature"
-                                                        className="h-[20px] w-[20px]"
-                                                    />
-
-                                                </Box>
-                                                <Box className="">
-                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {Array.isArray(getAverageWeather(x.destination)?.averageTemp) && getAverageWeather(x.destination)?.averageTemp[0]?.temp || 'N/A'}
-                                                    <span className="align-super text-[10px]">°C</span>
-                                                    </Text>
-                                                </Box>
-                                            </Box>
-
-                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Air temperature</Text>
-                                        </Box>
-
-                                    </Box>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
-
-                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                            <Box className="flex flex-row justify-between">
-                                                <Box className="flex flex-col items-center gap-[15px]">
-                                                    <img
-                                                        src="../../images/icons/clouds.svg"
-                                                        alt="Change of precipitation"
-                                                        className="h-[20px] w-[20px]"
-                                                    />
-
-                                                </Box>
-                                                <Box className="">
-                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {Array.isArray(getAverageWeather(x.destination)?.averageHumidity) && getAverageWeather(x.destination)?.averageHumidity[0]?.humid || 'N/A'}
-
-                                                        <span className="align-super text-[10px]">%</span>
-                                                    </Text>
-                                                </Box>
-                                            </Box>
-                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Change of precipitation</Text>
-                                        </Box>
-                                    </Box>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
-
-                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                            <Box className="flex flex-row justify-between">
-                                                <Box className="flex flex-col items-center gap-[15px]">
-                                                    <img
-                                                        src="../../images/icons/water.svg"
-                                                        alt="Temperature of water"
-                                                        className="h-[20px] w-[20px]"
-                                                    />
-
-                                                </Box>
-                                                <Box className="">
-                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {Array.isArray(getAverageWeather(x.destination)?.averageWaterTemp) && getAverageWeather(x.destination)?.averageWaterTemp[0]?.temp || 'N/A'}
-
-                                                        <span className="align-super text-[10px]">°C</span>
-                                                    </Text>
-                                                </Box>
-                                            </Box>
-                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Temperature of water</Text>
-                                        </Box>
-                                    </Box>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
-
-                                        <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
-                                            <Box className="flex flex-row justify-between">
-                                                <Box className="flex flex-col items-center gap-[15px]">
-                                                    <img
-                                                        src="../../images/icons/sun-day-light-bright.svg"
-                                                        alt="Sunny Hours"
-                                                        className="h-[20px] w-[20px]"
-                                                    />
-                                                </Box>
-                                                <Box className="">
-                                                    <Text className="text-2xl font-extrabold text-darkBlue-2">
-                                                    {Array.isArray(getAverageWeather(x.destination)?.averageSunnyHours) && getAverageWeather(x.destination)?.averageSunnyHours[0]?.hrs|| 'N/A'}
-
-                                                        <span className="align-super text-[10px]">hrs</span>
-                                                    </Text>
-                                                </Box>
-                                            </Box>
-                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Sunny Hours</Text>
-                                        </Box>
-                                    </Box>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
-
-                                        <Link to={`/${getDestination(x.destination)}/${getMonth()}`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
-
-                                            <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
-                                        </Link>
-                                    </Box>
-                                </Box>
-                            </div>
+                            <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={monthName} />
                             <div className="mt-[20px]">
                                 <ImageView destination={getDestination(x.destination)} image={x.image} />
                             </div>

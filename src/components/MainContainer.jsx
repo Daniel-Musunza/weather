@@ -124,6 +124,7 @@ const MainContainer = () => {
   });
   const [holidayblog, setHolidayBlog] = useState([]);
   const [newsblog, setNewsBlog] = useState([]);
+  const [allWeatherData, setAllWeatherData] = useState([]);
 
   const { destination, monthName, month, news } = useParams(); // Destructure destination from useParams
 
@@ -133,6 +134,8 @@ const MainContainer = () => {
       const fetchedData = await getAllData()
 
       const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
+
+      const allWeatherData= fetchedData?.weatherData?.data;
 
       const holidayBlog = fetchedData?.holidayBlog;
       const newsBlog = fetchedData?.newsBlog;
@@ -209,7 +212,7 @@ const MainContainer = () => {
         }
       })
 
-      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent, newsBlog, holidayBlog };
+      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent, newsBlog, holidayBlog, allWeatherData };
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     }
@@ -220,7 +223,7 @@ const MainContainer = () => {
 
     const fetchData = async () => {
       const data = await getData(destination);
-
+     
       let weatherOtherDestinations = getWeatherOtherDestinations(data?.dailyWeather, month, destination);
 
       if (isMounted && destination) {
@@ -237,13 +240,14 @@ const MainContainer = () => {
         };
 
         setFilteredData(filteredDestinations);
-
         setHolidayBlog(data?.holidayBlog.data)
         setNewsBlog(data?.newsBlog.data)
       } else if (isMounted) {
         setHolidayBlog(data?.holidayBlog.data)
         setNewsBlog(data?.newsBlog.data)
       }
+
+      setAllWeatherData(data?.allWeatherData)
     };
 
     fetchData();
@@ -323,7 +327,7 @@ const MainContainer = () => {
         <>
           <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
-              <WhereToGoDisplay data={filteredData} holidaysData={holidaysData} />
+              <WhereToGoDisplay data={allWeatherData} holidaysData={holidaysData} />
             </div>
 
             <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>

@@ -10,7 +10,7 @@ const ImageView = (props) => {
         shadow="md"
         className='h-[250px] border-[1px] border-darkBlue-2 rounded-t-[15px] md:rounded-tr-[0px] md:rounded-s-[15px] relative'
       >
-        {console.log(props?.image)}
+  
         <img
           src={props?.image !== "undefined" ? props?.image : ""}
           alt=""
