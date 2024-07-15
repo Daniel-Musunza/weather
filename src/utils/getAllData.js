@@ -8,10 +8,12 @@ export const getAllData = async () => {
   startDate.setDate(startDate.getDate() + 1);
   const startDateString = startDate.toISOString().split('T')[0];
 
-  const response1 = await fetch(`https://travel-blog-drab.vercel.app/api/destination/al?startDate=${startDateString}&endDate=${endDateString}`);
-//   if (!response1.ok) {
-//     throw new Error('Network response was not ok ' + response1.statusText);
-//   }
+  const response1 = await fetch(`https://travel-blog-drab.vercel.app/api/data`);
+  //   if (!response1.ok) {
+  //     throw new Error('Network response was not ok ' + response1.statusText);
+  //   }
+
+  console.log(response1);
 
   const response2 = await fetch(`https://travel-blog-drab.vercel.app/api/holiday-blog`);
 
