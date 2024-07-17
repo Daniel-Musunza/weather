@@ -86,7 +86,7 @@ const WeatherRegions = ({ destination, weatherOtherDestinations, month }) => {
                     </Link>
                 </div>
             </div>
-            <div className="flex flex-col gap-[30px]">
+            {/* <div className="flex flex-col gap-[30px]">
                 <p className='text-[22px] text-darkBlue-2 font-[600]'>Useful information about {destination}</p>
                 <div className="flex flex-row gap-[20px]" style={{ overflowX: 'scroll', scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
                     {blogImages.map((blog) => (
@@ -98,7 +98,7 @@ const WeatherRegions = ({ destination, weatherOtherDestinations, month }) => {
                         </div>
                     ))}
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

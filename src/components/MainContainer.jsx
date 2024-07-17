@@ -131,7 +131,7 @@ const MainContainer = () => {
   const getData = async (destination) => {
     try {
 
-      const fetchedData = await getAllData()
+      const fetchedData = await getAllData();
 
       const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
 
@@ -140,7 +140,9 @@ const MainContainer = () => {
       const holidayBlog = fetchedData?.holidayBlog;
       const newsBlog = fetchedData?.newsBlog;
 
-      const dailyWeather = data?.weatherData.data.map((x) => {
+    
+
+      const dailyWeather = data?.weatherData?.data?.map((x) => {
         let condition = 'Cloudy'; // Default condition
         let condition_hours = null;
 
@@ -166,7 +168,7 @@ const MainContainer = () => {
           date.setFullYear(currentDate.getFullYear());
         }
 
-
+       
         return {
           destination: destination, // Static destination, modify as necessary
           date: date.toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
@@ -178,7 +180,7 @@ const MainContainer = () => {
         };
       });
 
-
+      console.log(dailyWeather)
       const destinationInfo = [{
         destination: destination,
         weather_description: data?.content.weatherInfo,
@@ -186,22 +188,27 @@ const MainContainer = () => {
         cover_image: data?.content.image
       }]
 
-      const faqs = data?.faq?.map(x => {
-        return {
-          destination: destination,
-          question: x.question,
-          answer: x.answer,
-        }
-      })
-
-      const monthlyFaqs = data?.monthFaq?.map(x => {
-        return {
-          month: getMonth(x.month)?.name,
-          destination: destination,
-          question: x.question,
-          answer: x.answer,
-        }
-      })
+      const faqs = data?.faq?.faqs?.map(x => ({
+        destination: destination,
+        question: x.question,
+        answer: x.answer,
+      })) || [{
+        destination: destination,
+        question: data?.faq?.question || 'No question available',
+        answer: data?.faq?.answer || 'No answer available',
+      }];
+      
+      const monthlyFaqs = data?.monthFaq?.faqs?.map(x => ({
+        month: getMonth(x.month)?.name || 'Unknown month',
+        destination: destination,
+        question: x.question,
+        answer: x.answer,
+      })) || data?.monthFaq?.map(x => ({
+        month: getMonth(x.month)?.name || 'Unknown month',
+        destination: destination,
+        question: x.question,
+        answer: x.answer,
+      })) || [];
 
       const monthlyContent = data?.monthContent?.map(x => {
         return {
@@ -213,6 +220,7 @@ const MainContainer = () => {
       })
 
       return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent, newsBlog, holidayBlog, allWeatherData };
+
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
     }

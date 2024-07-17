@@ -528,9 +528,9 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                                 <Text className="text-[17px] font-[600] text-darkBlue-2">{todayWeather?.condition}</Text>
                             </Box>
                             <Box className="">
-                                <Text className="text-4xl font-extrabold text-darkBlue-2">
+                                <Text className="text-4xl font-extrabold text-darkBlue-2 ">
                                     {todayWeather?.temperature}
-                                    <span className="align-super text-2xl">°C</span>
+                                    <span className="align-super text-2xl bg-[#fff]">°C</span>
                                 </Text>
                             </Box>
                         </Box>

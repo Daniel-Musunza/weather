@@ -30,7 +30,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
 
         const dailyweather = data?.find((x) => x.destination.name === destinationName)?.weatherData;
 
-        const dailyWeather = dailyweather?.data.map((x) => {
+        const dailyWeather = dailyweather?.data?.map((x) => {
             let condition = 'Cloudy'; // Default condition
             let condition_hours = null;
 
@@ -341,8 +341,9 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                             </div>
 
                             <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={monthName} />
-                            <div className="mt-[20px]">
-                                <ImageView destination={getDestination(x.destination)} image={x.image} />
+                            <div className="mt-[20px] relative w-full">
+                             
+                                <ImageView destination={getDestination(x.destination)} image={x?.image} />
                             </div>
 
                         </Box>
