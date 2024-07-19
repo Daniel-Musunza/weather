@@ -341,7 +341,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                             </div>
 
                             <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={monthName} />
-                            <div className="mt-[20px] relative w-full">
+                            <div className="mt-[20px] w-fit">
                              
                                 <ImageView destination={getDestination(x.destination)} image={x?.image} />
                             </div>

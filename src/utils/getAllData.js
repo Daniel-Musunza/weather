@@ -5,11 +5,12 @@ export const getAllData = async () => {
 
   // Fetch weather data with fallback to allData
   try {
-    const response1 = await fetch(`http://192.168.100.39:3000/api/data`);
-    if (!response1.ok) {
-      throw new Error('Network response was not ok');
-    }
-    weatherData = await response1.json();
+    // const response1 = await fetch(`http://192.168.100.39:3000/api/data`);
+    // if (!response1.ok) {
+    //   throw new Error('Network response was not ok');
+    // }
+    // weatherData = await response1.json();
+    weatherData = allData;
   } catch (err) {
     console.error('Failed to fetch weather data, using fallback data:', err);
     weatherData = allData;

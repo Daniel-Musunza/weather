@@ -112,130 +112,137 @@ const getMonth = (number) => {
   return months.find(m => m.id == number)
 }
 
-const MainContainer = () => {
-
+const MainContainer = ({ setMetadata }) => {
   const [filteredData, setFilteredData] = useState({
     daily_weather: [],
     destination_info: [],
     faqs: [],
     monthly_faqs: [],
     monthly_weather_description: [],
-
   });
   const [holidayblog, setHolidayBlog] = useState([]);
   const [newsblog, setNewsBlog] = useState([]);
   const [allWeatherData, setAllWeatherData] = useState([]);
 
-  const { destination, monthName, month, news } = useParams(); // Destructure destination from useParams
+  const { destination, monthName, month, news } = useParams();
 
-  const getData = async (destination) => {
-    try {
-
-      const fetchedData = await getAllData();
-
-      const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
-
-      const allWeatherData= fetchedData?.weatherData?.data;
-
-      const holidayBlog = fetchedData?.holidayBlog;
-      const newsBlog = fetchedData?.newsBlog;
-
+  const getData = async () => {
+    const fetchedData = await getAllData();
     
+  const destinationName= destination;
 
-      const dailyWeather = data?.weatherData?.data?.map((x) => {
-        let condition = 'Cloudy'; // Default condition
-        let condition_hours = null;
+    const data = fetchedData?.weatherData?.weatherData?.data.find((x) => x?.destination.name === destination);
+    const allWeatherData = fetchedData?.weatherData?.weatherData?.data;
+    const holidayBlog = fetchedData?.weatherData?.holidayBlog;
+    const newsBlog = fetchedData?.weatherData?.newsBlog;
 
-        if (x.prcp > 0 || x.tavg < 10) { // Assuming average temperature below 10°C indicates Rainy
-          condition = 'Rainy';
-          condition_hours = x.prcp; // Assuming prcp can represent rain hours, adjust if necessary
-        } else if (x.tsun > 0 || x.tavg > 20) { // Assuming average temperature above 20°C indicates Sunny
-          condition = 'Sunny';
-          condition_hours = x.tsun;
-        } else if (x.snow > 0) {
-          condition = 'Snowy';
-          condition_hours = x.snow; // Assuming snow can represent snow hours
-        } else if (x.wspd > 20) { // Assuming wind speed over 20 km/h is considered windy
-          condition = 'Windy';
-          condition_hours = x.wspd; // Assuming wind speed can represent windy hours, adjust if necessary
-        }
+    const dailyWeather = data?.weatherData?.data?.map((x) => {
+      let condition = 'Cloudy';
+      let condition_hours = null;
 
-        // Adjust the date to the current year if it is from the previous year
-        const date = new Date(x.date);
-        const currentDate = new Date();
+      if (x.prcp > 0 || x.tavg < 10) {
+        condition = 'Rainy';
+        condition_hours = x.prcp;
+      } else if (x.tsun > 0 || x.tavg > 20) {
+        condition = 'Sunny';
+        condition_hours = x.tsun;
+      } else if (x.snow > 0) {
+        condition = 'Snowy';
+        condition_hours = x.snow;
+      } else if (x.wspd > 20) {
+        condition = 'Windy';
+        condition_hours = x.wspd;
+      }
 
-        if (date.getFullYear() < currentDate.getFullYear()) {
-          date.setFullYear(currentDate.getFullYear());
-        }
+      const date = new Date(x.date);
+      const currentDate = new Date();
+      if (date.getFullYear() < currentDate.getFullYear()) {
+        date.setFullYear(currentDate.getFullYear());
+      }
 
-       
-        return {
-          destination: destination, // Static destination, modify as necessary
-          date: date.toLocaleDateString("en-GB"), // Convert date to "DD/MM/YYYY" format
-          temperature: x.tavg, // Using average temperature
-          water_temperature: x.tmin, // Static value, replace with actual if available
-          humidity: x.prcp, // Assuming `prcp` key for humidity, replace if incorrect
-          condition: condition,
-          condition_hours: condition_hours
-        };
-      });
-
-      console.log(dailyWeather)
-      const destinationInfo = [{
+      return {
         destination: destination,
-        weather_description: data?.content.weatherInfo,
-        more_information: data?.content.destinationInfo,
-        cover_image: data?.content.image
-      }]
+        date: date.toLocaleDateString('en-GB'),
+        temperature: x.tavg,
+        water_temperature: x.tmin,
+        humidity: x.prcp,
+        condition: condition,
+        condition_hours: condition_hours,
+      };
+    });
 
-      const faqs = data?.faq?.faqs?.map(x => ({
+    const destinationInfo = [
+      {
         destination: destination,
-        question: x.question,
-        answer: x.answer,
-      })) || [{
+        weather_description: data?.content?.weatherInfo,
+        more_information: data?.content?.destinationInfo,
+        cover_image: data?.content?.image,
+      },
+    ];
+
+    const faqs = data?.faq?.faqs?.map((x) => ({
+      destination: destination,
+      question: x.question,
+      answer: x.answer,
+    })) || [
+      {
         destination: destination,
         question: data?.faq?.question || 'No question available',
         answer: data?.faq?.answer || 'No answer available',
-      }];
-      
-      const monthlyFaqs = data?.monthFaq?.faqs?.map(x => ({
-        month: getMonth(x.month)?.name || 'Unknown month',
-        destination: destination,
-        question: x.question,
-        answer: x.answer,
-      })) || data?.monthFaq?.map(x => ({
-        month: getMonth(x.month)?.name || 'Unknown month',
-        destination: destination,
-        question: x.question,
-        answer: x.answer,
-      })) || [];
+      },
+    ];
 
-      const monthlyContent = data?.monthContent?.map(x => {
-        return {
-          destination: destination,
-          month: getMonth(x.month)?.name,
-          weather_description: x.weatherInfo,
-          more_information: ""
-        }
-      })
+    const monthlyFaqs = data?.monthFaq?.faqs?.map((x) => ({
+      month: getMonth(x.month)?.name || 'Unknown month',
+      destination: destination,
+      question: x.question,
+      answer: x.answer,
+    })) || data?.monthFaq?.map((x) => ({
+      month: getMonth(x.month)?.name || 'Unknown month',
+      destination: destination,
+      question: x.question,
+      answer: x.answer,
+    })) || [];
 
-      return { dailyWeather, destinationInfo, faqs, monthlyFaqs, monthlyContent, newsBlog, holidayBlog, allWeatherData };
+    const monthlyContent = data?.monthContent?.map((x) => ({
+      destination: destination,
+      month: getMonth(x.month)?.name,
+      weather_description: x.weatherInfo,
+      more_information: '',
+    }));
 
-    } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
+    if (Array.isArray(data?.monthContent)) {
+      const [_id, destination, weatherInfo, ...monthlyMetaData] = data?.monthContent;
+  
+      setMetadata({
+        destination: destinationName,
+        destinationMetaTitle: data?.content?.metaTitle,
+        destinationMetaDescription: data?.content?.metaDescription,
+        destinationMetaKeyWords: data?.content?.metaKeyWords,
+        monthlyMetaData,
+      });
     }
+
+    return {
+      dailyWeather,
+      destinationInfo,
+      faqs,
+      monthlyFaqs,
+      monthlyContent,
+      newsBlog,
+      holidayBlog,
+      allWeatherData,
+    };
   };
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchData = async () => {
-      const data = await getData(destination);
-     
+      const data = await getData();
       let weatherOtherDestinations = getWeatherOtherDestinations(data?.dailyWeather, month, destination);
 
       if (isMounted && destination) {
-
         const filteredDestinations = {
           destination: destination,
           month: month,
@@ -244,67 +251,57 @@ const MainContainer = () => {
           faqs: data?.faqs,
           monthly_faqs: data?.monthlyFaqs,
           monthly_weather_description: data?.monthlyContent,
-          weatherOtherDestinations
+          weatherOtherDestinations,
         };
 
         setFilteredData(filteredDestinations);
-        setHolidayBlog(data?.holidayBlog.data)
-        setNewsBlog(data?.newsBlog.data)
+        setHolidayBlog(data?.holidayBlog.data);
+        setNewsBlog(data?.newsBlog.data);
       } else if (isMounted) {
-        setHolidayBlog(data?.holidayBlog.data)
-        setNewsBlog(data?.newsBlog.data)
+        setHolidayBlog(data?.holidayBlog.data);
+        setNewsBlog(data?.newsBlog.data);
       }
 
-      setAllWeatherData(data?.allWeatherData)
+      setAllWeatherData(data?.allWeatherData);
     };
 
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup function to mark component as unmounted
+      isMounted = false;
     };
   }, [destination]);
 
+  const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION").map(x => ({
+    id: x._id,
+    title: "WARM DESTINATIONS -",
+    hint: "WHERE TO GO ON VACATION",
+    description: x.overViewDescription,
+    content: x.WeatherHolidayContent,
+    text: x.overViewHeading,
+    image: x.coverImage,
+    month: x.month,
+  }));
 
-  const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION")
-    .map(x => {
-      return {
-        id: x._id,
-        title: "WARM DESTINATIONS -",
-        hint: "WHERE TO GO ON VACATION",
-        description: x.overViewDescription,
-        content: x.WeatherHolidayContent,
-        text: x.overViewHeading,
-        image: x.coverImage,
-        month: x.month
+  const weatherData = holidayblog?.filter(x => x.category === "WEATHER").map(x => ({
+    id: x._id,
+    title: "WEATHER",
+    text: x.overViewHeading,
+    image: x.coverImage,
+    month: x.month,
+    destination: x.destination,
+    category: x.category,
+  }));
 
-      }
-    });
-
-  const weatherData = holidayblog?.filter(x => x.category === "WEATHER")
-    .map(x => {
-      return {
-        id: x._id,
-        title: "WEATHER",
-        text: x.overViewHeading,
-        image: x.coverImage,
-        month: x.month,
-        destination: x.destination,
-        category: x.category
-      }
-    });
-
-  const newsData = newsblog?.map(x => {
-    return {
-      id: x._id,
-      title: "THE NEWS",
-      text: x.heading,
-      image: x.image,
-      month: x.month,
-      info: x.info,
-      content: x.subNews
-    }
-  });
+  const newsData = newsblog?.map(x => ({
+    id: x._id,
+    title: "THE NEWS",
+    text: x.heading,
+    image: x.image,
+    month: x.month,
+    info: x.info,
+    content: x.subNews,
+  }));
 
   return (
     <div>

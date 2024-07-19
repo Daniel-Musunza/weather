@@ -3,7 +3,8 @@ import { Card, Text, Button } from '@mantine/core';
 
 const ImageView = (props) => {
 
-  const image = props?.image !== "undefined" || props?.image !== null ? props?.image : "";
+  const image = props?.image === "undefined" || props?.image === null ?  "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg" : props?.image;
+
 
   return (
     <div className="flex flex-col md:flex-row w-fit relative">
@@ -13,7 +14,6 @@ const ImageView = (props) => {
         shadow="md"
         className='h-[250px] border-[1px] border-darkBlue-2 rounded-t-[15px] md:rounded-tr-[0px] md:rounded-s-[15px] relative max-w-fit'
       >
-     {console.log(image)}
         <img
           src={image}
           alt=""
