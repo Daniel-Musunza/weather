@@ -45,6 +45,7 @@ export const getWeatherIcon = (condition) => {
 const getWarmestMonths = (weatherData) => {
     // Group data by month
     const monthlyData = {};
+    
     weatherData?.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
         const monthYear = `${month}/${year}`;
@@ -56,8 +57,8 @@ const getWarmestMonths = (weatherData) => {
 
     // Calculate average temperature and humidity for each month
     const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => {
-        const totalTemp = monthlyData[monthYear].reduce((sum, data) => sum + data?.temperature, 0);
-        const totalHumidity = monthlyData[monthYear].reduce((sum, data) => sum + data.humidity, 0);
+        const totalTemp = monthlyData[monthYear].reduce((sum, data) => sum + parseFloat(data?.temperature), 0);
+        const totalHumidity = monthlyData[monthYear].reduce((sum, data) => sum +  parseFloat(data.humidity), 0);
         const avgTemp = totalTemp / monthlyData[monthYear].length;
         const avgHumidity = totalHumidity / monthlyData[monthYear].length;
         return { monthYear, avgTemp, avgHumidity };
@@ -72,11 +73,12 @@ const getWarmestMonths = (weatherData) => {
 };
 
 const getWeatherStatistics = (weatherData) => {
+   
     if (!weatherData || weatherData.length === 0) return {};
 
     const highestTemp = weatherData.reduce((max, current) => (current?.temperature > max?.temperature ? current : max));
     const lowestTemp = weatherData.reduce((min, current) => (current?.temperature < min?.temperature ? current : min));
-
+   
     const monthlyData = {};
     weatherData?.forEach(data => {
         const [day, month, year] = data?.date?.split("/");
@@ -84,17 +86,26 @@ const getWeatherStatistics = (weatherData) => {
         if (!monthlyData[monthYear]) {
             monthlyData[monthYear] = { totalTemp: 0, count: 0 };
         }
-        monthlyData[monthYear].totalTemp += data?.temperature;
+       
+        monthlyData[monthYear].totalTemp += parseFloat(data?.temperature) || 0;
         monthlyData[monthYear].count += 1;
     });
 
+   
+
     const monthlyAvgTemp = Object.keys(monthlyData).map(monthYear => ({
         monthYear,
-        avgTemp: monthlyData[monthYear].totalTemp / monthlyData[monthYear].count
+        avgTemp: (monthlyData[monthYear].totalTemp / monthlyData[monthYear].count)
     }));
 
-    const warmestMonth = monthlyAvgTemp.reduce((max, current) => (current.avgTemp > max?.avgTemp ? current : max));
-    const coldestMonth = monthlyAvgTemp.reduce((min, current) => (current.avgTemp < min?.avgTemp ? current : min));
+    const warmestMonth = monthlyAvgTemp.reduce((max, current) => 
+        parseFloat(current.avgTemp) > parseFloat(max?.avgTemp) ? current : max
+    );
+    
+    const coldestMonth = monthlyAvgTemp.reduce((min, current) => 
+        parseFloat(current.avgTemp) < parseFloat(min?.avgTemp) ? current : min
+    );
+    
 
     return {
         highestTemp,
@@ -163,11 +174,11 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                 acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
             }
 
-            acc[month].tempSum += x.temperature;
-            acc[month].waterTempSum += x.water_temperature;
-            acc[month].humidSum += x.humidity;
+            acc[month].tempSum += parseFloat(x.temperature);
+            acc[month].waterTempSum += parseFloat(x.water_temperature);
+            acc[month].humidSum += parseFloat(x.humidity);
             if (x.condition === "Sunny") {
-                acc[month].sunnyHrsSum += x.condition_hours;
+                acc[month].sunnyHrsSum += parseFloat(x.condition_hours);
             }
             acc[month].count += 1;
         }
@@ -197,6 +208,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
             hrs: (monthData[month].sunnyHrsSum / monthData[month].count).toFixed(0)
         }));
     }
+
     const getCardsToShow = () => {
         if (window.innerWidth >= 1024) {
             return 4;

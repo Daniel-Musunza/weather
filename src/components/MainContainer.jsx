@@ -13,6 +13,8 @@ import { Sticky } from "gestalt";
 import { getAllData } from '../utils/getAllData';
 
 const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
+
+ 
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
   const parseDateToMonth = (dateString) => {
     const [day, month, year] = dateString.split('/').map(Number);
@@ -29,18 +31,19 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
     return destinationData ? destinationData.countryCode : null;
   };
 
+ 
   // Filter the weather data for the specified month
   const filteredWeather = daily_weather?.filter(x => parseDateToMonth(x.date) === month);
-
+  
   // Get the country code for the target destination
   const targetCountryCode = getCountryCodeForDestination(targetDestination);
 
   // Filter weather data for other destinations in the same country as the target destination
   const filteredDestinations = destinations?.filter(d => d.countryCode === targetCountryCode && d.destination !== targetDestination);
 
+  
   // Aggregate data by destination
   const destinationData = {};
-
   // Add data for the target destination
   filteredWeather?.forEach(x => {
     if (x.destination === targetDestination) {
@@ -53,11 +56,11 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
           count: 0
         };
       }
-      destinationData[targetDestination].tempSum += x.temperature;
-      destinationData[targetDestination].waterTempSum += x.water_temperature;
-      destinationData[targetDestination].humidSum += x.humidity;
+      destinationData[targetDestination].tempSum += parseFloat(x.temperature);
+      destinationData[targetDestination].waterTempSum += parseFloat(x.water_temperature);
+      destinationData[targetDestination].humidSum += parseFloat(x.humidity);
       if (x.condition === "Sunny") {
-        destinationData[targetDestination].sunnyHrsSum += x.condition_hours;
+        destinationData[targetDestination].sunnyHrsSum += parseFloat(x.condition_hours);
       }
       destinationData[targetDestination].count += 1;
     }
@@ -75,11 +78,11 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
 
     filteredWeather?.forEach(x => {
       if (x.destination === dest.destination) {
-        destinationData[dest.destination].tempSum += x.temperature;
-        destinationData[dest.destination].waterTempSum += x.water_temperature;
-        destinationData[dest.destination].humidSum += x.humidity;
+        destinationData[dest.destination].tempSum += parseFloat(x.temperature);
+        destinationData[dest.destination].waterTempSum += parseFloat(x.water_temperature);
+        destinationData[dest.destination].humidSum += parseFloat(x.humidity);
         if (x.condition === "Sunny") {
-          destinationData[dest.destination].sunnyHrsSum += x.condition_hours;
+          destinationData[dest.destination].sunnyHrsSum += parseFloat(x.condition_hours);
         }
         destinationData[dest.destination].count += 1;
       }
@@ -98,6 +101,7 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
     };
   });
 
+ 
   return result;
 };
 
@@ -130,13 +134,14 @@ const MainContainer = ({ setMetadata }) => {
     const fetchedData = await getAllData();
     
   const destinationName= destination;
+  
+    const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
+    
+    const allWeatherData = fetchedData?.weatherData;
+    const holidayBlog = fetchedData?.holidayBlog;
+    const newsBlog = fetchedData?.newsBlog;
 
-    const data = fetchedData?.weatherData?.weatherData?.data.find((x) => x?.destination.name === destination);
-    const allWeatherData = fetchedData?.weatherData?.weatherData?.data;
-    const holidayBlog = fetchedData?.weatherData?.holidayBlog;
-    const newsBlog = fetchedData?.weatherData?.newsBlog;
-
-    const dailyWeather = data?.weatherData?.data?.map((x) => {
+    const dailyWeather = data?.weatherData[0]?.data?.map((x) => {
       let condition = 'Cloudy';
       let condition_hours = null;
 
@@ -211,7 +216,7 @@ const MainContainer = ({ setMetadata }) => {
       more_information: '',
     }));
 
-    if (Array.isArray(data?.monthContent)) {
+    if (Array.isArray(data?.monthContent) && !month) {
       const [_id, destination, weatherInfo, ...monthlyMetaData] = data?.monthContent;
   
       setMetadata({
