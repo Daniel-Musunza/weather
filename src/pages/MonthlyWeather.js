@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import NavBar from '../components/NavBar'
 import icons from '../utils/icons'
 import SearchBar from '../components/SearchBar'
@@ -11,14 +11,20 @@ import MainContainer from '../components/MainContainer'
 import {Helmet} from "react-helmet";
 
 const MonthlyWeather = () => {
+
+  const [metaData, setMetadata] = useState(null);
+  
   return (
     <>
-      <Helmet>
-       <meta charSet="utf-8" />
-      <title>Monthly Weather</title>
-      <link rel="canonical" href="http://localhost:3000/Mauritius" />
-                   
-    </Helmet>
+ <Helmet>
+
+
+<meta charSet="utf-8" />
+<title>{metaData?.month ? `${metaData.month} Weather ${metaData.destination}` : 'Monthly Weather Information'}</title>
+<link rel="canonical" href={metaData?.destination ? `http://localhost:3000/${metaData.destination}/${metaData.month}` : 'http://localhost:3000/'} />
+{metaData?.monthlyMetaDescription && <meta name="description" content={metaData.monthlyMetaDescription} />}
+{metaData?.monthlyMetaKeyWords && <meta name="keywords" content={metaData.monthlyMetaKeyWords} />}
+</Helmet>
     <NavBar/>
     <div className="mb-[100px]" >
       <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row py-[30px]" style={{backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)`}}>
@@ -32,7 +38,7 @@ const MonthlyWeather = () => {
               <SearchForm />
           </div>
       </div> */}
-      <MainContainer />
+ <MainContainer setMetadata={setMetadata} />
       {/* <div className="padding-x">
         <MoreInfo/>
       </div> */}

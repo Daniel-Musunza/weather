@@ -4,7 +4,7 @@ import ImageView from './ImageView';
 
 const MonthWeatherRecords = (props) => {
 
-    const faqs = props?.monthly_faqs.filter(x=>x.month===props.month)
+    const faqs = props?.monthly_faqs?.filter(x=>x.month===props.month)||[]
 
     const [viewQuestionId, setViewQuestionId] = useState(null);
 

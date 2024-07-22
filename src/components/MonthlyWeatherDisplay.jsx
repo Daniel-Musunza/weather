@@ -127,6 +127,7 @@ const getWeatherStatistics = (weatherData, payloadMonth) => {
     };
 };
 
+
 const MonthlyWeatherDisplay = ({ data }) => {
     const navigate = useNavigate();
     const tomorrowDate = new Date();
@@ -152,8 +153,6 @@ const MonthlyWeatherDisplay = ({ data }) => {
     ];
 
     const currentMonth = months.find(m => m.name === data.month);
-
-
     const previousMonth = months.find(m => m.id === currentMonth?.id - 1);
     const nextMonth = months.find(m => m.id === currentMonth?.id + 1)
 
@@ -196,6 +195,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
         return acc;
     }, {});
 
+    
     // Step 2: Calculate the average temperature for each month and format the result
     if (data?.daily_weather?.length > 0) {
         // Step 2: Calculate the average temperature for each month and format the result

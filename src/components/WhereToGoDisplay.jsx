@@ -22,18 +22,21 @@ export const getWeatherIcon = (condition) => {
 };
 
 const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) => {
+
+ 
     const [averageWeatherData, setAverageWeatherData] = useState(null);
 
     const getAverageWeather = async (destination) => {
 
         const destinationName = destination;
 
-        const dailyweather = data?.find((x) => x.destination.name === destinationName)?.weatherData;
+        const dailyweather = data?.data.find((x) => x.destination.name === destinationName)?.weatherData;
 
-        const dailyWeather = dailyweather?.data?.map((x) => {
+        const dailyWeather = dailyweather[0]?.data?.map((x) => {
             let condition = 'Cloudy'; // Default condition
             let condition_hours = null;
 
+      
             if (x.prcp > 0 || x.tavg < 10) { // Assuming average temperature below 10°C indicates Rainy
                 condition = 'Rainy';
                 condition_hours = x.prcp; // Assuming prcp can represent rain hours, adjust if necessary
@@ -67,7 +70,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
                 condition_hours: condition_hours
             };
         });
-
+        
         let averageTemp = [];
         let averageWaterTemp = [];
         let averageHumidity = [];
@@ -75,15 +78,15 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
 
         const monthData = dailyWeather?.reduce((acc, x) => {
             const month = parseDateToMonth(x.date);
-
+            
             if (month == monthName) {
                 if (!acc[month]) {
                     acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
                 }
 
-                acc[month].tempSum += x.temperature;
-                acc[month].waterTempSum += x.water_temperature;
-                acc[month].humidSum += x.humidity;
+                acc[month].tempSum += parseFloat(x.temperature);
+                acc[month].waterTempSum += parseFloat(x.water_temperature);
+                acc[month].humidSum += parseFloat(x.humidity);
                 if (x.condition === "Sunny") {
                     acc[month].sunnyHrsSum += x.condition_hours;
                 }
@@ -93,6 +96,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
             return acc;
         }, {});
 
+       
         // Step 2: Calculate the average temperature for each month and format the result
         if (dailyWeather?.length > 0) {
             // Step 2: Calculate the average temperature for each month and format the result
@@ -117,16 +121,16 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
             }));
         }
 
-      
         return { averageTemp, averageWaterTemp, averageHumidity, averageSunnyHours };
     };
 
 
     useEffect(() => {
-
+        
         if (destination || destination !== "undefined") {
             const fetchData = async (destination) => {
                 const data = await getAverageWeather(destination);
+              
                 setAverageWeatherData(data);
             };
 
@@ -258,7 +262,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
         const [day, month, year] = dateString.split('/').map(Number);
         const date = new Date(year, month - 1, day);
         if (!isNaN(date)) {
-            return month;
+            return date.toLocaleString('default', { month: 'long' });
         }
         return null;
     };
@@ -267,14 +271,13 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
         return destinations?.find((x) => x.id === number)?.destination;
     }
 
-
     const handleNavigation = (sectionId) => {
         navigate(`/where-to-go/${monthName}/${id}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 
     const currentHoliday = holidaysData?.find((x) => x.id === id)
-
+ 
     return (
         <div>
             <Box className="flex flex-col gap-[40px]  " >
@@ -340,7 +343,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                                 <Text>{x.weatherInfo} </Text>
                             </div>
 
-                            <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={monthName} />
+                            <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={getMonth()} />
                             <div className="mt-[20px] w-fit">
                              
                                 <ImageView destination={getDestination(x.destination)} image={x?.image} />
@@ -352,6 +355,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
             </Box>
         </div>
     )
+    
 }
 
 export default WhereToGoDisplay

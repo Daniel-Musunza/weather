@@ -12,9 +12,8 @@ import { Sticky } from "gestalt";
 
 import { getAllData } from '../utils/getAllData';
 
-const getWeatherOtherDestinations = (daily_weather, month, targetDestination) => {
+const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
 
- 
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
   const parseDateToMonth = (dateString) => {
     const [day, month, year] = dateString.split('/').map(Number);
@@ -31,40 +30,15 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
     return destinationData ? destinationData.countryCode : null;
   };
 
- 
-  // Filter the weather data for the specified month
-  const filteredWeather = daily_weather?.filter(x => parseDateToMonth(x.date) === month);
-  
   // Get the country code for the target destination
   const targetCountryCode = getCountryCodeForDestination(targetDestination);
 
   // Filter weather data for other destinations in the same country as the target destination
   const filteredDestinations = destinations?.filter(d => d.countryCode === targetCountryCode && d.destination !== targetDestination);
 
-  
   // Aggregate data by destination
   const destinationData = {};
   // Add data for the target destination
-  filteredWeather?.forEach(x => {
-    if (x.destination === targetDestination) {
-      if (!destinationData[targetDestination]) {
-        destinationData[targetDestination] = {
-          tempSum: 0,
-          waterTempSum: 0,
-          humidSum: 0,
-          sunnyHrsSum: 0,
-          count: 0
-        };
-      }
-      destinationData[targetDestination].tempSum += parseFloat(x.temperature);
-      destinationData[targetDestination].waterTempSum += parseFloat(x.water_temperature);
-      destinationData[targetDestination].humidSum += parseFloat(x.humidity);
-      if (x.condition === "Sunny") {
-        destinationData[targetDestination].sunnyHrsSum += parseFloat(x.condition_hours);
-      }
-      destinationData[targetDestination].count += 1;
-    }
-  });
 
   // Add data for each filtered destination
   filteredDestinations?.forEach(dest => {
@@ -76,8 +50,50 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
       count: 0
     };
 
+    // .forEach(y=>{y
+    const daily_weather = allWeather?.data[1]?.weatherData[0]?.data.map((x) => {
+      let condition = 'Cloudy';
+      let condition_hours = null;
+    
+      if (x.prcp > 0 || x.tavg < 10) {
+        condition = 'Rainy';
+        condition_hours = x.prcp;
+      } else if (x.tsun > 0 || x.tavg > 20) {
+        condition = 'Sunny';
+        condition_hours = x.tsun;
+      } else if (x.snow > 0) {
+        condition = 'Snowy';
+        condition_hours = x.snow;
+      } else if (x.wspd > 20) {
+        condition = 'Windy';
+        condition_hours = x.wspd;
+      }
+    
+      const date = new Date(x.date);
+      const currentDate = new Date();
+      if (date.getFullYear() < currentDate.getFullYear()) {
+        date.setFullYear(currentDate.getFullYear());
+      }
+    
+      return {
+        date: date.toLocaleDateString('en-GB'),
+        temperature: x.tavg,
+        water_temperature: x.tmin,
+        humidity: x.prcp,
+        condition: condition,
+        condition_hours: condition_hours,
+      };
+    
+    });
+    
+  // })
+
+  
+  // Filter the weather data for the specified month
+  const filteredWeather = daily_weather?.filter(x => parseDateToMonth(x.date) === month);
+ 
+  
     filteredWeather?.forEach(x => {
-      if (x.destination === dest.destination) {
         destinationData[dest.destination].tempSum += parseFloat(x.temperature);
         destinationData[dest.destination].waterTempSum += parseFloat(x.water_temperature);
         destinationData[dest.destination].humidSum += parseFloat(x.humidity);
@@ -85,10 +101,10 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
           destinationData[dest.destination].sunnyHrsSum += parseFloat(x.condition_hours);
         }
         destinationData[dest.destination].count += 1;
-      }
+     
     });
+  
   });
-
   // Calculate averages for each destination
   const result = Object.keys(destinationData).map(destination => {
     const data = destinationData[destination];
@@ -101,7 +117,6 @@ const getWeatherOtherDestinations = (daily_weather, month, targetDestination) =>
     };
   });
 
- 
   return result;
 };
 
@@ -197,17 +212,16 @@ const MainContainer = ({ setMetadata }) => {
       },
     ];
 
-    const monthlyFaqs = data?.monthFaq?.faqs?.map((x) => ({
-      month: getMonth(x.month)?.name || 'Unknown month',
+    
+    const monthlyFaqs = data?.monthFaq?.find(y => {
+      const name = getMonth(parseInt(y.month))?.name;
+      return name == month;
+    })?.faqs?.map((x) => ({
+      month: month,
       destination: destination,
       question: x.question,
       answer: x.answer,
-    })) || data?.monthFaq?.map((x) => ({
-      month: getMonth(x.month)?.name || 'Unknown month',
-      destination: destination,
-      question: x.question,
-      answer: x.answer,
-    })) || [];
+    }));
 
     const monthlyContent = data?.monthContent?.map((x) => ({
       destination: destination,
@@ -216,17 +230,32 @@ const MainContainer = ({ setMetadata }) => {
       more_information: '',
     }));
 
-    if (Array.isArray(data?.monthContent) && !month) {
-      const [_id, destination, weatherInfo, ...monthlyMetaData] = data?.monthContent;
-  
+
+    if (Array.isArray(data?.monthContent) && month) {
+
+      const thismonth = data?.monthContent?.find((x)=>getMonth(parseInt(x.month))?.name==month);
+
+      
+
+      setMetadata({
+        destination: destinationName,
+        month: month,
+        monthlyMetaTitle: thismonth?.metaTitle,
+        monthlyMetaDescription: thismonth?.metaDescription,
+        monthlyMetaKeyWords: thismonth?.metaKeyWords
+      });
+
+
+    } else if(data?.content) {
+
       setMetadata({
         destination: destinationName,
         destinationMetaTitle: data?.content?.metaTitle,
         destinationMetaDescription: data?.content?.metaDescription,
-        destinationMetaKeyWords: data?.content?.metaKeyWords,
-        monthlyMetaData,
+        destinationMetaKeyWords: data?.content?.metaKeyWords
       });
-    }
+
+    } 
 
     return {
       dailyWeather,
@@ -238,6 +267,7 @@ const MainContainer = ({ setMetadata }) => {
       holidayBlog,
       allWeatherData,
     };
+
   };
 
   useEffect(() => {
@@ -245,7 +275,8 @@ const MainContainer = ({ setMetadata }) => {
 
     const fetchData = async () => {
       const data = await getData();
-      let weatherOtherDestinations = getWeatherOtherDestinations(data?.dailyWeather, month, destination);
+
+      let weatherOtherDestinations = getWeatherOtherDestinations(data?.allWeatherData, month, destination);
 
       if (isMounted && destination) {
         const filteredDestinations = {
