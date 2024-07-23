@@ -13,7 +13,7 @@ import { Sticky } from "gestalt";
 import { getAllData } from '../utils/getAllData';
 
 const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
-
+  
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
   const parseDateToMonth = (dateString) => {
     const [day, month, year] = dateString.split('/').map(Number);
@@ -50,8 +50,10 @@ const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
       count: 0
     };
 
-    // .forEach(y=>{y
-    const daily_weather = allWeather?.data[1]?.weatherData[0]?.data.map((x) => {
+
+    const oneDestinationWeather = allWeather?.data?.find(x=>x.destination._id===dest.id)
+   
+    const daily_weather = oneDestinationWeather?.weatherData[0]?.data.map((x) => {
       let condition = 'Cloudy';
       let condition_hours = null;
     
@@ -86,12 +88,8 @@ const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
     
     });
     
-  // })
-
   
-  // Filter the weather data for the specified month
-  const filteredWeather = daily_weather?.filter(x => parseDateToMonth(x.date) === month);
- 
+    const filteredWeather = daily_weather?.filter(x => parseDateToMonth(x.date) === month);
   
     filteredWeather?.forEach(x => {
         destinationData[dest.destination].tempSum += parseFloat(x.temperature);
@@ -103,7 +101,7 @@ const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
         destinationData[dest.destination].count += 1;
      
     });
-  
+    
   });
   // Calculate averages for each destination
   const result = Object.keys(destinationData).map(destination => {
@@ -143,12 +141,12 @@ const MainContainer = ({ setMetadata }) => {
   const [newsblog, setNewsBlog] = useState([]);
   const [allWeatherData, setAllWeatherData] = useState([]);
 
-  const { destination, monthName, month, news } = useParams();
+  const { destination, monthName, month, news , id} = useParams();
 
   const getData = async () => {
     const fetchedData = await getAllData();
     
-  const destinationName= destination;
+    const destinationName= destination;
   
     const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
     
@@ -230,7 +228,6 @@ const MainContainer = ({ setMetadata }) => {
       more_information: '',
     }));
 
-
     if (Array.isArray(data?.monthContent) && month) {
 
       const thismonth = data?.monthContent?.find((x)=>getMonth(parseInt(x.month))?.name==month);
@@ -246,7 +243,30 @@ const MainContainer = ({ setMetadata }) => {
       });
 
 
-    } else if(data?.content) {
+    }else if (monthName){
+
+      const thisblog = holidayBlog?.data.find(x=>x._id===id)
+
+      setMetadata({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: thisblog?.metaTitle,
+        metaDescription: thisblog?.metaDescription,
+        metaKeyWords: thisblog?.metaKeyWords
+      });
+
+    } else if (news){
+
+      const thisnews = newsBlog?.data.find(x=>x._id===id)
+
+      setMetadata({
+        id: id,
+        metaTitle: thisnews?.metaTitle,
+        metaDescription: thisnews?.metaDescription,
+        metaKeyWords: thisnews?.metaKeyWords
+      });
+
+    }else if(data?.content) {
 
       setMetadata({
         destination: destinationName,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import NavBar from '../components/NavBar'
 import icons from '../utils/icons'
 import SearchBar from '../components/SearchBar'
@@ -8,26 +8,29 @@ import BottomTabs from '../components/ButtomTabs'
 import MoreInfo from '../components/MoreInfo'
 import Footer from '../components/Footer'
 import MainContainer from '../components/MainContainer'
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 
 const WhereToGo = () => {
+
+  const [metaData, setMetadata] = useState(null);
+
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Where to go</title>
-        <link rel="canonical" href="http://localhost:3000/Mauritius" />
-        <meta name="description" content="Discover where to go on your next vacation with our travel guides and tips." />
-        <meta name="keywords" content="travel, vacation, destinations, guides, tips, Mauritius" />
+        <title>{metaData?.monthName ? `Where to go in ${metaData.monthName}` : 'Where to go'}</title>
+        <link rel="canonical" href={metaData?.monthName ? `http://localhost:3000/where-to-go/${metaData?.monthName}/${metaData?.id}` : 'http://localhost:3000/'} />
+        {metaData?.metaDescription && <meta name="description" content={metaData.metaDescription} />}
+        {metaData?.metaKeyWords && <meta name="keywords" content={metaData.metaKeyWords} />}
       </Helmet>
       <NavBar />
       <div className="mb-[100px]" >
         <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row py-[30px]" style={{ backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)` }}>
           <SearchBar />
         </div>
-       
-        <MainContainer />
-    
+
+        <MainContainer setMetadata={setMetadata} />
+
         <BottomTabs />
       </div>
     </>

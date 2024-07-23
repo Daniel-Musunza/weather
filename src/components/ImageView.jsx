@@ -5,7 +5,6 @@ const ImageView = (props) => {
 
   const image = props?.image == "undefined" || props?.image == null ?  "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg" : props?.image;
 
-
   return (
     <div className="flex flex-col md:flex-row w-fit relative">
 
