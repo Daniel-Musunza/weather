@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import WeatherDisplay from './WeatherDisplay';
 import SearchForm from './SearchForm';
+import SearchFormBlogs from './SearchFormBlogs';
 import { destinations } from '../utils/weatherdata';
 import MoreInfo from './MoreInfo';
 import { useParams } from 'react-router-dom';
 import MonthlyWeatherDisplay from './MonthlyWeatherDisplay';
+import WhereToGoBlogsDisplay from './WhereToGoBlogsDisplay';
+import WarmCountriesDisplay from './WarmCountriesDisplay';
 import WhereToGoDisplay from './WhereToGoDisplay';
 import NewsDisplay from './NewsDisplay';
 import NewsAds from './NewsAds';
@@ -141,7 +144,7 @@ const MainContainer = ({ setMetadata }) => {
   const [newsblog, setNewsBlog] = useState([]);
   const [allWeatherData, setAllWeatherData] = useState([]);
 
-  const { destination, monthName, month, news , id} = useParams();
+  const { destination, monthName, wtgblogs, wcblogs, month, news , id} = useParams();
 
   const getData = async () => {
     const fetchedData = await getAllData();
@@ -243,7 +246,7 @@ const MainContainer = ({ setMetadata }) => {
       });
 
 
-    }else if (monthName){
+    } else if (monthName){
 
       const thisblog = holidayBlog?.data.find(x=>x._id===id)
 
@@ -266,7 +269,7 @@ const MainContainer = ({ setMetadata }) => {
         metaKeyWords: thisnews?.metaKeyWords
       });
 
-    }else if(data?.content) {
+    } else if(data?.content) {
 
       setMetadata({
         destination: destinationName,
@@ -329,6 +332,17 @@ const MainContainer = ({ setMetadata }) => {
   }, [destination]);
 
   const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION").map(x => ({
+    id: x._id,
+    title: "WARM DESTINATIONS -",
+    hint: "WHERE TO GO ON VACATION",
+    description: x.overViewDescription,
+    content: x.WeatherHolidayContent,
+    text: x.overViewHeading,
+    image: x.coverImage,
+    month: x.month,
+  }));
+
+  const warmCountriesData = holidayblog?.filter(x => x.category === "WARM COUNTRIES").map(x => ({
     id: x._id,
     title: "WARM DESTINATIONS -",
     hint: "WHERE TO GO ON VACATION",
@@ -421,7 +435,45 @@ const MainContainer = ({ setMetadata }) => {
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
-      ) : (
+      ) : wtgblogs ? (
+        <>
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={` relative w-[100%] xl:w-[70%]`}>
+              <WhereToGoBlogsDisplay data={allWeatherData} holidaysData={holidaysData} />
+            </div>
+
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <SearchFormBlogs destination={destination} destinations={destinations} />
+              </div>
+
+            </div>
+
+          </div>
+          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
+          </div>
+        </>
+      ) : wcblogs ? (
+        <>
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={` relative w-[100%] xl:w-[70%]`}>
+              <WarmCountriesDisplay data={allWeatherData} warmCountriesData={warmCountriesData} />
+            </div>
+
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <SearchFormBlogs destination={destination} destinations={destinations} />
+              </div>
+
+            </div>
+
+          </div>
+          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
+          </div>
+        </>
+      )  :  (
         <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
       )}
     </div>
