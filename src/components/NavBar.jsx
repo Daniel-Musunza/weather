@@ -99,11 +99,11 @@ const NavBar = () => {
                 </div>
             </div>
             <div className="padding-x hidden xl:flex flex-row items-center text-[14px] gap-[20px] h-[40px]">
-        <Link to="" className='font-[600]'>BEACHES</Link>
-         <Link to="" className='font-[600]'>WHERE TO GO ON VACATION</Link>
-         <Link to="" className='font-[600]'>WARM COUNTRIES</Link>
+        <Link to="/beaches/b" className='font-[600]'>BEACHES</Link>
+         <Link to="/where-to-go/wtgblogs" className='font-[600]'>WHERE TO GO ON VACATION</Link>
+         <Link to="/warm-countries/wcblogs" className='font-[600]'>WARM COUNTRIES</Link>
 
-         <Link to="" className='font-[600] '>ATTRACTIONS</Link>
+         <Link to="/attractions/at" className='font-[600] '>ATTRACTIONS</Link>
       </div>
             {openToogle && (
                 <div className="z-[999] px-[10px] absolute flex flex-col gap-[30px] w-[100%] bg-white mt-[100px] pb-[20px] shadow-sm">
@@ -170,11 +170,10 @@ const NavBar = () => {
                         </div> */}
                     </div>
                     <div className="flex flex-col gap-[20px]">
-                        <Link to="" className='font-[600] text-[14px]'>BEACHES</Link>
-                        <Link to="" className='font-[600] text-[12px]'>WHERE TO GO ON VACATION</Link>
-                        <Link to="" className='font-[600] text-[12px]'>WARM COUNTRIES</Link>
-                      
-                        <Link to="" className='font-[600] text-[12px]'>ATTRACTIONS</Link>
+                        <Link to="/beaches/b" className='font-[600] text-[14px]'>BEACHES</Link>
+                        <Link to="/where-to-go/wtgblogs"  className='font-[600] text-[12px]'>WHERE TO GO ON VACATION</Link>
+                        <Link to="/warm-countries/wcblogs" className='font-[600] text-[12px]'>WARM COUNTRIES</Link>
+                        <Link to="/attractions/at" className='font-[600] text-[12px]'>ATTRACTIONS</Link>
                     </div>
                 </div>
             )}
