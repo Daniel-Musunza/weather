@@ -66,9 +66,9 @@ const NewsDisplay = ({ data, newsData }) => {
                 <Box className="flex flex-col w-full p-2 rounded-lg gap-2">
                     <Text
                         style={{ backgroundColor: 'rgb(18 98 175)' }}
-                        className='px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] w-[110px]'
+                        className='px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] w-fit'
                     >
-                        The News
+                       Travel tips and Advice
                     </Text>
 
                     {currentNews?.content.map((x, index) => (

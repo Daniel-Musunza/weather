@@ -357,6 +357,7 @@ const MainContainer = ({ setMetadata }) => {
     month: x.month,
   }));
 
+  console.log(holidayblog)
   const attractionsData = holidayblog?.filter(x => x.category === "ATTRACTIONS").map(x => ({
     id: x._id,
     title: "ATTRACTIONS -",
@@ -391,7 +392,7 @@ const MainContainer = ({ setMetadata }) => {
 
   const newsData = newsblog?.map(x => ({
     id: x._id,
-    title: "THE NEWS",
+    title: "Travel tips and Advice",
     text: x.heading,
     image: x.image,
     month: x.month,

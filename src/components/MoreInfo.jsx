@@ -60,7 +60,7 @@ const MoreInfo = ({holidaysData, weatherData, newsData}) => {
             </div>
             <div className="flex flex-col gap-[30px]">
                 <div className="flex flex-col gap-[20px]">
-                    <h1 className='text-[22px] font-[700] text-darkBlue-2'>The news:</h1>
+                    <h1 className='text-[22px] font-[700] text-darkBlue-2'>Travel tips and Advice</h1>
                 </div>
                 <div className="flex flex-col gap-[20px]">
                     {newsData?.map((obj, index) => (
