@@ -16,7 +16,7 @@ const WarmCountriesDisplay = ({ data, warmCountriesData }) => {
         <div>
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
-                    <Text>33 POSTS IN</Text>
+                    <Text>{warmCountriesData?.length} POSTS IN</Text>
                     <h1 className=' font-[900] text-[30px]'>Warm Destinations</h1>
                     <Box className="flex flex-row flex-wrap gap-[10px]">
 

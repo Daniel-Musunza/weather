@@ -13,7 +13,11 @@ import NewsDisplay from './NewsDisplay';
 import NewsAds from './NewsAds';
 import { Sticky } from "gestalt";
 
+import { Text, Box } from '@mantine/core';
+
 import { getAllData } from '../utils/getAllData';
+import AttractionsDisplay from './AttractionsDisplay';
+import BeachesDisplay from './BeachesDisplay';
 
 const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
   
@@ -144,7 +148,7 @@ const MainContainer = ({ setMetadata }) => {
   const [newsblog, setNewsBlog] = useState([]);
   const [allWeatherData, setAllWeatherData] = useState([]);
 
-  const { destination, monthName, wtgblogs, wcblogs, month, news , id} = useParams();
+  const { destination, monthName, wtgblogs, wcblogs, month, news , attractions, beaches, id} = useParams();
 
   const getData = async () => {
     const fetchedData = await getAllData();
@@ -353,6 +357,28 @@ const MainContainer = ({ setMetadata }) => {
     month: x.month,
   }));
 
+  const attractionsData = holidayblog?.filter(x => x.category === "ATTRACTIONS").map(x => ({
+    id: x._id,
+    title: "ATTRACTIONS -",
+    hint: "ATTRACTIONS",
+    description: x.overViewDescription,
+    content: x.WeatherHolidayContent,
+    text: x.overViewHeading,
+    image: x.coverImage,
+    month: x.month,
+  }));
+
+  const beachesData = holidayblog?.filter(x => x.category === "BEACHES").map(x => ({
+    id: x._id,
+    title: "BEACHES -",
+    hint: "BEACHES",
+    description: x.overViewDescription,
+    content: x.WeatherHolidayContent,
+    text: x.overViewHeading,
+    image: x.coverImage,
+    month: x.month,
+  }));
+
   const weatherData = holidayblog?.filter(x => x.category === "WEATHER").map(x => ({
     id: x._id,
     title: "WEATHER",
@@ -473,7 +499,63 @@ const MainContainer = ({ setMetadata }) => {
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
-      )  :  (
+      )  : attractions? (
+        <>
+         <div className="relative px-[10px] md:px-[8%] flex flex-col gap-[30px] mt-[40px] w-[100%]">
+         <Text>{attractionsData?.length} POSTS IN</Text>
+                    <h1 className=' font-[900] text-[30px]'>Attractions</h1>
+
+
+          
+          <img src="https://app.travellead.pl/accounts/default1/7dzgm6zybqk/e464a1b0.png" alt="" />
+          <img src="https://wakacje.postaffiliatepro.com/accounts/default1/banners/3cd0dc1c.png" alt="" />
+          <h2 className=' font-[700] text-[25px]'>Perfect destinations for sightseeing enthusiasts</h2>
+
+          <Text
+                                        className='py-2'
+                                        style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+                                    >
+A dream vacation, just like the most beautiful places in the world, can mean something different to everyone. Some people are satisfied with exotic conditions, sunny weather and the possibility of sunbathing under palm trees. Others are interested in tourist attractions that allow you to learn about the history, culture and unique atmosphere of a given place. Before you decide to go to a specific place, it is worth checking out interesting places to visit. It is best to check those that are recommended by other travelers. Proven places are definitely better than those about which you will not find any opinions.
+
+If we want to see the most beautiful places in the world, we don't have to fly thousands of kilometers from Poland. In practically every country or region we can find beautiful places that captivate with amazing views and provide the highest level of experience. When planning vacation trips, it is worth paying attention to the most beautiful monuments in the world, UNESCO monuments, famous national parks and natural monuments, places related to historical events or those where you can encounter unusual phenomena, such as colored sand, black beach, red water and other places that are simply worth recommending and seeing.</Text>
+        </div>
+          <div className="relative px-[10px] md:px>-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={` relative w-[100%] xl:w-[70%]`}>
+              <AttractionsDisplay data={allWeatherData} attractionsData={attractionsData} />
+            </div>
+
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <SearchFormBlogs destination={destination} destinations={destinations} />
+              </div>
+
+            </div>
+
+          </div>
+          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
+          </div>
+        </>
+      )  : beaches? (
+        <>
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className={` relative w-[100%] xl:w-[70%]`}>
+              <BeachesDisplay data={allWeatherData} beachesData={beachesData} />
+            </div>
+
+            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+              <div className="sticky top-0">
+                <SearchFormBlogs destination={destination} destinations={destinations} />
+              </div>
+
+            </div>
+
+          </div>
+          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+            <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
+          </div>
+        </>
+      )  : (
         <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
       )}
     </div>

@@ -16,7 +16,7 @@ const WhereToGoBlogsDisplay = ({ data, holidaysData }) => {
         <div>
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
-                    <Text>20 POSTS IN</Text>
+                    <Text>{holidaysData?.length} POSTS IN</Text>
                     <h1 className=' font-[900] text-[30px]'>Where to go on vacation</h1>
                     <Box className="flex flex-row flex-wrap gap-[10px]">
 
