@@ -137,7 +137,7 @@ const NavBar = () => {
                                 <img src="../../images/icons/all-inclusive.svg" alt=""
                                     className='h-[25px] w-[25px]'
                                 />
-                                <Link to="" className='font-[600] text-[18px] text-black'>All Inclusive</Link>
+                                <Link to="https://www.itravelholidays.co.uk/allinclusive" className='font-[600] text-[18px] text-black'>All Inclusive</Link>
                             </div>
                             <div className="flex flex-row gap-[5px] items-center bg-[#ddd] px-[10px] py-[3px] rounded-[20px] ">
                                 <span className='text-darkBlue-2 text-[12px]'>1107</span>
@@ -149,7 +149,7 @@ const NavBar = () => {
                                 <img src="../../images/icons/wakacje.svg" alt=""
                                     className='h-[25px] w-[25px]'
                                 />
-                                <Link to="" className='font-[600] text-[18px] text-black'>Holidays</Link>
+                                <Link to="https://www.itravelholidays.co.uk/destinations" className='font-[600] text-[18px] text-black'>Holidays</Link>
                             </div>
                             <div className="flex flex-row gap-[5px] items-center bg-[#ddd] px-[10px] py-[3px] rounded-[20px] ">
                                 <span className='text-darkBlue-2 text-[12px]'>1107</span>
