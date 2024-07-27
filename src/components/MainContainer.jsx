@@ -20,7 +20,7 @@ import AttractionsDisplay from './AttractionsDisplay';
 import BeachesDisplay from './BeachesDisplay';
 
 const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
-  
+
   // Helper function to parse date in "DD/MM/YYYY" format and return the month in 'long' format
   const parseDateToMonth = (dateString) => {
     const [day, month, year] = dateString.split('/').map(Number);
@@ -58,12 +58,12 @@ const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
     };
 
 
-    const oneDestinationWeather = allWeather?.data?.find(x=>x.destination._id===dest.id)
-   
+    const oneDestinationWeather = allWeather?.data?.find(x => x.destination._id === dest.id)
+
     const daily_weather = oneDestinationWeather?.weatherData[0]?.data.map((x) => {
       let condition = 'Cloudy';
       let condition_hours = null;
-    
+
       if (x.prcp > 0 || x.tavg < 10) {
         condition = 'Rainy';
         condition_hours = x.prcp;
@@ -77,13 +77,13 @@ const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
         condition = 'Windy';
         condition_hours = x.wspd;
       }
-    
+
       const date = new Date(x.date);
       const currentDate = new Date();
       if (date.getFullYear() < currentDate.getFullYear()) {
         date.setFullYear(currentDate.getFullYear());
       }
-    
+
       return {
         date: date.toLocaleDateString('en-GB'),
         temperature: x.tavg,
@@ -92,23 +92,23 @@ const getWeatherOtherDestinations = (allWeather, month, targetDestination) => {
         condition: condition,
         condition_hours: condition_hours,
       };
-    
+
     });
-    
-  
+
+
     const filteredWeather = daily_weather?.filter(x => parseDateToMonth(x.date) === month);
-  
+
     filteredWeather?.forEach(x => {
-        destinationData[dest.destination].tempSum += parseFloat(x.temperature);
-        destinationData[dest.destination].waterTempSum += parseFloat(x.water_temperature);
-        destinationData[dest.destination].humidSum += parseFloat(x.humidity);
-        if (x.condition === "Sunny") {
-          destinationData[dest.destination].sunnyHrsSum += parseFloat(x.condition_hours);
-        }
-        destinationData[dest.destination].count += 1;
-     
+      destinationData[dest.destination].tempSum += parseFloat(x.temperature);
+      destinationData[dest.destination].waterTempSum += parseFloat(x.water_temperature);
+      destinationData[dest.destination].humidSum += parseFloat(x.humidity);
+      if (x.condition === "Sunny") {
+        destinationData[dest.destination].sunnyHrsSum += parseFloat(x.condition_hours);
+      }
+      destinationData[dest.destination].count += 1;
+
     });
-    
+
   });
   // Calculate averages for each destination
   const result = Object.keys(destinationData).map(destination => {
@@ -148,15 +148,15 @@ const MainContainer = ({ setMetadata }) => {
   const [newsblog, setNewsBlog] = useState([]);
   const [allWeatherData, setAllWeatherData] = useState([]);
 
-  const { destination, monthName, wtgblogs, wcblogs, month, news , attractions, beaches, id} = useParams();
+  const { destination, monthName, wtgblogs, wcblogs, month, news, attractions, beaches, id } = useParams();
 
   const getData = async () => {
     const fetchedData = await getAllData();
-    
-    const destinationName= destination;
-  
+
+    const destinationName = destination;
+
     const data = fetchedData?.weatherData?.data.find((x) => x?.destination.name === destination);
-    
+
     const allWeatherData = fetchedData?.weatherData;
     const holidayBlog = fetchedData?.holidayBlog;
     const newsBlog = fetchedData?.newsBlog;
@@ -210,14 +210,14 @@ const MainContainer = ({ setMetadata }) => {
       question: x.question,
       answer: x.answer,
     })) || [
-      {
-        destination: destination,
-        question: data?.faq?.question || 'No question available',
-        answer: data?.faq?.answer || 'No answer available',
-      },
-    ];
+        {
+          destination: destination,
+          question: data?.faq?.question || 'No question available',
+          answer: data?.faq?.answer || 'No answer available',
+        },
+      ];
 
-    
+
     const monthlyFaqs = data?.monthFaq?.find(y => {
       const name = getMonth(parseInt(y.month))?.name;
       return name == month;
@@ -237,9 +237,9 @@ const MainContainer = ({ setMetadata }) => {
 
     if (Array.isArray(data?.monthContent) && month) {
 
-      const thismonth = data?.monthContent?.find((x)=>getMonth(parseInt(x.month))?.name==month);
+      const thismonth = data?.monthContent?.find((x) => getMonth(parseInt(x.month))?.name == month);
 
-      
+
 
       setMetadata({
         destination: destinationName,
@@ -250,9 +250,9 @@ const MainContainer = ({ setMetadata }) => {
       });
 
 
-    } else if (monthName){
+    } else if (monthName) {
 
-      const thisblog = holidayBlog?.data.find(x=>x._id===id)
+      const thisblog = holidayBlog?.data.find(x => x._id === id)
 
       setMetadata({
         id: id,
@@ -262,9 +262,9 @@ const MainContainer = ({ setMetadata }) => {
         metaKeyWords: thisblog?.metaKeyWords
       });
 
-    } else if (news){
+    } else if (news) {
 
-      const thisnews = newsBlog?.data.find(x=>x._id===id)
+      const thisnews = newsBlog?.data.find(x => x._id === id)
 
       setMetadata({
         id: id,
@@ -273,7 +273,7 @@ const MainContainer = ({ setMetadata }) => {
         metaKeyWords: thisnews?.metaKeyWords
       });
 
-    } else if(data?.content) {
+    } else if (data?.content) {
 
       setMetadata({
         destination: destinationName,
@@ -282,7 +282,7 @@ const MainContainer = ({ setMetadata }) => {
         destinationMetaKeyWords: data?.content?.metaKeyWords
       });
 
-    } 
+    }
 
     return {
       dailyWeather,
@@ -500,27 +500,31 @@ const MainContainer = ({ setMetadata }) => {
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
-      )  : attractions? (
+      ) : attractions ? (
         <>
-         <div className="relative px-[10px] md:px-[8%] flex flex-col gap-[30px] mt-[40px] w-[100%]">
-         <Text>{attractionsData?.length} POSTS IN</Text>
-                    <h1 className=' font-[900] text-[30px]'>Attractions</h1>
+          <div className="relative px-[10px] md:px-[8%] flex flex-col gap-[30px] mt-[40px] w-[100%]">
+            <Text>{attractionsData?.length} POSTS IN</Text>
+            <h1 className=' font-[900] text-[30px]'>Attractions</h1>
 
 
-          
-          <img src="https://app.travellead.pl/accounts/default1/7dzgm6zybqk/e464a1b0.png" alt="" />
-          <img src="https://wakacje.postaffiliatepro.com/accounts/default1/banners/3cd0dc1c.png" alt="" />
-          <h2 className=' font-[700] text-[25px]'>Perfect destinations for sightseeing enthusiasts</h2>
 
-          <Text
-                                        className='py-2'
-                                        style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
-                                    >
-A dream vacation, just like the most beautiful places in the world, can mean something different to everyone. Some people are satisfied with exotic conditions, sunny weather and the possibility of sunbathing under palm trees. Others are interested in tourist attractions that allow you to learn about the history, culture and unique atmosphere of a given place. Before you decide to go to a specific place, it is worth checking out interesting places to visit. It is best to check those that are recommended by other travelers. Proven places are definitely better than those about which you will not find any opinions.
+            <img src="https://app.travellead.pl/accounts/default1/7dzgm6zybqk/e464a1b0.png" alt="" />
+            <img src="https://wakacje.postaffiliatepro.com/accounts/default1/banners/3cd0dc1c.png" alt="" />
+            <h2 className=' font-[700] text-[25px]'>Perfect destinations for sightseeing enthusiasts</h2>
 
-If we want to see the most beautiful places in the world, we don't have to fly thousands of kilometers from Poland. In practically every country or region we can find beautiful places that captivate with amazing views and provide the highest level of experience. When planning vacation trips, it is worth paying attention to the most beautiful monuments in the world, UNESCO monuments, famous national parks and natural monuments, places related to historical events or those where you can encounter unusual phenomena, such as colored sand, black beach, red water and other places that are simply worth recommending and seeing.</Text>
-        </div>
-          <div className="relative px-[10px] md:px>-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <Text
+              className='py-2'
+              style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+            >
+              A dream vacation, just like the most beautiful places in the world, can mean something different to everyone. Some people are satisfied with exotic conditions, sunny weather and the possibility of sunbathing under palm trees. Others are interested in tourist attractions that allow you to learn about the history, culture and unique atmosphere of a given place. Before you decide to go to a specific place, it is worth checking out interesting places to visit. It is best to check those that are recommended by other travelers. Proven places are definitely better than those about which you will not find any opinions.
+            </Text>
+            <Text
+              className='py-2'
+              style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
+            >
+              If we want to see the most beautiful places in the world, we don't have to fly thousands of kilometers from Poland. In practically every country or region we can find beautiful places that captivate with amazing views and provide the highest level of experience. When planning vacation trips, it is worth paying attention to the most beautiful monuments in the world, UNESCO monuments, famous national parks and natural monuments, places related to historical events or those where you can encounter unusual phenomena, such as colored sand, black beach, red water and other places that are simply worth recommending and seeing.</Text>
+          </div>
+          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
               <AttractionsDisplay data={allWeatherData} attractionsData={attractionsData} />
             </div>
@@ -529,7 +533,6 @@ If we want to see the most beautiful places in the world, we don't have to fly t
               <div className="sticky top-0">
                 <SearchFormBlogs destination={destination} destinations={destinations} />
               </div>
-
             </div>
 
           </div>
@@ -537,7 +540,7 @@ If we want to see the most beautiful places in the world, we don't have to fly t
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
-      )  : beaches? (
+      ) : beaches ? (
         <>
           <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
@@ -556,7 +559,7 @@ If we want to see the most beautiful places in the world, we don't have to fly t
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
-      )  : (
+      ) : (
         <h1 className="text-red-600 align-middle">Please Choose Destination</h1>
       )}
     </div>
