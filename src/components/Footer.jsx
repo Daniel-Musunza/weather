@@ -12,13 +12,13 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
   
-const Atol ='../../images/footer/ATOL.png';
+const Atol ='../../images/footer/atol.png';
 const LogoWhite = '../../images/footer/logowhite.png';
 const MasterCard = '../../images/footer/mastercard2.png';
 const Visa = '../../images/footer/visa2.png';
   return (
       <footer className="footer pb-5 mt-auto bg-dark bg-cover bg-top bg-no-repeat lg:bg-center footer-dark" style={{background: '#002b49'}}>
-          <div className="container " style={{padding: '2rem 5rem 2rem 5rem'}} >
+          <div className="container px-[10px] md:px-[8%]  " style={{paddingTop: '5rem'}} >
             <div className="row gx-5 flex flex-wrap w-[100%] justify-center md:gap-[40px]" style={{color: '#fff'}}>
               <div className="col-lg-3">
                 <Image alt="" width={250} height={86} src={LogoWhite} className='flex justify-center' style={{marginLeft: 'auto', marginRight: 'auto'}} />
@@ -58,7 +58,7 @@ const Visa = '../../images/footer/visa2.png';
                   </a>
                 </div>
               </div>
-                <div className="row gx-5 flex flex-wrap justify-center md:justify-between text-center flex-grow">
+                <div className="row gx-5 flex flex-wrap justify-center flex-col md:flex-row md:justify-between text-center flex-grow">
                   <div className="col-lg-3 col-md-6 mb-5 mb-lg-0 ">
                     <div className="text-uppercase-expanded text-xs mb-4" style={{color: '#fff', fontWeight: '900', fontSize: '16px'}}>
                       Blogs
