@@ -65,16 +65,16 @@ const Visa = '../../images/footer/visa2.png';
                     </div>
                     <ul className="list-unstyled mb-0">
                       <li className="mb-2">
-                        <Link href='/Weather'>Weather</Link>
+                        <Link href='https://www.itravelholidays.co.uk/Weather'>Weather</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href='/thingstodo'>Things To Do</Link>
+                        <Link href='https://www.itravelholidays.co.uk/thingstodo'>Things To Do</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href='/destinations'>Popular Destinations</Link>
+                        <Link href='https://www.itravelholidays.co.uk/destinations'>Popular Destinations</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href='/searchhotels'>Hotel Offers</Link>
+                        <Link href='https://www.itravelholidays.co.uk/searchhotels'>Hotel Offers</Link>
                       </li>
                     </ul>
                   </div>
@@ -84,16 +84,16 @@ const Visa = '../../images/footer/visa2.png';
                     </div>
                     <ul className="list-unstyled mb-0">
                       <li className="mb-2">
-                        <Link href="/aboutus">About Us</Link>
+                        <Link href="https://www.itravelholidays.co.uk/aboutus">About Us</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href="/contact">FAQs</Link>
+                        <Link href="https://www.itravelholidays.co.uk/contact">FAQs</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href="/contact">Contact Us</Link>
+                        <Link href="https://www.itravelholidays.co.uk/contact">Contact Us</Link>
                       </li>
                       <li className="mb-2">
-                        <a href='/whybookwithus'>Why Book With Us</a>
+                        <a href='https://www.itravelholidays.co.uk/whybookwithus'>Why Book With Us</a>
                       </li>
                     </ul>
                   </div>
@@ -103,13 +103,13 @@ const Visa = '../../images/footer/visa2.png';
                     </div>
                     <ul className="list-unstyled mb-0">
                       <li className="mb-2">
-                        <Link href="/terms">Terms and Condition</Link>
+                        <Link href="https://www.itravelholidays.co.uk/terms">Terms and Condition</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href="/policy">Privacy Policy</Link>
+                        <Link href="https://www.itravelholidays.co.uk/policy">Privacy Policy</Link>
                       </li>
                       <li className="mb-2">
-                        <Link href="/bookingconditions">
+                        <Link href="https://www.itravelholidays.co.uk/bookingconditions">
                           Booking Conditions
                         </Link>
                       </li>

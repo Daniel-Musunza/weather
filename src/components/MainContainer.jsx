@@ -251,19 +251,19 @@ const MainContainer = ({ setMetadata }) => {
 
 
     } 
-    // else if (monthName) {
+    else if (monthName) {
 
-    //   const thisblog = holidayBlog?.data?.find(x => x._id === id)
+      const thisblog = holidayBlog?.WhereToGo?.data?.find(x => x._id === id)
 
-    //   setMetadata({
-    //     id: id,
-    //     monthName: getMonth(monthName)?.name,
-    //     metaTitle: thisblog?.metaTitle,
-    //     metaDescription: thisblog?.metaDescription,
-    //     metaKeyWords: thisblog?.metaKeyWords
-    //   });
+      setMetadata({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: thisblog?.metaTitle,
+        metaDescription: thisblog?.metaDescription,
+        metaKeyWords: thisblog?.metaKeyWords
+      });
 
-    // } 
+    } 
     else if (news) {
 
       const thisnews = newsBlog?.data?.find(x => x._id === id)
