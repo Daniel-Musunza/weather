@@ -138,6 +138,14 @@ const MonthlyWeatherDisplay = ({ data }) => {
 
     const destination_info = Array.isArray(data?.destination_info) ? data?.destination_info[0] : ""
 
+    const limitWords = (text) => {
+        const words = text.split(' ');
+        if (words.length > 60) {
+          return words.slice(0, 60).join(' ') + '.';
+        }
+        return text;
+      };
+
     const month_weather_description = data?.monthly_weather_description?.find(
         x => x?.month === data?.month
     )?.weather_description ?? '';
@@ -382,7 +390,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                     </Box>
                                 </Box>
                                 <Box className='py-2'>
-                                    <Text> {month_weather_description}</Text>
+                                    <Text> {limitWords(month_weather_description)}</Text>
                                 </Box>
                                 <Box className="flex flex-row justify-between cursor-pointer gap-[10px]">
                                     {previousMonth ? (
