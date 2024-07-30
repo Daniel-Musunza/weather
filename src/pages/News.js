@@ -33,6 +33,7 @@ const News = () => {
       
         <BottomTabs />
       </div>
+      <Footer />
     </>
   )
 }

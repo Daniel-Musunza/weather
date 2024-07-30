@@ -360,12 +360,12 @@ const MainContainer = ({ setMetadata }) => {
     month: x.month,
   }));
 
-  const attractionsData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "ATTRACTIONS").map(x => ({
+  const attractionsData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "ATTRACTION").map(x => ({
     id: x._id,
-    title: "ATTRACTIONS -",
-    hint: "ATTRACTIONS",
+    title: "ATTRACTION -",
+    hint: "ATTRACTION",
     description: x.overViewDescription,
-    content: x.WeatherHolidayContent,
+    content: x.content,
     text: x.overViewHeading,
     image: x.coverImage,
     month: x.month,

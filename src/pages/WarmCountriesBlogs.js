@@ -33,6 +33,7 @@ const WarmCountriesBlogs = () => {
 
         <BottomTabs />
       </div>
+      <Footer />
     </>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 import MainContainer from '../components/MainContainer';
 
@@ -26,6 +27,7 @@ const DestinationWeather = () => {
         </div>
         <MainContainer setMetadata={setMetadata} />
       </div>
+      <Footer />
     </>
   );
 };

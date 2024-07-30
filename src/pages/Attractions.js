@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
 import SearchBar from '../components/SearchBar';
 import MainContainer from '../components/MainContainer';
+import Footer from '../components/Footer';
 
 const Attractions = () => {
   const [metaData, setMetadata] = useState(null);
@@ -24,6 +25,7 @@ const Attractions = () => {
         </div>
         <MainContainer setMetadata={setMetadata} />
       </div>
+      <Footer />
     </>
   );
 };

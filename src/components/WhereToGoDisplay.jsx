@@ -294,6 +294,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
         currentHoliday = "";
     }
 
+    console.log(currentHoliday)
 
     return (
         <div>

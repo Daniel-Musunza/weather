@@ -44,7 +44,7 @@ const MonthlyWeather = () => {
       </div> */}
      <BottomTabs/>
     </div>
-  
+    <Footer />
     </>
   )
 }

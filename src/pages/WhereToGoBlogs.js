@@ -33,6 +33,7 @@ const WhereToGoBlogs = () => {
 
         <BottomTabs />
       </div>
+      <Footer />
     </>
   )
 }

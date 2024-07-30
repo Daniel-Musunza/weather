@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
 import SearchBar from '../components/SearchBar';
 import MainContainer from '../components/MainContainer';
+import Footer from '../components/Footer';
 
 const Beaches = () => {
   const [metaData, setMetadata] = useState(null);
@@ -26,6 +27,7 @@ const Beaches = () => {
         </div>
         <MainContainer setMetadata={setMetadata} />
       </div>
+      <Footer />
     </>
   );
 };
