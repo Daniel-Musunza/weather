@@ -250,21 +250,23 @@ const MainContainer = ({ setMetadata }) => {
       });
 
 
-    } else if (monthName) {
+    } 
+    // else if (monthName) {
 
-      const thisblog = holidayBlog?.data.find(x => x._id === id)
+    //   const thisblog = holidayBlog?.data?.find(x => x._id === id)
 
-      setMetadata({
-        id: id,
-        monthName: getMonth(monthName)?.name,
-        metaTitle: thisblog?.metaTitle,
-        metaDescription: thisblog?.metaDescription,
-        metaKeyWords: thisblog?.metaKeyWords
-      });
+    //   setMetadata({
+    //     id: id,
+    //     monthName: getMonth(monthName)?.name,
+    //     metaTitle: thisblog?.metaTitle,
+    //     metaDescription: thisblog?.metaDescription,
+    //     metaKeyWords: thisblog?.metaKeyWords
+    //   });
 
-    } else if (news) {
+    // } 
+    else if (news) {
 
-      const thisnews = newsBlog?.data.find(x => x._id === id)
+      const thisnews = newsBlog?.data?.find(x => x._id === id)
 
       setMetadata({
         id: id,
@@ -335,30 +337,30 @@ const MainContainer = ({ setMetadata }) => {
     };
   }, [destination]);
 
-  const holidaysData = holidayblog?.filter(x => x.category === "WHERE TO GO ON VACATION").map(x => ({
+
+  const holidaysData = holidayblog?.WhereToGo?.filter(x => x.category === "other").map(x => ({
     id: x._id,
     title: "WARM DESTINATIONS -",
     hint: "WHERE TO GO ON VACATION",
     description: x.overViewDescription,
-    content: x.WeatherHolidayContent,
+    content: x.content,
     text: x.overViewHeading,
     image: x.coverImage,
     month: x.month,
   }));
 
-  const warmCountriesData = holidayblog?.filter(x => x.category === "WARM COUNTRIES").map(x => ({
+  const warmCountriesData = holidayblog?.WhereToGo?.filter(x => x.category === "WARM COUNTRIES").map(x => ({
     id: x._id,
     title: "WARM DESTINATIONS -",
     hint: "WHERE TO GO ON VACATION",
     description: x.overViewDescription,
-    content: x.WeatherHolidayContent,
+    content: x.content,
     text: x.overViewHeading,
     image: x.coverImage,
     month: x.month,
   }));
 
-  console.log(holidayblog)
-  const attractionsData = holidayblog?.filter(x => x.category === "ATTRACTIONS").map(x => ({
+  const attractionsData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "ATTRACTIONS").map(x => ({
     id: x._id,
     title: "ATTRACTIONS -",
     hint: "ATTRACTIONS",
@@ -369,21 +371,23 @@ const MainContainer = ({ setMetadata }) => {
     month: x.month,
   }));
 
-  const beachesData = holidayblog?.filter(x => x.category === "BEACHES").map(x => ({
+  const beachesData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "BEACH").map(x => ({
     id: x._id,
     title: "BEACHES -",
     hint: "BEACHES",
     description: x.overViewDescription,
-    content: x.WeatherHolidayContent,
+    content: x.content,
     text: x.overViewHeading,
     image: x.coverImage,
     month: x.month,
   }));
 
-  const weatherData = holidayblog?.filter(x => x.category === "WEATHER").map(x => ({
+  const allBlogsFormated = {holidaysData, warmCountriesData, attractionsData , beachesData}
+
+  const weatherData = holidayblog?.featuredWeather?.map(x => ({
     id: x._id,
     title: "WEATHER",
-    text: x.overViewHeading,
+    text: x.heading,
     image: x.coverImage,
     month: x.month,
     destination: x.destination,
@@ -429,7 +433,7 @@ const MainContainer = ({ setMetadata }) => {
         <>
           <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
-              <WhereToGoDisplay data={allWeatherData} holidaysData={holidaysData} />
+              <WhereToGoDisplay data={allWeatherData} holidaysData={allBlogsFormated} />
             </div>
 
             <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>

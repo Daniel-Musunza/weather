@@ -16,10 +16,11 @@ export const getAllData = async () => {
   }
 
   // Fetch holiday blog data
-  const response2 = await fetch(`https://blogs.itravelholidays.co.uk/api/holiday-blog`);
+  const response2 = await fetch(`https://blogs.itravelholidays.co.uk/api/blogs/al`);
   if (!response2.ok) {
     throw new Error('Network response was not ok ' + response2.statusText);
   }
+
   const holidayBlog = await response2.json();
 
   // Fetch news blog data

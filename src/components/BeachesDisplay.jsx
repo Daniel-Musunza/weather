@@ -8,8 +8,8 @@ import { destinations } from '../utils/weatherdata';
 const BeachesDisplay = ({ data, beachesData }) => {
     const navigate = useNavigate();
 
-    const handleNavigation = (id, month) => {
-        navigate(`/where-to-go/${month}/${id}`);
+    const handleNavigation = (id) => {
+        navigate(`/where-to-go/BEACHES/${id}`);
     };
 
     return (
@@ -24,7 +24,7 @@ const BeachesDisplay = ({ data, beachesData }) => {
 
                         { beachesData?.map((x, index) => (
                             <div
-                                onClick={() => handleNavigation(x?.id, x?.month)}
+                                onClick={() => handleNavigation(x?.id)}
                                 className="flex relative flex-col py-2 w-full md:w-[48%] justify-center cursor-pointer"
                                 key={index}
                             >

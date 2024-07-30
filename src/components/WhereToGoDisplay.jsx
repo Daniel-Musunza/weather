@@ -23,7 +23,7 @@ export const getWeatherIcon = (condition) => {
 
 const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) => {
 
- 
+
     const [averageWeatherData, setAverageWeatherData] = useState(null);
 
     const getAverageWeather = async (destination) => {
@@ -36,7 +36,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
             let condition = 'Cloudy'; // Default condition
             let condition_hours = null;
 
-      
+
             if (x.prcp > 0 || x.tavg < 10) { // Assuming average temperature below 10°C indicates Rainy
                 condition = 'Rainy';
                 condition_hours = x.prcp; // Assuming prcp can represent rain hours, adjust if necessary
@@ -70,7 +70,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
                 condition_hours: condition_hours
             };
         });
-        
+
         let averageTemp = [];
         let averageWaterTemp = [];
         let averageHumidity = [];
@@ -78,7 +78,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
 
         const monthData = dailyWeather?.reduce((acc, x) => {
             const month = parseDateToMonth(x.date);
-            
+
             if (month == monthName) {
                 if (!acc[month]) {
                     acc[month] = { month: month, tempSum: 0, waterTempSum: 0, humidSum: 0, sunnyHrsSum: 0, count: 0 };
@@ -96,7 +96,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
             return acc;
         }, {});
 
-       
+
         // Step 2: Calculate the average temperature for each month and format the result
         if (dailyWeather?.length > 0) {
             // Step 2: Calculate the average temperature for each month and format the result
@@ -126,11 +126,11 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
 
 
     useEffect(() => {
-        
+
         if (destination || destination !== "undefined") {
             const fetchData = async (destination) => {
                 const data = await getAverageWeather(destination);
-              
+
                 setAverageWeatherData(data);
             };
 
@@ -237,6 +237,8 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
 
 
 const WhereToGoDisplay = ({ data, holidaysData }) => {
+
+    
     const navigate = useNavigate();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -276,27 +278,53 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 
-    const currentHoliday = holidaysData?.find((x) => x.id === id)
- 
+
+    let currentHoliday;
+
+    if (!isNaN(monthName)) {
+        //   If monthName is not a number, find the holiday in holidaysData
+        currentHoliday = holidaysData?.holidaysData?.find((x) => x.id === id) || holidaysData?.warmCountriesData?.find((x) => x.id === id);
+    } else if (monthName == "BEACHES") {
+        // If monthName is "BEACHES", find the holiday in beachesData
+        currentHoliday = holidaysData?.beachesData?.find((x) => x.id === id);
+    } else if (monthName == "ATTRACTIONS") {
+        // If monthName is "BEACHES", find the holiday in beachesData
+        currentHoliday = holidaysData?.attractionsData?.find((x) => x.id === id);
+    }  else {
+        currentHoliday = "";
+    }
+
+
     return (
         <div>
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
                     <h1 className=' font-[900] text-[30px]'>{currentHoliday?.text}?</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
-                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white  text-[11px] md:text-[13px] font-[700] rounded-[8px]'>WHERE TO GO</div>
-                        <span>
-                            <img src="../../images/icons/angle-right.svg" alt=""
-                                className='h-[20px] w-[20px]'
-                            />
-                        </span>
-                        <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
-                        <span>
-                            <img src="../../images/icons/angle-right.svg" alt=""
-                                className='h-[20px] w-[20px]'
-                            />
-                        </span>
-                        <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>{getMonth()}</Text>
+                        <div
+                            style={{ backgroundColor: 'rgb(18 98 175)' }}
+                            className='px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px]'
+                        >
+                            {isNaN(monthName) ? monthName : 'WHERE TO GO'}
+                        </div>
+                        {!isNaN(monthName) ? (
+                            <>
+                                <span>
+                                    <img src="../../images/icons/angle-right.svg" alt=""
+                                        className='h-[20px] w-[20px]'
+                                    />
+                                </span>
+                                <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
+                                <span>
+                                    <img src="../../images/icons/angle-right.svg" alt=""
+                                        className='h-[20px] w-[20px]'
+                                    />
+                                </span>
+                                <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>{getMonth()}</Text>
+                            </>
+                        ) :
+                            ''
+                        }
                     </Box>
                 </Box>
                 <Box className="flex flex-col" >
@@ -313,40 +341,48 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                     </div>
 
                 </Box>
+
                 <Box className="flex flex-col border-dashed border-[black] border-[2px] w-full p-2 rounded-lg gap-2">
                     <Text className='text-nowrap text-[18px] font-[700] ml-[60px]'>Contents: </Text>
                     <div className="flex flex-col w-full text-[16px] ml-[30px]">
                         <ol className='flex flex-col gap-2'>
 
-                            {currentHoliday?.content.map((x, index) => (
-                                <li key={index} onClick={() => handleNavigation(`${x.destination}`)} className='flex hover:text-[#0073ff]  '><span className="text-[#0073ff] mx-2 " >{index + 1}. </span> <Link to="">{x.text}</Link></li>
+                            {currentHoliday?.content?.map((x, index) => (
+                                <li key={index} onClick={() => handleNavigation(`${x.destination}`)} className='flex hover:text-[#0073ff]  '><span className="text-[#0073ff] mx-2 " >{index + 1}. </span> <Link to="">{ } {!isNaN(monthName) ? x.text : x.subHeading}</Link></li>
                             ))}
+
                         </ol>
                     </div>
 
                 </Box>
 
-                {currentHoliday?.content.map((x, index) => (
+                {currentHoliday?.content?.map((x, index) => (
                     <Box className="flex flex-col" id={`${x.destination}`} key={index}>
-                        <Text className='text-nowrap text-[18px] font-[700] p-2'>{x.subHeading} </Text>
+                        <Text className='text-nowrap text-[18px] font-[700] p-2'>{!isNaN(monthName) ? x.text : x.subHeading} </Text>
                         <Box className='w-full bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md'>
+
                             <Text className='text-nowrap text-[18px] font-[600]'>{getDestination(x.destination)}</Text>
+
                             <div className="w-full flex justify-center flex-col">
                                 <img
                                     className='rounded-lg'
-                                    src={x.image}
+                                    src={!isNaN(monthName) ? x.image : x.subImage}
                                     alt=""
                                 />
                                 <Text className='text-[12px] text-center'> weather in {getMonth()}</Text>
                             </div>
-                            <div className='mt-[20px]'>
-                                <Text>{x.weatherInfo} </Text>
-                            </div>
 
-                            <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={getMonth()} />
+                            <div className='mt-[20px]'>
+                                <Text>{!isNaN(monthName) ? x.weatherInfo : x.subDescription} </Text>
+                            </div>
+                            {!isNaN(monthName) ? (
+                                <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={getMonth()} />
+                            ) : 
+                            <></>
+                            }
+
                             <div className="mt-[20px] w-fit">
-                             
-                                <ImageView destination={getDestination(x.destination)} image={x?.image} />
+                                <ImageView destination={getDestination(x.destination)} image={!isNaN(monthName) ? x.image : x.subImage} />
                             </div>
 
                         </Box>
@@ -355,7 +391,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
             </Box>
         </div>
     )
-    
+
 }
 
 export default WhereToGoDisplay
