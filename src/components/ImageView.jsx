@@ -5,6 +5,7 @@ const ImageView = (props) => {
 
   const image = props?.image == "undefined" || props?.image == null ?  "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg" : props?.image;
 
+  const link = props?.destination == "Any Destination" || props?.destination == null ? 'https://www.itravelholidays.co.uk/searchhotels' : `https://www.itravelholidays.co.uk/hoteloffers/${props?.destination?.countryCode}/${props?.destination?.destinationNumber}`
   return (
     <div className="flex flex-col lg:flex-row w-[100%] relative">
 
@@ -24,7 +25,7 @@ const ImageView = (props) => {
         className='rounded-b-[15px] lg:rounded-bl-[0px] lg:rounded-e-[15px]  bg-[#002b49] flex flex-col gap-[10px] lg:gap-[5px] justify-between items-center lg:justify-start px-[20px] lg:pl-[40px] py-[40px] lg:pr-[80px] w-full '
       >
         <h1 className='flex flex-row gap-[5px] items-center text-[25px] text-white font-[700]'>
-          <span>Holidays in {props?.destination?.destination} </span>
+          <span>{`${props?.destination?.destination ? `Holidays in ${props?.destination?.destination} `:` Search Hotels`}`} </span>
           <img
             src="../../images/icons/plane-airplane-aircraft-flight-travel-vacation.svg"
             alt=""
@@ -34,7 +35,7 @@ const ImageView = (props) => {
         <Text className="text-white">Check out the best holiday offers!</Text>
         <div className="flex-grow flex flex-col justify-center items-center w-full">
       
-          <a href={`https://www.itravelholidays.co.uk/hoteloffers/${props?.destination?.countryCode}/${props?.destination?.destinationNumber}`}>
+          <a href={link}>
             <div
               className='inline-flex cursor-pointer flex-row items-center bg-[#c70227]  text-white px-[45px] py-[9px] text-[15px] rounded-[20px] outline-none'
               variant="gradient"
@@ -50,6 +51,7 @@ const ImageView = (props) => {
 
             </div>
           </a>
+
         </div>
       </Card>
     </div>
