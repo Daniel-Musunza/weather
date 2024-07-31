@@ -59,7 +59,7 @@ const SearchFormBlogs = ({ destination, destinations }) => {
     // https://www.itravelholidays.co.uk/hotels?destinationIds=968&destinationIds=0&selected=2024-07-24T14%3A33%3A42.802Z&departureAirports=0&nights=7&range=3&adultsRoom1=2&childrenRoom1=1&whereto=Dubai%2C+United+Arab+Emirates&searchtype=hotel&sessionId=W8LNO7VL5&childrenRoom1=0
 
     return (
-        <div className="flex flex-col sticky w-full md:w-[350px]">
+        <div className="flex flex-col sticky w-full lg:w-[350px]">
             {isModalOpen && (<RoomsModal isOpen={isModalOpen} onClose={closeModal} rooms={rooms} setRooms={setRooms} />)}
             <div className="flex flex-col gap-[40px] w-[100%]">
                
@@ -95,8 +95,8 @@ const SearchFormBlogs = ({ destination, destinations }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between gap-1">
-                            <div className="flex flex-col w-full md:w-1/2">
+                        <div className="flex flex-col lg:flex-row justify-between gap-1">
+                            <div className="flex flex-col w-full lg:w-1/2">
                                 <label htmlFor="departure" className='text-white font-[600]'>Checkin Date</label>
 
                                 <input type="date" name="" id=""
@@ -108,7 +108,7 @@ const SearchFormBlogs = ({ destination, destinations }) => {
                                     }}
                                 />
                             </div>
-                            <div className="flex flex-col w-full md:w-1/2">
+                            <div className="flex flex-col w-full lg:w-1/2">
                                 <label htmlFor="return" className='text-white font-[600]'>Checkout Date</label>
 
                                 <input type="date" name="" id=""

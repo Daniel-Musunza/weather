@@ -27,7 +27,7 @@ const NavBar = () => {
 
     return (
         <div className='flex flex-col relative '>
-            <div className="px-[10px] md:px-[8%] w-[100%] flex flex-row items-center justify-between py-[10px] shadow-md ">
+            <div className="px-[10px] lg:px-[8%] w-[100%] flex flex-row items-center justify-between py-[10px] shadow-md ">
                 <div className="flex xl:hidden">
                     {showBars && (
                         <button

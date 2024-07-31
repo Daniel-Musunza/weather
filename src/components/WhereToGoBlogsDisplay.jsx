@@ -23,7 +23,7 @@ const WhereToGoBlogsDisplay = ({ data, holidaysData }) => {
                     {holidaysData?.map((x, index) => (
                                 <div
                                 onClick={() => handleNavigation(x?.id, x?.month)}
-                                    className="flex relative flex-col py-2 w-full md:w-[48%] justify-center cursor-pointer"
+                                    className="flex relative flex-col py-2 w-full lg:w-[48%] justify-center cursor-pointer"
                                     key={index}
                                 >
                                       <button

@@ -136,6 +136,7 @@ const getMonth = (number) => {
   return months.find(m => m.id == number)
 }
 
+
 const MainContainer = ({ setMetadata }) => {
   const [filteredData, setFilteredData] = useState({
     daily_weather: [],
@@ -307,9 +308,12 @@ const MainContainer = ({ setMetadata }) => {
 
       let weatherOtherDestinations = getWeatherOtherDestinations(data?.allWeatherData, month, destination);
 
+      const destinationObject = destinations?.find(d => d.destination === destination)
+
+
       if (isMounted && destination) {
         const filteredDestinations = {
-          destination: destination,
+          destination: destinationObject,
           month: month,
           daily_weather: data?.dailyWeather,
           destination_info: data?.destinationInfo,
@@ -320,10 +324,10 @@ const MainContainer = ({ setMetadata }) => {
         };
 
         setFilteredData(filteredDestinations);
-        setHolidayBlog(data?.holidayBlog.data);
+        setHolidayBlog(data?.holidayBlog?.data);
         setNewsBlog(data?.newsBlog.data);
       } else if (isMounted) {
-        setHolidayBlog(data?.holidayBlog.data);
+        setHolidayBlog(data?.holidayBlog?.data);
         setNewsBlog(data?.newsBlog.data);
       }
 
@@ -335,7 +339,7 @@ const MainContainer = ({ setMetadata }) => {
     return () => {
       isMounted = false;
     };
-  }, [destination]);
+  }, [destination, destinations]);
 
 
   const holidaysData = holidayblog?.WhereToGo?.filter(x => x.category === "other").map(x => ({
@@ -404,12 +408,13 @@ const MainContainer = ({ setMetadata }) => {
     content: x.subNews,
   }));
 
+ 
   return (
     <div>
       {destination && !monthName ? (
         <div className="">
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
-            <div className='relative w-[100%] md:w-[70%]'>
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+            <div className='relative w-[100%] lg:w-[70%]'>
               {month && !monthName ? (
                 <MonthlyWeatherDisplay data={filteredData} />
               ) : (
@@ -417,7 +422,7 @@ const MainContainer = ({ setMetadata }) => {
               )}
             </div>
 
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <SearchForm destination={destination} destinations={destinations} />
               </div>
@@ -425,18 +430,18 @@ const MainContainer = ({ setMetadata }) => {
             </div>
 
           </div>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </div>
       ) : monthName ? (
         <>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
               <WhereToGoDisplay data={allWeatherData} holidaysData={allBlogsFormated} />
             </div>
 
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <SearchForm destination={destination} destinations={destinations} />
               </div>
@@ -444,17 +449,17 @@ const MainContainer = ({ setMetadata }) => {
             </div>
 
           </div>
-          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className=" relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : news ? (
         <>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={`relative w-[100%] xl:w-[70%]`}>
               <NewsDisplay data={filteredData} newsData={newsData} />
             </div>
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <NewsAds />
               </div>
@@ -462,18 +467,18 @@ const MainContainer = ({ setMetadata }) => {
             </div>
 
           </div>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : wtgblogs ? (
         <>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
               <WhereToGoBlogsDisplay data={allWeatherData} holidaysData={holidaysData} />
             </div>
 
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <SearchFormBlogs destination={destination} destinations={destinations} />
               </div>
@@ -481,18 +486,18 @@ const MainContainer = ({ setMetadata }) => {
             </div>
 
           </div>
-          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className=" relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : wcblogs ? (
         <>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
               <WarmCountriesDisplay data={allWeatherData} warmCountriesData={warmCountriesData} />
             </div>
 
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <SearchFormBlogs destination={destination} destinations={destinations} />
               </div>
@@ -500,13 +505,13 @@ const MainContainer = ({ setMetadata }) => {
             </div>
 
           </div>
-          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className=" relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : attractions ? (
         <>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col gap-[30px] mt-[40px] w-[100%]">
             <Text>{attractionsData?.length} POSTS IN</Text>
             <h1 className=' font-[900] text-[30px]'>Attractions</h1>
 
@@ -528,30 +533,30 @@ const MainContainer = ({ setMetadata }) => {
             >
               If we want to see the most beautiful places in the world, we don't have to fly thousands of kilometers from Poland. In practically every country or region we can find beautiful places that captivate with amazing views and provide the highest level of experience. When planning vacation trips, it is worth paying attention to the most beautiful monuments in the world, UNESCO monuments, famous national parks and natural monuments, places related to historical events or those where you can encounter unusual phenomena, such as colored sand, black beach, red water and other places that are simply worth recommending and seeing.</Text>
           </div>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
               <AttractionsDisplay data={allWeatherData} attractionsData={attractionsData} />
             </div>
 
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <SearchFormBlogs destination={destination} destinations={destinations} />
               </div>
             </div>
 
           </div>
-          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className=" relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>
       ) : beaches ? (
         <>
-          <div className="relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
+          <div className="relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between gap-[30px] mt-[40px] w-[100%]">
             <div className={` relative w-[100%] xl:w-[70%]`}>
               <BeachesDisplay data={allWeatherData} beachesData={beachesData} />
             </div>
 
-            <div className={`relative w-full md:w-[30%] md:right-0 flex flex-col`}>
+            <div className={`relative w-full lg:w-[30%] lg:right-0 flex flex-col`}>
               <div className="sticky top-0">
                 <SearchFormBlogs destination={destination} destinations={destinations} />
               </div>
@@ -559,7 +564,7 @@ const MainContainer = ({ setMetadata }) => {
             </div>
 
           </div>
-          <div className=" relative px-[10px] md:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
+          <div className=" relative px-[10px] lg:px-[8%] flex flex-col xl:flex-row justify-space-between w-[100%]">
             <MoreInfo holidaysData={holidaysData} weatherData={weatherData} newsData={newsData} />
           </div>
         </>

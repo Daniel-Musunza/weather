@@ -257,13 +257,13 @@ const MonthlyWeatherDisplay = ({ data }) => {
     };
 
     const weatherOtherDestinations = data?.weatherOtherDestinations;
-
+console.log(data?.destination?.destination)
     return (
         <div >
 
             <Box className="flex flex-col gap-[40px]  " >
                 <Box className=" flex flex-col gap-[10px] mt-[30px]">
-                    <h1 className=' font-[900] text-[30px]'>{data.destination} weather</h1>
+                    <h1 className=' font-[900] text-[30px]'>{data?.destination?.destination} weather</h1>
                     <Box className="flex flex-row items-center gap-[10px]">
                         <Link to={`/`} style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px]'>WEATHER</Link>
                         <span>
@@ -271,7 +271,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                 className='h-[20px] w-[20px]'
                             />
                         </span>
-                        <Link style={{ backgroundColor: 'rgb(18 98 175)' }} to={`/${data.destination}`} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data.destination}</Link>
+                        <Link style={{ backgroundColor: 'rgb(18 98 175)' }} to={`/${data?.destination?.destination}`} className=' px-[20px] py-[5px] text-white text-[13px] font-[800] rounded-[8px] uppercase'>{data?.destination?.destination}</Link>
                         <span>
                             <img src="../../images/icons/angle-right.svg" alt=""
                                 className='h-[20px] w-[20px]'
@@ -281,19 +281,19 @@ const MonthlyWeatherDisplay = ({ data }) => {
                     </Box>
                 </Box>
                 <Box className="">
-                    <h2 className='text-[20px] font-[600] '>Current weather in {data.destination} in {data.month}</h2>
+                    <h2 className='text-[20px] font-[600] '>Current weather in {data?.destination?.destination} in {data.month}</h2>
                 </Box>
 
                 <Box className="flex flex-col gap-[10px] items-center justify-center border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
 
                     <Box className="flex flex-row flex-wrap w-[100%]">
-                        <Box className="w-[100%] md:w-[54%]">
+                        <Box className="w-[100%] lg:w-[54%]">
                             <div>
                                 <Box className="flex gap-[10px] w-[100%] flex-grow justify-between">
-                                    <Text className='text-[14px] text-darkBlue mb-5'>Average weather data for the month of {data.month} in {data.destination}</Text>
+                                    <Text className='text-[14px] text-darkBlue mb-5'>Average weather data for the month of {data.month} in {data?.destination?.destination}</Text>
                                 </Box>
                                 <Box className='flex flex-wrap flex-row gap-[20px] '>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
+                                    <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
 
                                         <Box className="flex flex-col gap-10 bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                                             <Box className="flex flex-row justify-between">
@@ -319,7 +319,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
 
                                     </Box>
                                     {/* The day after tomorrow's weather */}
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
+                                    <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
 
                                         <Box className="flex flex-col gap-10 bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                                             <Box className="flex flex-row justify-between">
@@ -342,7 +342,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                             <Text className="text-[14px] font-[600] text-darkBlue-2">Change of precipitation</Text>
                                         </Box>
                                     </Box>
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
+                                    <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
 
                                         <Box className="flex flex-col gap-10 bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                                             <Box className="flex flex-row justify-between">
@@ -366,7 +366,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                         </Box>
                                     </Box>
                                     {/* The day after tomorrow's weather */}
-                                    <Box className="flex flex-col gap-[10px] w-[100%] md:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
+                                    <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[200px] lg:w-[300px] xl:w-[200px] justify-between">
 
                                         <Box className="flex flex-col gap-10 bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                                             <Box className="flex flex-row justify-between">
@@ -426,7 +426,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                 </Box>
                             </div>
                         </Box>
-                        <Box className="w-[100%]  md:w-[40%]  md:mx-[20px] ">
+                        <Box className="w-[100%]  lg:w-[40%]  lg:mx-[20px] ">
                             <Box className="flex gap-[10px] w-[100%] flex-grow justify-between">
                                 <Text className='text-[14px] text-darkBlue mb-5'>Check other months</Text>
                             </Box>
@@ -435,7 +435,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                     .filter((month => month.name !== data.month))
                                     .map((m, index) => (
                                         <div onClick={() => handleMonthNavigation(m.name)} key={index} className="flex justify-between hover:bg-[#a9bbf5] cursor-pointer rounded-md px-[10px] py-[1px]">
-                                            <p > {m.name} in {data.destination} </p>
+                                            <p > {m.name} in {data?.destination?.destination} </p>
                                             <span>
                                                 <img src="../../images/icons/triangle-right.svg" alt="" width="20px" />
                                             </span>
@@ -443,7 +443,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                     ))}
                                 <Link
                                     className='flex justify-center bg-white border-[1px] border-[black] px-[20px] py-[5px]  text-[black] rounded-[20px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
-                                    to={`/${data.destination}`}
+                                    to={`/${data?.destination?.destination}`}
                                 >
                                     <Text className='text-center'> Check the current and year-round weather</Text>
 
@@ -457,11 +457,11 @@ const MonthlyWeatherDisplay = ({ data }) => {
 
                 </Box>
 
-                <Box className="flex flex-col  md:items-start md:flex-row gap-[20px]">
+                <Box className="flex flex-col  lg:items-start lg:flex-row gap-[20px]">
                     <Box className="flex flex-row flex-nowrap ">
                         <Text className='text-nowrap text-[18px] font-[800]'>Go to:</Text>
                     </Box>
-                    <Box className="flex flex-row flex-wrap justify-center items-center md:items-start cursor-pointer gap-[10px]">
+                    <Box className="flex flex-row flex-wrap justify-center items-center lg:items-start cursor-pointer gap-[10px]">
                         <a
                             className='border-[1px] border-lightBlue py-[10px] px-[15px] font-[600] text-[grey] rounded-[15px] hover:text-[#8576FF] hover:border-[1px] hover:border-[#000000]'
                             onClick={() => handleNavigation('weather-in-regions-and-cities')}
@@ -493,7 +493,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                 </Box>
 
                 <Box className="flex flex-col gap-[30px]" id="weather-in-regions-and-cities">
-                    <h1 className='font-[600] text-[20px] text-darkBlue-2'>Weather in the regions and cities near {data.destination} in {data.month}</h1>
+                    <h1 className='font-[600] text-[20px] text-darkBlue-2'>Weather in the regions and cities near {data?.destination?.destination} in {data.month}</h1>
                     <Box className="overflow-auto " style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
                         <table className="table-auto w-full text-left bg-white shadow-md rounded-[8px] border-[1px] border-[#ddd] p-[20px]">
                             <thead>
@@ -527,22 +527,22 @@ const MonthlyWeatherDisplay = ({ data }) => {
                                 </tr>
                             </thead>
                             <tbody className='border border-[#ddd] space-y-4 p-[1px]'>
-                                {weatherOtherDestinations?.filter(x => x.destination !== data.destination)
+                                {weatherOtherDestinations?.filter(x => x.destination !== data?.destination?.destination)
                                     .map((x, index) => (
                                         <tr key={index} className="mb-[40px]">
-                                            <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <td className='py-[10px] lg:py-[30px] px-[20px]'>
                                                 <span>{x.destination}</span>
                                             </td>
-                                            <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <td className='py-[10px] lg:py-[30px] px-[20px]'>
                                                 <span>{x.averageTemp} °C</span>
                                             </td>
-                                            <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <td className='py-[10px] lg:py-[30px] px-[20px]'>
                                                 <span>{x.averageHumidity} %</span>
                                             </td>
-                                            <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <td className='py-[10px] lg:py-[30px] px-[20px]'>
                                                 <span>{x.averageWaterTemp} °C</span>
                                             </td>
-                                            <td className='py-[10px] md:py-[30px] px-[20px]'>
+                                            <td className='py-[10px] lg:py-[30px] px-[20px]'>
                                                 <span>{x.averageSunnyHours} hours</span>
                                             </td>
                                             <td>
@@ -560,12 +560,12 @@ const MonthlyWeatherDisplay = ({ data }) => {
                     </Box>
                 </Box>
 
-                <SpecificMonthTemp daily_weather={data?.daily_weather} destination={data?.destination} month={data?.month} />
+                <SpecificMonthTemp daily_weather={data?.daily_weather} destination={data?.destination?.destination} month={data?.month} />
                 <Box className="flex flex-col" >
                     <ImageView destination={data?.destination} image={destination_info?.cover_image}/>
                 </Box>
-                <MonthWeatherRecords destination_info={destination_info} destination={data?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
-                <WeatherRegions destination={data?.destination} weatherOtherDestinations={weatherOtherDestinations} month={data?.month} />
+                <MonthWeatherRecords destination_info={destination_info} destination={data?.destination?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
+                <WeatherRegions destination={data?.destination?.destination} weatherOtherDestinations={weatherOtherDestinations} month={data?.month} />
             </Box>
         </div>
     )

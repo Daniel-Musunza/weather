@@ -86,12 +86,12 @@ const MonthTemp = (props) => {
                 ))}
             </div>
             <div className="flex flex-col justify-center items-center w-full overflow-hidden">
-                <div className="flex flex-row justify-center gap-[10px] md:gap-[20px]">
+                <div className="flex flex-row justify-center gap-[10px] lg:gap-[20px]">
                     <div className="shrink-0 mt-[50px]">
                         <button
                             onClick={handlePrev}
                             disabled={currentIndex === 0}
-                            className="hidden md:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
+                            className="hidden lg:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
                         >
                             <img src="../../images/icons/triangle-left.svg" alt="Previous" className="h-[30px] w-[30px] shrink-0" />
                         </button>
@@ -99,7 +99,7 @@ const MonthTemp = (props) => {
                     <div className="w-full flex flex-row gap-[10px] overflow-hidden">
                         <div className={`flex flex-row gap-[10px] transition-transform duration-500 ${animationDirection === 'slideLeft' ? 'animate-slideLeft' : animationDirection === 'slideRight' ? 'animate-slideRight' : ''}`}>
                             {displayedData?.map((data, index) => (
-                                <div key={index} className="flex flex-col gap-[10px] min-w-[100px] md:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
+                                <div key={index} className="flex flex-col gap-[10px] min-w-[100px] lg:min-w-[150px] lg:min-w-[200px] xl:min-w-[140px]">
                                     <p className="text-[14px] text-darkBlue">{data?.date}</p>
                                     <div className="flex flex-col justify-center items-center bg-white py-[20px] px-[25px] rounded-lg border-[1px] border-[#ddd] shadow-md">
                                         <div className="flex flex-col items-center gap-[10px]">
@@ -121,13 +121,13 @@ const MonthTemp = (props) => {
                         <button
                             onClick={handleNext}
                             disabled={currentIndex >= filteredWeather.length - cardsToShow}
-                            className="hidden md:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
+                            className="hidden lg:block px-2 py-1 bg-blue-500 text-white rounded-[10px] disabled:opacity-50 shrink-0"
                         >
                             <img src="../../images/icons/triangle-right.svg" alt="Next" className="h-[30px] w-[30px] shrink-0" />
                         </button>
                     </div>
                 </div>
-                <div className="flex md:hidden flex-row items-center justify-center gap-[20px] mt-[10px]">
+                <div className="flex lg:hidden flex-row items-center justify-center gap-[20px] mt-[10px]">
                     <button
                         onClick={handlePrevSmall}
                         disabled={currentIndex === 0}

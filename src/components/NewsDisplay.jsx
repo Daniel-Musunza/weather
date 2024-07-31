@@ -120,7 +120,7 @@ const NewsDisplay = ({ data, newsData }) => {
                         <div
                             onClick={() => handleNewsNavigate(previousNews?.id, news - 1)}
                             style={{ backgroundImage: `url(${previousNews?.image})` }}
-                            className="relative py-2 bg-cover bg-center h-[250px] w-full md:w-[48%] flex flex-col justify-end rounded-xl"
+                            className="relative py-2 bg-cover bg-center h-[250px] w-full lg:w-[48%] flex flex-col justify-end rounded-xl"
                         >
                             <button
                                 className='absolute top-2 text-center left-2 bg-[#1262af] px-[20px] py-[5px] text-white text-[13px] rounded-[8px] w-[80px]'
@@ -143,7 +143,7 @@ const NewsDisplay = ({ data, newsData }) => {
                         <div
                             onClick={() => handleNewsNavigate(nextNews?.id, news + 1)}
                             style={{ backgroundImage: `url(${nextNews?.image})` }}
-                            className="relative  py-2 bg-cover bg-center h-[250px] rounded-xl w-full md:w-[48%] flex flex-col justify-end ')]"
+                            className="relative  py-2 bg-cover bg-center h-[250px] rounded-xl w-full lg:w-[48%] flex flex-col justify-end ')]"
                         >
                             <button
                                 className='absolute top-2 text-center right-2 bg-[#1262af] px-[20px] py-[5px] text-white text-[13px] rounded-[8px] w-[80px]'
@@ -171,7 +171,7 @@ const NewsDisplay = ({ data, newsData }) => {
                             .map((x, index) => (
                                 <div
                                     onClick={() => handleNewsNavigate(x?.id, index)}
-                                    className="flex flex-col py-2 w-full md:w-[48%] justify-center cursor-pointer"
+                                    className="flex flex-col py-2 w-full lg:w-[48%] justify-center cursor-pointer"
                                     key={index}
                                 >
                                     <img

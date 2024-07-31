@@ -145,7 +145,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
     return (
         <div className='mt-[20px]'>
             <Box className='flex flex-wrap flex-row gap-[20px] justify-center'>
-                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
                     <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                         <Box className="flex flex-row justify-between">
                             <Box className="flex items-center ">
@@ -165,7 +165,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
                         <Text className="text-[10px] font-[600] text-darkBlue-2">Air temperature</Text>
                     </Box>
                 </Box>
-                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
                     <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                         <Box className="flex flex-row justify-between">
                             <Box className="flex flex-col items-center gap-[15px]">
@@ -185,7 +185,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
                         <Text className="text-[10px] font-[600] text-darkBlue-2">Change of precipitation</Text>
                     </Box>
                 </Box>
-                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
                     <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                         <Box className="flex flex-row justify-between">
                             <Box className="flex flex-col items-center gap-[15px]">
@@ -205,7 +205,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
                         <Text className="text-[10px] font-[600] text-darkBlue-2">Temperature of water</Text>
                     </Box>
                 </Box>
-                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
                     <Box className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%]">
                         <Box className="flex flex-row justify-between">
                             <Box className="flex flex-col items-center gap-[15px]">
@@ -225,7 +225,7 @@ const WeatherComponent = ({ destination, data, parseDateToMonth, monthName }) =>
                         <Text className="text-[10px] font-[600] text-darkBlue-2">Sunny Hours</Text>
                     </Box>
                 </Box>
-                <Box className="flex flex-col gap-[10px] w-[100%] md:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
+                <Box className="flex flex-col gap-[10px] w-[100%] lg:w-[150px] lg:w-[200px] xl:w-[150px] justify-between">
                     <Link to={`/${destination}/${monthName}`} className="flex flex-col gap-10 bg-white py-[15px] px-[10px] rounded-lg border-[1px] border-[#ddd] shadow-md w-[100%] h-full justify-center items-center">
                         <Text className="text-[10px] font-[600] text-darkBlue-2">Check detailed weather</Text>
                     </Link>
@@ -304,7 +304,7 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                     <Box className="flex flex-row items-center gap-[10px]">
                         <div
                             style={{ backgroundColor: 'rgb(18 98 175)' }}
-                            className='px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px]'
+                            className='px-[20px] py-[5px] text-white text-[11px] lg:text-[13px] font-[700] rounded-[8px]'
                         >
                             {isNaN(monthName) ? monthName : 'WHERE TO GO'}
                         </div>
@@ -315,13 +315,13 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                                         className='h-[20px] w-[20px]'
                                     />
                                 </span>
-                                <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
+                                <div style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] lg:text-[13px] font-[700] rounded-[8px] uppercase'>MONTH</div>
                                 <span>
                                     <img src="../../images/icons/angle-right.svg" alt=""
                                         className='h-[20px] w-[20px]'
                                     />
                                 </span>
-                                <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] md:text-[13px] font-[700] rounded-[8px] uppercase'>{getMonth()}</Text>
+                                <Text style={{ backgroundColor: 'rgb(18 98 175)' }} className=' px-[20px] py-[5px] text-white text-[11px] lg:text-[13px] font-[700] rounded-[8px] uppercase'>{getMonth()}</Text>
                             </>
                         ) :
                             ''

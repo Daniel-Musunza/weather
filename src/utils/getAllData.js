@@ -16,18 +16,46 @@ export const getAllData = async () => {
   }
 
   // Fetch holiday blog data
-  const response2 = await fetch(`https://blogs.itravelholidays.co.uk/api/blogs/al`);
-  if (!response2.ok) {
-    throw new Error('Network response was not ok ' + response2.statusText);
+  let holidayBlog;
+  try {
+    const response2 = await fetch(`https://blogs.itravelholidays.co.uk/api/blogs/al`);
+    if (!response2.ok) {
+      throw new Error('Network response was not ok: ' + response2.statusText);
+    }
+    holidayBlog = await response2.json();
+  } catch (err) {
+    console.error('Failed to fetch holiday blog data:', err);
   }
-
-  const holidayBlog = await response2.json();
 
   // Fetch news blog data
-  const response3 = await fetch(`https://blogs.itravelholidays.co.uk/api/news`);
-  if (!response3.ok) {
-    throw new Error('Network response was not ok ' + response3.statusText);
+  let newsBlog;
+  try {
+    const response3 = await fetch(`https://blogs.itravelholidays.co.uk/api/news`);
+    if (!response3.ok) {
+      throw new Error('Network response was not ok: ' + response3.statusText);
+    }
+    newsBlog = await response3.json();
+  } catch (err) {
+    console.error('Failed to fetch news blog data:', err);
   }
-  const newsBlog = await response3.json();
-  return { weatherData, holidayBlog, newsBlog };
+
+  // Fetch destinations data
+  let iDestinations;
+  try {
+    const response4 = await fetch('https://strapi.itravelholidays.co.uk/merged/getdestinations', {
+      method: 'GET',
+      headers: {
+        'XApiKey': 'pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp',
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!response4.ok) {
+      throw new Error('Network response was not ok: ' + response4.statusText);
+    }
+    iDestinations = await response4.json();
+  } catch (err) {
+    console.error('Failed to fetch destination data:', err);
+  };
+
+  return { weatherData, holidayBlog, newsBlog, iDestinations };
 };

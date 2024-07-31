@@ -25,7 +25,7 @@ const WhereToGo = () => {
       </Helmet>
       <NavBar />
       <div className="mb-[100px]" >
-        <div className="px-[10px] md:px-[8%] hidden xl:flex flex-row py-[30px]" style={{ backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)` }}>
+        <div className="px-[10px] lg:px-[8%] hidden xl:flex flex-row py-[30px]" style={{ backgroundImage: `linear-gradient(90deg, #74ebd5, #9face6)` }}>
           <SearchBar />
         </div>
 
