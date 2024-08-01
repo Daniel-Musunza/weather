@@ -111,9 +111,8 @@ const WeatherRecords = (props) => {
                         />
                         <p class='flex flex-row justify-center items-center'>{props?.destination} weather</p>
                     </div>
-                    <p className='text-[14px] text-darkBlue-2'>
-                      {props?.destination_info?.more_information}
-                    </p></div>
+                    <div className='text-[14px] text-darkBlue-2' dangerouslySetInnerHTML={{ __html: props?.destination_info?.more_information }} />
+                  </div>
             </div>
             <div className="flex flex-col gap-[20px]" id="faq">
                 <div className="">

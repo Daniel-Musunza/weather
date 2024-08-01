@@ -731,11 +731,12 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
                                             </Box>
                                         </Box>
                                     );
-                                })}
+                                })
+                            }
                         </Box>
                         {/* {console.log(data)} */}
                         <Text className='text-darkBlue-2 text-[15px]'>
-                            {destination_info?.weather_description}
+                        <div dangerouslySetInnerHTML={{ __html: destination_info?.weather_description }} />
                         </Text>
                     </Box>
                 </Box>

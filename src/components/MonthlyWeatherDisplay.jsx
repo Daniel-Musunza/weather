@@ -257,7 +257,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
     };
 
     const weatherOtherDestinations = data?.weatherOtherDestinations;
-console.log(data?.destination?.destination)
+
     return (
         <div >
 
@@ -390,7 +390,7 @@ console.log(data?.destination?.destination)
                                     </Box>
                                 </Box>
                                 <Box className='py-2'>
-                                    <Text> {limitWords(month_weather_description)}</Text>
+                                    <Text>   <div dangerouslySetInnerHTML={{ __html: limitWords(month_weather_description) }} /></Text>
                                 </Box>
                                 <Box className="flex flex-row justify-between cursor-pointer gap-[10px]">
                                     {previousMonth ? (

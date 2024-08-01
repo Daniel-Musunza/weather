@@ -251,21 +251,7 @@ const MainContainer = ({ setMetadata }) => {
       });
 
 
-    } 
-    else if (monthName) {
-
-      const thisblog = holidayBlog?.WhereToGo?.data?.find(x => x._id === id)
-
-      setMetadata({
-        id: id,
-        monthName: getMonth(monthName)?.name,
-        metaTitle: thisblog?.metaTitle,
-        metaDescription: thisblog?.metaDescription,
-        metaKeyWords: thisblog?.metaKeyWords
-      });
-
-    } 
-    else if (news) {
+    } else if (news) {
 
       const thisnews = newsBlog?.data?.find(x => x._id === id)
 
@@ -342,49 +328,105 @@ const MainContainer = ({ setMetadata }) => {
   }, [destination, destinations]);
 
 
-  const holidaysData = holidayblog?.WhereToGo?.filter(x => x.category === "other").map(x => ({
-    id: x._id,
-    title: "WARM DESTINATIONS -",
-    hint: "WHERE TO GO ON VACATION",
-    description: x.overViewDescription,
-    content: x.content,
-    text: x.overViewHeading,
-    image: x.coverImage,
-    month: x.month,
-  }));
+  const holidaysData = holidayblog?.WhereToGo?.filter(x => x.category === "other").map(x => {
+    if (monthName && x._id === id) {
+      setMetadata({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: x?.metaTitle,
+        metaDescription: x?.metaDescription,
+        metaKeyWords: x?.metaKeyWords
+      });
+    }
+  
+    return {
+      id: x._id,
+      title: "WARM DESTINATIONS -",
+      hint: "WHERE TO GO ON VACATION",
+      description: x.overViewDescription,
+      content: x.content,
+      text: x.overViewHeading,
+      image: x.coverImage,
+      month: x.month,
+    };
+  });
+  
+  const warmCountriesData = holidayblog?.WhereToGo?.filter(x => x.category === "WARM COUNTRIES").map(x => {
+    if (monthName && x._id === id) {
+      setMetadata({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: x?.metaTitle,
+        metaDescription: x?.metaDescription,
+        metaKeyWords: x?.metaKeyWords
+      });
+    }
+  
+    return {
+      id: x._id,
+      title: "WARM DESTINATIONS -",
+      hint: "WHERE TO GO ON VACATION",
+      description: x.overViewDescription,
+      content: x.content,
+      text: x.overViewHeading,
+      image: x.coverImage,
+      month: x.month,
+    };
+  });
+  
+  const attractionsData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "ATTRACTION").map(x => {
+    if (monthName && x._id === id) {
+      setMetadata({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: x?.metaTitle,
+        metaDescription: x?.metaDescription,
+        metaKeyWords: x?.metaKeyWords
+      });
+    }
+  
+    return {
+      id: x._id,
+      title: "ATTRACTION -",
+      hint: "ATTRACTION",
+      description: x.overViewDescription,
+      content: x.content,
+      text: x.overViewHeading,
+      image: x.coverImage,
+      month: x.month,
+    };
+  });
+  
+  const beachesData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "BEACH").map(x => {
+    if (monthName && x._id === id) {
+      setMetadata({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: x?.metaTitle,
+        metaDescription: x?.metaDescription,
+        metaKeyWords: x?.metaKeyWords
+      });
 
-  const warmCountriesData = holidayblog?.WhereToGo?.filter(x => x.category === "WARM COUNTRIES").map(x => ({
-    id: x._id,
-    title: "WARM DESTINATIONS -",
-    hint: "WHERE TO GO ON VACATION",
-    description: x.overViewDescription,
-    content: x.content,
-    text: x.overViewHeading,
-    image: x.coverImage,
-    month: x.month,
-  }));
-
-  const attractionsData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "ATTRACTION").map(x => ({
-    id: x._id,
-    title: "ATTRACTION -",
-    hint: "ATTRACTION",
-    description: x.overViewDescription,
-    content: x.content,
-    text: x.overViewHeading,
-    image: x.coverImage,
-    month: x.month,
-  }));
-
-  const beachesData = holidayblog?.BeachAndAtrractions?.filter(x => x.category === "BEACH").map(x => ({
-    id: x._id,
-    title: "BEACHES -",
-    hint: "BEACHES",
-    description: x.overViewDescription,
-    content: x.content,
-    text: x.overViewHeading,
-    image: x.coverImage,
-    month: x.month,
-  }));
+      console.log({
+        id: id,
+        monthName: getMonth(monthName)?.name,
+        metaTitle: x?.metaTitle,
+        metaDescription: x?.metaDescription,
+        metaKeyWords: x?.metaKeyWords
+      })
+    }
+  
+    return {
+      id: x._id,
+      title: "BEACHES -",
+      hint: "BEACHES",
+      description: x.overViewDescription,
+      content: x.content,
+      text: x.overViewHeading,
+      image: x.coverImage,
+      month: x.month,
+    };
+  });
 
   const allBlogsFormated = {holidaysData, warmCountriesData, attractionsData , beachesData}
 

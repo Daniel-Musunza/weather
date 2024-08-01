@@ -294,8 +294,6 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
         currentHoliday = "";
     }
 
-    console.log(currentHoliday)
-
     return (
         <div>
             <Box className="flex flex-col gap-[40px]  " >
@@ -337,9 +335,10 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                         />
                         <Text className='text-[12px]  text-center'> {currentHoliday?.text}</Text>
                     </div>
-                    <div className='mt-[20px]'>
-                        {currentHoliday?.description}
-                    </div>
+                   
+                    <div className='mt-[20px]' dangerouslySetInnerHTML={{ __html: currentHoliday?.description }} />
+                    
+                
 
                 </Box>
 
@@ -372,10 +371,8 @@ const WhereToGoDisplay = ({ data, holidaysData }) => {
                                 />
                                 <Text className='text-[12px] text-center'> weather in {getMonth()}</Text>
                             </div>
-
-                            <div className='mt-[20px]'>
-                                <Text>{!isNaN(monthName) ? x.weatherInfo : x.subDescription} </Text>
-                            </div>
+                            <div className='mt-[20px]' dangerouslySetInnerHTML={{ __html: !isNaN(monthName) ? x.weatherInfo : x.subDescription }} />
+                        
                             {!isNaN(monthName) ? (
                                 <WeatherComponent destination={getDestination(x.destination)} getDestination={getDestination} data={data} parseDateToMonth={parseDateToMonth} monthName={getMonth()} />
                             ) : 

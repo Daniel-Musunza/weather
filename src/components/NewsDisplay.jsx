@@ -60,7 +60,10 @@ const NewsDisplay = ({ data, newsData }) => {
                             src={currentNews?.image}
                             alt=""
                         />
-                        <Text className='text-[12px] align-middle'> {currentNews?.text}</Text>
+                        <Text className='text-[12px] align-middle'> 
+                        <div dangerouslySetInnerHTML={{ __html:currentNews?.text }} />
+                   
+                            </Text>
                     </div>
                 </Box>
                 <Box className="flex flex-col w-full p-2 rounded-lg gap-2">
@@ -103,8 +106,9 @@ const NewsDisplay = ({ data, newsData }) => {
                                         className='py-2'
                                         style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordWrap: 'break-word' }}
                                     >
+<div dangerouslySetInnerHTML={{ __html: x.subText }} />
 
-                                        {x.subText} </Text>
+</Text>
                                 </div>
                             </Box>
                         </div>
