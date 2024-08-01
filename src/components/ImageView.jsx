@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Text, Button } from '@mantine/core';
 
 const ImageView = (props) => {
 
+  const [destination, setDestination] = useState(0)
+    const [departure, setDeparture] = useState(0)
+    const [nights, setNights] = useState(7)
+    const [departureDate, setDepartureDate] = useState(null);
+    const [departureDDate, setDDepartureDate] = useState(null);
+    const [roomsParams, setRoomsParams] = useState(null);
+    const [rooms, setRooms] = useState([
+        { adults: 2, children: 1 }
+    ]);
+
+
+    useEffect(() => {
+        const today = new Date();
+        const defaultDepartureDate = new Date(today.setDate(today.getDate() + 28));
+        setDepartureDate(defaultDepartureDate.toISOString()); // Format date to YYYY-MM-DD
+        setDDepartureDate(defaultDepartureDate.toISOString().split('T')[0]);
+    }, []);
+
+    const stations = [{ station: "Any Airport", id: 0 }];
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+   
+
+    const allAdults = rooms.reduce((sum, room) => sum + room.adults, 0);
+    const allChildren = rooms.reduce((sum, room) => sum + room.children, 0);
+
+    useEffect(() => {
+        const roomParams = rooms.map((room, index) => `adultsRoom${index + 1}=${room.adults}&childrenRoom${index + 1}=${room.children}`).join('&');
+        setRoomsParams(roomParams);
+    }, [rooms]);
+
+  
+ const link = props?.destination?.destination ? `https://www.itravelholidays.co.uk/holidays?destinationIds=${props?.destination?.destinationNumber}&selected=${departureDate}&departureAirports=${departure}&nights=${nights}&range=3&${roomsParams}`: 'https://www.itravelholidays.co.uk/searchhotels'
   const image = props?.image == "undefined" || props?.image == null ?  "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg" : props?.image;
 
-  const link = props?.destination == "Any Destination" || props?.destination == null ? 'https://www.itravelholidays.co.uk/searchhotels' : `https://www.itravelholidays.co.uk/hoteloffers/${props?.destination?.countryCode}/${props?.destination?.destinationNumber}`
   return (
     <div className="flex flex-col lg:flex-row w-[100%] relative">
 

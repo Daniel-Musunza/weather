@@ -880,7 +880,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
 
                 <ImageView destination={data?.destination} image={destination_info?.cover_image} />
                 <MonthTemp daily_weather={data?.daily_weather} destination={data?.destination?.destination} />
-                <WeatherRecords destination_info={destination_info} destination={data?.destination?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
+                <WeatherRecords destination_info={destination_info} destination={data?.destination} faqs={data?.faqs} weatherStats={weatherStats} />
             </Box>
         </div>
 

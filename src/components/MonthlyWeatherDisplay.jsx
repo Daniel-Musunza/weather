@@ -564,7 +564,7 @@ const MonthlyWeatherDisplay = ({ data }) => {
                 <Box className="flex flex-col" >
                     <ImageView destination={data?.destination} image={destination_info?.cover_image}/>
                 </Box>
-                <MonthWeatherRecords destination_info={destination_info} destination={data?.destination?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
+                <MonthWeatherRecords destination_info={destination_info} destination={data?.destination} month={data?.month} monthly_faqs={data?.monthly_faqs} weatherStats={weatherStats} />
                 <WeatherRegions destination={data?.destination?.destination} weatherOtherDestinations={weatherOtherDestinations} month={data?.month} />
             </Box>
         </div>

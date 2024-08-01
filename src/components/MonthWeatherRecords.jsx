@@ -32,7 +32,7 @@ const MonthWeatherRecords = (props) => {
                     <h2 className='text-[22px] font-[600] text-darkBlue-2'>Weather records</h2>
                 </div>
                 <div className="flex flex-col gap-[20px] border-[1px] border-[#ddd] rounded-[8px] p-[15px] bg-[whitesmoke] w-full">
-                    <p className='text-[14px] text-darkBlue-2  '>Temperature records in {props?.destination} in {props.month}</p>
+                    <p className='text-[14px] text-darkBlue-2  '>Temperature records in {props?.destination?.destination} in {props.month}</p>
                     <div className="flex flex-row flex-nowrap gap-[10px] items-center justify-center">
                         <div className="flex flex-col lg:flex-row gap-[10px] w-[100%]">
                             <div className="w-full flex flex-col justify-center items-center gap-[15px] bg-white py-[25px] px-[20px] rounded-lg border-[1px] border-[#ddd] shadow-md">
