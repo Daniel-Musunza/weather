@@ -33,7 +33,7 @@ const NewsDisplay = ({ data, newsData }) => {
     };
 
     const handleNavigation = (sectionId) => {
-        navigate(`/${data.destination}/${data?.month}#${sectionId}`);
+        navigate(`/${data.destination.destination}/${data?.month}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 

@@ -262,7 +262,7 @@ const WeatherDisplay = ({ data, allowOverFlow }) => {
     const displayedData = data?.daily_weather?.slice(currentIndex, currentIndex + cardsToShow) || [];
 
     const handleNavigation = (sectionId) => {
-        navigate(`/${data.destination}#${sectionId}`);
+        navigate(`/${data.destination.destination}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 

@@ -247,12 +247,13 @@ const MonthlyWeatherDisplay = ({ data }) => {
     }, []);
 
     const handleNavigation = (sectionId) => {
-        navigate(`/${data.destination}/${data?.month}#${sectionId}`);
+
+        navigate(`/${data.destination?.destination}/${data?.month}#${sectionId}`);
         document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     };
 
     const handleMonthNavigation = (month) => {
-        navigate(`/${data.destination}/${month}`);
+        navigate(`/${data.destination.destination}/${month}`);
         window.location.reload();
     };
 
